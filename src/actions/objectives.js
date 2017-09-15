@@ -31,6 +31,7 @@ export function updateObjective(objective) {
 			.send(objective)
 			.then(response => response.body)
 			.then(body => dispatch(receiveUpdateObjective(body, objective._id)))
+			.then(() => dispatch(invalidateObjectivesList()))
 			.then(() => dispatch(invalidateLatestActivity()))
 	}
 }
@@ -63,6 +64,7 @@ export function createObjective(objective) {
 			})
 			.then((body) => dispatch(invalidateObjectivesList()))
 			.then((body) => dispatch(receiveAddObjective(body)))
+			.then(() => dispatch(invalidateObjectivesList()))
 			.then(() => dispatch(invalidateLatestActivity()))
 	}
 }

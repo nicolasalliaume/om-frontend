@@ -13,7 +13,10 @@ export const Endpoints = {
 	ADD_TASK					: () => `${BASE_URL}/tasks/add`,
 
 	/** activity endpoints */
-	GET_LATEST_ACTIVITY_PAGE 	: (page) => `${BASE_URL}/activity/${page}`
+	GET_LATEST_ACTIVITY_PAGE 	: (page) => `${BASE_URL}/activity/${page}`,
+
+	/** user endpoints */
+	GET_USERS_LIST				: () => `${BASE_URL}/users`
 }
 
 export const EndpointAuth = ['Authorization', 'Basic: c29tZXVzZXJuYW1l:c29tZXB3ZA=='];

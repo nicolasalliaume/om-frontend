@@ -43,9 +43,8 @@ class EditObjectiveModalForm extends Component {
 		
 		if (isNew) createObjective(objective);
 		else updateObjective(objective);
-		
-		this.props.invalidateObjectivesList();
-		this.toggle();
+
+		this.props.toggle();
 	}
 	onFormChange = (newState) => {
 		this.setState({objective : newState.objective});
@@ -74,8 +73,7 @@ class EditObjectiveModalForm extends Component {
 
 const mapDispatchToProps = dispatch => { return {
     createObjective : (o) => dispatch(createObjective(o)),
-    updateObjective : (o) => dispatch(updateObjective(o)),
-    invalidateObjectivesList : () => dispatch(invalidateObjectivesList())
+    updateObjective : (o) => dispatch(updateObjective(o))
 }}
 
 export default connect(null, mapDispatchToProps)(EditObjectiveModalForm);

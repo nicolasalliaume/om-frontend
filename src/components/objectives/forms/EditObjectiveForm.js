@@ -11,6 +11,7 @@ import {
 	Input, 
 	FormText 
 } from 'reactstrap';
+import UsersMultiSelect from './../../users/utils/UsersMultiSelect';
 
 import { createObjective, invalidateObjectivesList } from './../../../actions/objectives';
 
@@ -23,6 +24,7 @@ export default class EditObjectiveForm extends Component {
 		this.setState({objective : this.props.objective});
 	}
 	objectivePropChanged = (event) => {
+		console.log(event);
 		const newState = update(this.state,
 			{objective: {[event.target.name]: {$set: event.target.value}}});
 		this.setState(newState);
@@ -69,7 +71,9 @@ export default class EditObjectiveForm extends Component {
 				</FormGroup>
 				<FormGroup row>
 					<Label sm={2}>Owners</Label>
-					<Col sm={6}>
+					<Col sm={10}>
+						<UsersMultiSelect name='owners' value={objective.owners} 
+							onChange={this.objectivePropChanged} />
 					</Col>
 				</FormGroup>
 				<FormGroup row>
