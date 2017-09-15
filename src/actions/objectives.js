@@ -1,0 +1,129 @@
+import { 
+	REQUEST_ADD_OBJECTIVE, 
+	RECEIVE_ADD_OBJECTIVE,
+	REMOVE_OBJECTIVE, 
+	INVALIDATE_OBJECTIVES_LIST,
+	REQUEST_DATE_OBJECTIVES,
+	RECEIVE_DATE_OBJECTIVES,
+	REQUEST_UPDATE_OBJECTIVE,
+	RECEIVE_UPDATE_OBJECTIVE
+} from './types';
+
+import { invalidateLatestActivity } from './activity';
+import superagent from 'superagent';
+import moment from 'moment';
+import { Endpoints, EndpointAuth } from './endpoints';
+
+function requestUpdateObjective(objective) {
+	return { type: REQUEST_UPDATE_OBJECTIVE, payload: objective }
+}
+
+function receiveUpdateObjective(result, objectiveId) {
+	return { type : RECEIVE_UPDATE_OBJECTIVE, payload: result, metadata : { objectiveId } }
+}
+
+export function updateObjective(objective) {
+	return function(dispatch) {
+		dispatch(requestUpdateObjective(objective));
+		superagent
+			.post(Endpoints.UPDATE_OBJECTIVE(objective._id))
+			.set(...EndpointAuth)
+			.send(objective)
+			.then(response => response.body)
+			.then(body => dispatch(receiveUpdateObjective(body, objective._id)))
+			.then(() => dispatch(invalidateLatestActivity()))
+	}
+}
+
+function requestCreateObjective(objective) {
+	return { type: REQUEST_ADD_OBJECTIVE }
+}
+
+export function createObjectiveFromTask(task) {
+	const objective = {
+		related_task 	: task._id,
+		level 			: 'day',
+		owners 			: ['59b5703bb4cbe91469de7e9f'],
+		objective_date 	: Date.now(),
+		created_by 		: '59b5703bb4cbe91469de7e9f'
+	}
+	return createObjective(objective);
+}
+
+export function createObjective(objective) {
+	return function(dispatch) {
+		dispatch(requestCreateObjective(objective));
+
+		return superagent
+			.post(Endpoints.CREATE_OBJECTIVE())
+			.set(...EndpointAuth)
+			.send(objective)
+			.then((response) => {
+				return response.body;
+			})
+			.then((body) => dispatch(invalidateObjectivesList()))
+			.then((body) => dispatch(receiveAddObjective(body)))
+			.then(() => dispatch(invalidateLatestActivity()))
+	}
+}
+
+export function invalidateObjectivesList() {
+	return { type: INVALIDATE_OBJECTIVES_LIST}
+}
+
+function requestObjectivesForDate(date) {
+	return { type: REQUEST_DATE_OBJECTIVES }
+}
+
+function receiveAddObjective(result) {
+	console.log('have objective? ', result);
+	return { type: RECEIVE_ADD_OBJECTIVE }
+}
+
+function receiveObjectivesForDate(date, data) {
+	return {
+		type 	: RECEIVE_DATE_OBJECTIVES,
+		payload : data
+	}
+}
+
+function fetchObjectivesForDate(date) {
+	const [day, month, year] = date.format('DD/MM/YYYY').split('/');
+	// async action. returning function
+	return function(dispatch) {
+		// First dispatch: the app state is updated to inform
+    	// that the API call is starting.
+		dispatch(requestObjectivesForDate(date));
+		// The function called by the thunk middleware can return a value,
+    	// that is passed on as the return value of the dispatch method.
+    	return superagent
+    		.get(Endpoints.GET_DATE_OBJECTIVES(year, month, day))
+    		.set(...EndpointAuth)
+    		.then((response) => {
+    			return response.body;
+    		})
+    		.then((body) => dispatch(receiveObjectivesForDate(date, body)));
+	}
+}
+
+function isDateDifferent(d1, d2) {
+	return moment(d1).format('DD/MM/YYYY') != moment(d2).format('DD/MM/YYYY');
+}
+
+function shouldFetchObjectivesForDate(state, date) {
+	// already fetching. don't fetch
+	if (state.dashboardView.objectivesList.isFetching) return false;
+	// fetch if date is different or we've invalidated
+	return isDateDifferent(state.dashboardView.visibleDate, date)
+		|| state.dashboardView.objectivesList.didInvalidate;
+}
+
+export function fetchObjectivesForDateIfNeeded(date) {
+	return function(dispatch, getState) {
+		// fetch only if we need to (date change, invalidated, ...)
+		if (shouldFetchObjectivesForDate(getState(), date)) {
+			return dispatch(fetchObjectivesForDate(date));
+		}
+	}
+}
+

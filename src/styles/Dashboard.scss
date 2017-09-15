@@ -1,0 +1,49 @@
+@import "animations";
+@import "variables";
+
+.dashboard {
+	animation: fadeIn 1s;
+	padding: $main-view-padding;
+
+	& > .row > * > .row, .today-objectives {
+		margin-bottom: 20pt;
+	}
+	.small-activity {
+		margin-top: 20pt;
+	}
+	
+	.latest-activity-list .activity-list-item {
+		margin-bottom: 10pt;
+
+		.card .card-body {
+			padding: 12pt;
+
+			.activity-item-meta {
+				position: absolute;
+				top: 5pt;
+				font-size: 0.7em;
+			}
+
+			.description-col {
+				padding-top: 10pt;
+			}
+		}
+	}
+
+	.objectives-summary .summary-card {
+		color: $lighter-text-color;
+
+		p b {
+			color: $light-text-color;
+		}
+
+		p.label {
+			margin-top: 1rem;
+			margin-bottom: 0;
+		}
+	}
+
+	.today-objectives .list {
+		margin-bottom: 12pt;
+	}		
+}

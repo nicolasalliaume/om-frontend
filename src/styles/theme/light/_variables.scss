@@ -1,0 +1,66 @@
+// fonts //
+ 
+@import url('https://fonts.googleapis.com/css?family=Lato:300,400,600,700,800');
+
+
+// general palette //
+
+$darker-color: #3b3b3b;
+$dark-color: #5f5f5f;
+$light-color: #d2d2d2;
+$lighter-color: #f2f2f2;
+$white: #fff;
+$info-color: #17a2b8;
+$warn-color: #ffd761;
+
+$text-color: #777;
+$light-text-color: #a2a2a2;
+$lighter-text-color: #b2b2b2;
+
+$main-font: 'Lato', sans-serif;
+
+
+// component-specific //
+
+$sidebar-bg: $darker-color;
+$body-bg: $lighter-color;
+$card-bg: $white;
+$card-fg: $text-color;
+$shadow-color: #d7d7d7;
+$headline-fg: $dark-color;
+
+@mixin shadow {
+	box-shadow: 0px 2px 6px 0px #d7d7d7;
+	-webkit-box-shadow: 0px 2px 6px 0px #d7d7d7;
+}
+
+// general sizing //
+
+$font-size: 1rem;
+$line-height: 1.5;
+$letter-spacing: normal;
+
+$p-font-size: 0.9rem;
+$p-font-weight: lighter;
+$p-letter-spacing: normal;
+
+// generic classes  //
+
+.btn-primary {
+	background-color: $text-color;
+	color: white;
+}
+
+.btn-secondary {
+	background-color: $white;
+	color: $text-color;
+}
+
+.btn:hover {
+	background-color: $light-color !important;
+}
+
+.btn {
+	text-transform: lowercase;
+}
+

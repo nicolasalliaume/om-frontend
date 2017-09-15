@@ -1,0 +1,74 @@
+import { 
+	REMOVE_OBJECTIVE, 
+	REQUEST_ADD_OBJECTIVE, 
+	INVALIDATE_OBJECTIVES_LIST,
+	REQUEST_DATE_OBJECTIVES,
+	RECEIVE_DATE_OBJECTIVES,
+	DASHBOARD_SET_VISIBLE_DATE,
+	REQUEST_UPDATE_OBJECTIVE,
+	RECEIVE_UPDATE_OBJECTIVE
+} from './../../actions/types';
+
+import update from 'immutability-helper';
+
+
+export function objectivesSummary(state, action) {
+	if (state === undefined) return {
+		company: {}, 
+		me: {}
+	}
+	return state;
+}
+
+export function objectivesList(state, action) {
+	if (state === undefined) return {
+		isFetching 		: false,
+		didInvalidate 	: true,
+		lastUpdated 	: null,
+		// the actual items, organized by level (day, month, year)
+		objectivesByLevel : {
+			day : [], month : [], year : []
+		}
+	};
+
+	switch (action.type) {
+		case INVALIDATE_OBJECTIVES_LIST: 
+			return update(state, {didInvalidate : {$set : true}})
+
+		case REQUEST_DATE_OBJECTIVES:
+			return update(state, {isFetching : {$set : true}})
+
+		case RECEIVE_DATE_OBJECTIVES:
+			// fill in empty fields (for example when there're no day
+			// objectives)
+			const objectivesByLevel = Object.assign(
+				{day: [],month: [],year: []}, action.payload.objectives);
+			return update(state, {
+				isFetching: {$set : false}, 
+				didInvalidate: {$set: false},
+				lastUpdated: {$set: Date.now()},
+				objectivesByLevel : {$set : objectivesByLevel}
+			});
+
+		case RECEIVE_UPDATE_OBJECTIVE: 
+			// invalidate the list if the objective is there
+			const { objectiveId } = action.metadata;
+			if (isObjectiveInCollection(objectiveId, state.objectivesByLevel)) {
+				return update(state, {didInvalidate: {$set: true}})
+			}
+
+		case DASHBOARD_SET_VISIBLE_DATE:
+			return update(state, {didInvalidate: {$set: true}})
+		
+		default: return state;
+	}
+}
+
+function isObjectiveInCollection(objectiveId, collection) {
+	Object.keys(collection).forEach(level => {
+		collection[level].forEach(o => {
+			if (o._id == objectiveId) return true;
+		})
+	})
+	return false;
+}
