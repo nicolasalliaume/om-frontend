@@ -14,23 +14,23 @@ import superagent from 'superagent';
 import moment from 'moment';
 import { Endpoints, EndpointAuth } from './endpoints';
 
-function requestUpdateObjective(objective) {
-	return { type: REQUEST_UPDATE_OBJECTIVE, payload: objective }
+function requestUpdateObjective(objectiveId) {
+	return { type: REQUEST_UPDATE_OBJECTIVE, payload: objectiveId }
 }
 
 function receiveUpdateObjective(result, objectiveId) {
 	return { type : RECEIVE_UPDATE_OBJECTIVE, payload: result, metadata : { objectiveId } }
 }
 
-export function updateObjective(objective) {
+export function updateObjective(objectiveId, update) {
 	return function(dispatch) {
-		dispatch(requestUpdateObjective(objective));
+		dispatch(requestUpdateObjective(objectiveId));
 		superagent
-			.post(Endpoints.UPDATE_OBJECTIVE(objective._id))
+			.post(Endpoints.UPDATE_OBJECTIVE(objectiveId))
 			.set(...EndpointAuth)
-			.send(objective)
+			.send(update)
 			.then(response => response.body)
-			.then(body => dispatch(receiveUpdateObjective(body, objective._id)))
+			.then(body => dispatch(receiveUpdateObjective(body, objectiveId)))
 			.then(() => dispatch(invalidateObjectivesList()))
 			.then(() => dispatch(invalidateLatestActivity()))
 	}
@@ -125,6 +125,46 @@ export function fetchObjectivesForDateIfNeeded(date) {
 		// fetch only if we need to (date change, invalidated, ...)
 		if (shouldFetchObjectivesForDate(getState(), date)) {
 			return dispatch(fetchObjectivesForDate(date));
+		}
+	}
+}
+
+export function scratchObjective(objectiveId) {
+	return function(dispatch) {
+		dispatch(updateObjective(objectiveId, { 
+			scratched 	 : true, 
+			scratched_by : '59b5703bb4cbe91469de7e9f',
+			scratched_ts : Date.now() 
+		}))
+	}
+}
+
+export function unscratchObjective(objectiveId) {
+	return function(dispatch) {
+		dispatch(updateObjective(objectiveId, { 
+			scratched 	 : false, 
+			scratched_by : null,
+			scratched_ts : null 
+		}))
+	}
+}
+
+export function completeObjective(objectiveId) {
+	return function(dispatch) {
+		dispatch(updateObjective(objectiveId, { 
+			progress 	 : 1, 
+			completed_by : '59b5703bb4cbe91469de7e9f',
+			completed_ts : Date.now()
+		}))
+	}
+}
+
+export function setObjectiveProgress(objectiveId, progress) {
+	return function(dispatch) {
+		if (progress === 1) {
+			dispatch(completeObjective(objectiveId));
+		} else {
+			dispatch(updateObjective(objectiveId, { progress }))
 		}
 	}
 }

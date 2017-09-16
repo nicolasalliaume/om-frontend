@@ -17,6 +17,8 @@ $text-color: #777;
 $light-text-color: #a2a2a2;
 $lighter-text-color: #b2b2b2;
 
+$done-color: #6faf6f;
+
 $main-font: 'Lato', sans-serif;
 
 
@@ -64,3 +66,6 @@ $p-letter-spacing: normal;
 	text-transform: lowercase;
 }
 
+.done-color {
+	color: $done-color !important;
+}

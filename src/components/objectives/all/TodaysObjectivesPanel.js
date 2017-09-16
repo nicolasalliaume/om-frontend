@@ -18,9 +18,9 @@ class TodaysObjectivesPanel extends Component {
 				<ObjectivesList objectives={objectivesByLevel.day} 
 					level='day' title='Objectives for <b>today</b>' />
 				<ObjectivesList objectives={objectivesByLevel.month} 
-					level='month' title='Objectives for <b>this month</b>'/>
+					level='month' title='Objectives for <b>this month</b>' />
 				<ObjectivesList objectives={objectivesByLevel.year} 
-					level='year' title='Objectives for <b>this year</b>'/>
+					level='year' title='Objectives for <b>this year</b>' />
 			</div>
 		)
 	}
@@ -28,8 +28,8 @@ class TodaysObjectivesPanel extends Component {
 
 const mapStateToProps = state => {
   return {
-    objectivesList 		: state.dashboardView.objectivesList,
-    visibleDate			: state.dashboardView.visibleDate
+    objectivesList 	: state.dashboardView.objectivesList,
+    visibleDate		: state.dashboardView.visibleDate
   }
 }
 

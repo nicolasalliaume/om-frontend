@@ -45,5 +45,11 @@
 
 	.today-objectives .list {
 		margin-bottom: 12pt;
+
+		.objective {
+			&.scratched {
+				.list-number { display: none }
+			}
+		}
 	}		
 }

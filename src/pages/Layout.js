@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Switch, Route, Link } from 'react-router-dom';
 import { Container, Navbar, NavbarBrand, Nav, NavItem } from 'reactstrap';
+import Icon from '../components/misc/Icon';
 
 import Dashboard from './Dashboard';
 import Tasks from './Tasks';
@@ -14,12 +15,12 @@ export default class App extends Component {
 					<Nav navbar className='text-center'>
 						<NavItem>
 							<Link to="/">
-								<i className="fa fa-tachometer" aria-hidden="true"></i>
+								<Icon fa-tachometer/>
 							</Link>
 						</NavItem>
 						<NavItem>
 							<Link to="/tasks">
-								<i className="fa fa-shopping-basket" aria-hidden="true"></i>
+								<Icon fa-shopping-basket/>
 							</Link>
 						</NavItem>
 					</Nav>

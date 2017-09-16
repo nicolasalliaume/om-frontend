@@ -2,6 +2,8 @@
 
 $sidebarWidth: 70px;
 
+/** general style */
+
 body {
   font-family: $main-font;
   font-size: $font-size;
@@ -33,6 +35,16 @@ p {
   font-weight: $p-font-weight;
 }
 
+ul {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 0;
+}
+
+/** end general style */
+
+/** main layout */
+
 .layout {
   margin-left: $sidebarWidth;
 
@@ -50,6 +62,10 @@ p {
     }
   }
 }
+
+/** end main layout */
+
+/** navigation */
 
 .navbar {
   position: fixed;
@@ -80,11 +96,9 @@ p {
   }
 }
 
-ul {
-  list-style: none;
-  padding-left: 0;
-  margin-bottom: 0;
-}
+/** end navgation */
+
+/** Modals */
 
 @media (min-width: 576px) {
   .modal-dialog {
@@ -113,43 +127,42 @@ ul {
   .modal-body {
     padding: 10pt 30pt;
     padding-top: 0;
+    font-size: 0.9em;
 
     p.form-control-static {
       margin-bottom: 0;
     }
+
+    .form-control {
+      font-size: 0.9rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.4rem;
+    }
+
+  }
+
+  .btn {
+    min-width: 70pt;
   }
 }
 
 .modal-backdrop {
-  opacity: 0.2;
+  background-color: rgba(0,0,0,0.2);
 }
+
+/** end modals */
+
+/** objectives */
 
 .edit-objective-form {
   .static-objective-title {
-    font-size: 14pt;
+    font-size: 1.2em;
   }
 }
 
-.list-empty {
-  text-align: center;
-  font-size: 1.1em;
-  margin: 18pt 0;
-}
-
-.circle {
-  border-radius: 50%;
-  &:before { 
-    padding-top: 100%; 
-    content: ''; 
-    display: block; 
-  }
-}
-
-.img-bg {
-  background-position: center center;
-  background-size: cover;
-}
-
+/** end objectives */
 
 
 /** Lists  */
@@ -157,6 +170,12 @@ ul {
 /* Large list */
 
 .list--large {
+
+  .list-empty {
+    text-align: center;
+    font-size: 1.1em;
+    margin: 18pt 0;
+  }
 
   .card-body {
     padding-bottom: 0;
@@ -176,6 +195,14 @@ ul {
       text-transform: none;
       margin: 0;
       letter-spacing: normal;
+
+      @at-root .line-through h4 {
+        text-decoration: line-through;
+      }
+    }
+
+    h4 + p {
+      margin-top: 10pt;
     }
 
     .list-number {
@@ -196,6 +223,7 @@ ul {
       box-shadow: none !important;
       background: none !important;
       color: $light-color;
+      cursor: pointer;
 
       &:hover {
         color: $dark-color;
@@ -203,6 +231,16 @@ ul {
     }
   }
 }
+
+.list {
+  .list-item-bottom-options {
+    .btn {
+      margin-left: 10pt;
+    }
+  }  
+}
+
+/** end lists */
 
 /** Progress bars */
 
@@ -220,5 +258,7 @@ ul {
     height: 1.5rem;
   }
 }
+
+/** end progress bars */
 
 @import "components";

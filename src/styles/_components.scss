@@ -1,5 +1,26 @@
 @import "variables";
 
+/** images misc */
+
+.circle {
+  border-radius: 50%;
+  &:before { 
+    padding-top: 100%; 
+    content: ''; 
+    display: block; 
+  }
+}
+
+.img-bg {
+  background-position: center center;
+  background-size: cover;
+}
+
+/** end images misc */
+
+
+/** tag-like selector */
+
 .Select {
     position: relative;
     padding: 0;
@@ -137,3 +158,6 @@
     width: 0;
     position: relative;
 }
+
+/** end tag-like selector */
+

@@ -22,7 +22,7 @@ class TasksListItem extends Component {
 				</Col>
 				<Col xs={11}>
 					<h4>{task.title}</h4>
-					<p>{task.description}</p>
+					{ task.description && <p>{task.description}</p> }
 				</Col>
 				<Col xs={12} className='text-right'>
 					<Button color='primary' onClick={this.addToObjectives}>> make it an objective</Button>

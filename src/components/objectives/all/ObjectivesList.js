@@ -3,6 +3,7 @@ import { Row, Col, Card, CardBlock, CardTitle, Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import ObjectivesListItem from './ObjectivesListItem';
 import EditObjectiveModalForm from './../forms/EditObjectiveModalForm';
+import Icon from '../../misc/Icon';
 
 export default class ObjectivesList extends Component {
 	constructor() {
@@ -12,17 +13,25 @@ export default class ObjectivesList extends Component {
 	toggleCreateObjectiveModal = () => {
 		this.setState({ createObjModal : !this.state.createObjModal });
 	}
-	
+	sortedObjectives = () => {
+		return this.props.objectives.sort((a, b) => {
+			const sa = a.scratched ? 2 : a.progress === 1 ? 1 : 0;
+			const sb = b.scratched ? 2 : b.progress === 1 ? 1 : 0;
+			return sa < sb ? -1 : 1;
+		})
+	}
 	render() {
-		const { objectives, level, title } = this.props;
+		const { level, title } = this.props;
+		// sort objectives, scratched at the end
+		const sortedObjectives = this.sortedObjectives();
 		return (
 			<Card className={`list list--large objectives ${level}`}>
 				<CardBlock className='card-body'>
 					<CardTitle dangerouslySetInnerHTML={{__html: title}} />
-					{ objectives.empty() && this.renderNoObjectives() }
-					{ !objectives.empty() && 
+					{ sortedObjectives.empty() && this.renderNoObjectives() }
+					{ !sortedObjectives.empty() && 
 						<ul className={`objectives-list ${level}`}>
-							{ objectives.map((o, idx) => 
+							{ sortedObjectives.map((o, idx) => 
 								<ObjectivesListItem key={idx} objective={o} index={idx} />
 							)}
 						</ul> 
@@ -36,7 +45,7 @@ export default class ObjectivesList extends Component {
 		return (
 			<div className='list-empty'>
 				<p className='empty-message-text'>
-					<i className="fa fa-frown-o" aria-hidden="true"></i>{' '}
+					<Icon fa-frown-o />
 					You have no objectives for today
 				</p>
 				<Row className='empty-message-options'>

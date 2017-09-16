@@ -42,7 +42,7 @@ class EditObjectiveModalForm extends Component {
 		const isNew = !edit;
 		
 		if (isNew) createObjective(objective);
-		else updateObjective(objective);
+		else updateObjective(objective._id, objective);
 
 		this.props.toggle();
 	}
@@ -55,25 +55,23 @@ class EditObjectiveModalForm extends Component {
 		const isNew = !edit;
 		const op = isNew ? 'New' : 'Edit';
 		return (
-			<div>
-				<Modal isOpen={this.props.show} toggle={toggle} className={this.props.className}>
-					<ModalHeader toggle={this.toggle}>{op} <b>objective</b></ModalHeader>
-					<ModalBody>
-						<EditObjectiveForm onChange={this.onFormChange} objective={objective} />
-					</ModalBody>
-					<ModalFooter>
-						<Button color="primary" onClick={this.submitObjective}>Done</Button>{' '}
-						<Button color="secondary" onClick={toggle}>Cancel</Button>
-					</ModalFooter>
-				</Modal>
-			</div>
+			<Modal isOpen={this.props.show} toggle={toggle} className={this.props.className}>
+				<ModalHeader toggle={toggle}>{op} <b>objective</b></ModalHeader>
+				<ModalBody>
+					<EditObjectiveForm onChange={this.onFormChange} objective={objective} />
+				</ModalBody>
+				<ModalFooter>
+					<Button color="primary" onClick={this.submitObjective}>Done</Button>{' '}
+					<Button color="secondary" onClick={toggle}>Cancel</Button>
+				</ModalFooter>
+			</Modal>
 		)
 	}
 }
 
 const mapDispatchToProps = dispatch => { return {
     createObjective : (o) => dispatch(createObjective(o)),
-    updateObjective : (o) => dispatch(updateObjective(o))
+    updateObjective : (oid, update) => dispatch(updateObjective(oid, update))
 }}
 
 export default connect(null, mapDispatchToProps)(EditObjectiveModalForm);
