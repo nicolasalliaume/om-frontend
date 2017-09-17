@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';	
 import update from 'immutability-helper';
 import moment from 'moment';
+import EntityCombo from './../../misc/EntityCombo';
+import { fetchProjectsListIfNeeded } from './../../../actions/projects';
 import { createTask, invalidateTasksList } from './../../../actions/tasks';
 import { 
 	Row, 
@@ -21,25 +23,41 @@ import {
 class AddNewTaskForm extends Component {
 	constructor() {
 		super();
-		this.state = {
-			task : {
-				title 	: '',
-				tags 	: ["sample"],
-				project : '59b56a66fb6a2913115d00cd',
-				origin 	: "web"
-			}
-		}
+		this.state = this.newTaskState()
 	}
 	createTask = () => {
 		this.props.createTask(this.state.task);
 		this.props.invalidateTasksList();
+		this.reset()
 	}
+	reset = () => {
+		this.setState(this.newTaskState()); 
+	}
+	newTaskState = () => { return {
+		task : { 
+			title: '',
+			tags: [],
+			project: '',
+			origin: "web",
+			description: '' 
+		}
+	}}
 	taskPropChanged = (event) => {
 		const { name, value } = event.target;
 		this.setState(update(this.state, {task: {[name]: {$set: value}}}))
 	}
+	projectSelected = (project) => {
+		this.taskPropChanged({ target: {name: 'project', value: project} })
+	}
+	getProjectOptions = (projectsById) => {
+		return Object.values(projectsById).map(p => {
+			return {label: p.name, value: p._id}
+		})
+	}
 	render() {
 		const { task } = this.state;
+		const { fetchProjects, projectsById } = this.props;
+		const projects = this.getProjectOptions(projectsById);
 		return (
 			<Form>
 				<FormGroup row>
@@ -51,12 +69,18 @@ class AddNewTaskForm extends Component {
 					</Col>
 				</FormGroup>
 				<FormGroup row>
+					<Label for="description" sm={2}>Description</Label>
+					<Col sm={10}>
+						<Input type="textarea" name="description" id="description" 
+							onChange={this.taskPropChanged}
+							placeholder="Need further details?" value={task.description} />
+					</Col>
+				</FormGroup>
+				<FormGroup row>
 					<Label sm={2}>Project</Label>
 					<Col sm={10}>
-						<Input type="select" name="project" id="project" value={task.project}
-								onChange={this.taskPropChanged}>
-							<option value='59b56a66fb6a2913115d00cd'>Sample project</option>
-						</Input>
+						<EntityCombo async items={projects} fetchItems={fetchProjects} 
+							value={task.project} onChange={this.projectSelected} />
 					</Col>
 				</FormGroup>
 				<FormGroup row className='flex-row-reverse'>
@@ -69,11 +93,16 @@ class AddNewTaskForm extends Component {
 	}
 }
 
+const mapStateToProps = state => { return {
+	projectsById : state.cache.projects ? state.cache.projects.projectsById : {}
+}}
+
 const mapDispatchToProps = dispatch => {
   return {
     createTask : (task) => dispatch(createTask(task)),
-    invalidateTasksList : () => dispatch(invalidateTasksList())
+    invalidateTasksList : () => dispatch(invalidateTasksList()),
+    fetchProjects : () => dispatch(fetchProjectsListIfNeeded())
   }
 }
 
-export default connect(null, mapDispatchToProps)(AddNewTaskForm);
+export default connect(mapStateToProps, mapDispatchToProps)(AddNewTaskForm);

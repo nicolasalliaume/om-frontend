@@ -6,7 +6,9 @@ import {
 	REQUEST_DATE_OBJECTIVES,
 	RECEIVE_DATE_OBJECTIVES,
 	REQUEST_UPDATE_OBJECTIVE,
-	RECEIVE_UPDATE_OBJECTIVE
+	RECEIVE_UPDATE_OBJECTIVE,
+	REQUEST_DELETE_OBJECTIVE,
+	RECEIVE_DELETE_OBJECTIVE
 } from './types';
 
 import { invalidateLatestActivity } from './activity';
@@ -33,6 +35,26 @@ export function updateObjective(objectiveId, update) {
 			.then(body => dispatch(receiveUpdateObjective(body, objectiveId)))
 			.then(() => dispatch(invalidateObjectivesList()))
 			.then(() => dispatch(invalidateLatestActivity()))
+	}
+}
+
+function requestDeleteObjective(objectiveId) {
+	return { type: REQUEST_DELETE_OBJECTIVE, payload: objectiveId }
+}
+
+function receiveDeleteObjective(objectiveId) {
+	return { type: RECEIVE_DELETE_OBJECTIVE, payload: objectiveId }
+}
+
+export function deleteObjective(objectiveId) {
+	return function(dispatch) {
+		dispatch(requestDeleteObjective(objectiveId));
+		superagent
+			.delete(Endpoints.DELETE_OBJECTIVE(objectiveId))
+			.set(...EndpointAuth)
+			.then(response => response.body)
+			.then(body => dispatch(receiveDeleteObjective(objectiveId)))
+			.then(() => dispatch(invalidateObjectivesList()))
 	}
 }
 
@@ -78,7 +100,6 @@ function requestObjectivesForDate(date) {
 }
 
 function receiveAddObjective(result) {
-	console.log('have objective? ', result);
 	return { type: RECEIVE_ADD_OBJECTIVE }
 }
 
@@ -114,16 +135,16 @@ function isDateDifferent(d1, d2) {
 
 function shouldFetchObjectivesForDate(state, date) {
 	// already fetching. don't fetch
-	if (state.dashboardView.objectivesList.isFetching) return false;
+	if (state.objectivesList.isFetching) return false;
 	// fetch if date is different or we've invalidated
-	return isDateDifferent(state.dashboardView.visibleDate, date)
-		|| state.dashboardView.objectivesList.didInvalidate;
+	return isDateDifferent(state.visibleDate, date)
+		|| state.objectivesList.didInvalidate;
 }
 
 export function fetchObjectivesForDateIfNeeded(date) {
 	return function(dispatch, getState) {
 		// fetch only if we need to (date change, invalidated, ...)
-		if (shouldFetchObjectivesForDate(getState(), date)) {
+		if (shouldFetchObjectivesForDate(getState().dashboardView, date)) {
 			return dispatch(fetchObjectivesForDate(date));
 		}
 	}

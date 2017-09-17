@@ -4,4 +4,8 @@
 #main > .tasks {
 	animation: fadeIn 1s;
 	padding: $main-view-padding;
+
+	.tasks.list {
+		padding-bottom: 10pt;
+	}
 }

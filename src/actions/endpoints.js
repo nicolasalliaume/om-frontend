@@ -7,6 +7,7 @@ export const Endpoints = {
 	GET_DATE_OBJECTIVES 		: (year, month, day) => `${BASE_URL}/objectives/${year}/${month}/${day}/all`,
 	CREATE_OBJECTIVE 			: () => `${BASE_URL}/objectives/add`,
 	UPDATE_OBJECTIVE 			: (objectiveId) => `${BASE_URL}/objectives/${objectiveId}`,
+	DELETE_OBJECTIVE			: (objectiveId) => `${BASE_URL}/objectives/${objectiveId}`,
 
 	/** task endopoins */
 	GET_TASKS_LIST_PAGE 		: (page) => `${BASE_URL}/tasks/${page}`,
@@ -16,7 +17,10 @@ export const Endpoints = {
 	GET_LATEST_ACTIVITY_PAGE 	: (page) => `${BASE_URL}/activity/${page}`,
 
 	/** user endpoints */
-	GET_USERS_LIST				: () => `${BASE_URL}/users`
+	GET_USERS_LIST				: () => `${BASE_URL}/users`,
+
+	/** project endpoints */
+	GET_PROJECTS_LIST			: () => `${BASE_URL}/projects`
 }
 
 export const EndpointAuth = ['Authorization', 'Basic: c29tZXVzZXJuYW1l:c29tZXB3ZA=='];

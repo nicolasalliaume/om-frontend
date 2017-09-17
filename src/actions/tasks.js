@@ -3,7 +3,8 @@ import {
 	RECEIVE_TASKS_LIST_PAGE,
 	INVALIDATE_TASKS_LIST,
 	REQUEST_ADD_TASK,
-	RECEIVE_ADD_TASK
+	RECEIVE_ADD_TASK,
+	CHANGE_VISIBLE_PAGE
 } from './types';
 
 import superagent from 'superagent';
@@ -17,7 +18,7 @@ function receiveTasksListPage(tasksListPage) {
 	return { type : RECEIVE_TASKS_LIST_PAGE, payload : tasksListPage }
 }
 
-export function fetchTasksListPage(page = 1) {
+function fetchTasksListPage(page) {
 	return function(dispatch) {
 		dispatch(requestTasksListPage(page));
 		return superagent
@@ -28,12 +29,36 @@ export function fetchTasksListPage(page = 1) {
 	}
 }
 
+function shouldFetchTasksListPage(page, state) {
+	if (state.tasksList.isFetching) return false;
+	if (state.tasksList.didInvalidate) return true;
+	return state.tasksList.tasksByPage[page] === undefined;
+}
+
+export function fetchTasksListPageIfNeeded(page = 1) {
+	return function(dispatch, getState) {
+		// fetch only if tasks are invalidated, or we don't
+		// have the page fetched yet
+		if (shouldFetchTasksListPage(page, getState().tasksView)) {
+			dispatch(requestTasksListPage(page));
+			return superagent
+				.get(Endpoints.GET_TASKS_LIST_PAGE(page))
+				.set(...EndpointAuth)
+				.then((response) => response.body)
+				.then((tasksListPage) => dispatch(receiveTasksListPage(tasksListPage)))
+		}
+	}
+}
+
+export function moveToPage(page) {
+	return { type: CHANGE_VISIBLE_PAGE, payload: page }
+}
+
 function requestCreateTask() {
 	return { type: REQUEST_ADD_TASK }
 }
 
 function receiveCreateTask(response) {
-	console.log('response: ', response);
 	return { type: RECEIVE_ADD_TASK, payload: response }
 }
 

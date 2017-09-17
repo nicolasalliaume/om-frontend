@@ -1,6 +1,7 @@
 import { 
 	REQUEST_TASKS_LIST_PAGE,
-	RECEIVE_TASKS_LIST_PAGE
+	RECEIVE_TASKS_LIST_PAGE,
+	CHANGE_VISIBLE_PAGE
 } from './../../actions/types';
 
 import update from 'immutability-helper';
@@ -13,6 +14,8 @@ export function tasksView(state, action) {
 	}
 
 	switch (action.type) {
+		case CHANGE_VISIBLE_PAGE:
+			return update(state, {visiblePage: {$set: action.payload}})
 		case REQUEST_TASKS_LIST_PAGE:
 		case RECEIVE_TASKS_LIST_PAGE:
 			return update(state, {
@@ -38,10 +41,11 @@ function tasksList(state, action) {
 		case RECEIVE_TASKS_LIST_PAGE:
 			const { cursor } = action.payload;
 			return update(state, {
-				isFetching	: {$set: false},
-				lastUpdated : {$set: new Date()},
-				cursor 		: {$set: cursor},
-				tasksByPage : {$set: tasksListByPage(state.tasksByPage, action)}
+				isFetching		: {$set: false},
+				didInvalidate 	: {$set: false},
+				lastUpdated 	: {$set: new Date()},
+				cursor 			: {$set: cursor},
+				tasksByPage 	: {$set: tasksListByPage(state.tasksByPage, action)}
 			})
 		default: 
 			return state;

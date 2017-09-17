@@ -8,8 +8,8 @@ class TodaysObjectivesPanel extends Component {
 	componentDidMount() {
 		this.props.fetchObjectivesForDateIfNeeded(this.props.visibleDate);
 	}
-	componentWillReceiveProps() {
-		this.props.fetchObjectivesForDateIfNeeded(this.props.visibleDate);
+	componentWillReceiveProps(props) {
+		this.props.fetchObjectivesForDateIfNeeded(props.visibleDate);
 	}
 	render() {
 		const { objectivesByLevel } = this.props.objectivesList;

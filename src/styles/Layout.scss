@@ -12,14 +12,16 @@ body {
   letter-spacing: $letter-spacing;
   background-color: $body-bg;
   color: $text-color;
+  * { word-wrap: normal !important; }
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   text-transform: uppercase;
   font-weight: lighter;
   letter-spacing: 1pt;
   text-align: center;
   color: $headline-fg;
+  line-height: 1.4rem;
 }
 
 .btn {
@@ -39,6 +41,44 @@ ul {
   list-style: none;
   padding-left: 0;
   margin-bottom: 0;
+}
+
+.form-control, select {
+  border-radius: 0 !important;
+  font-size: 0.9em;
+}
+
+select {
+  -webkit-appearance: textfield;
+}
+
+.pagination {
+  border-radius: 0;
+  justify-content: center;
+  border-top: 1px solid $lighter-color;
+  .page-link {
+    cursor : pointer;
+    border-radius: 0 !important;
+  }
+  .page-item {
+    border-bottom: none;
+  }
+  .page-item.active .page-link {
+    background-color: $dark-color;
+    border-color: $dark-color;
+    &:hover {
+      color: $white;
+    }
+  }
+  & + p {
+    margin: 0 auto 5pt;
+    font-size: 0.7em;
+    text-align: center;
+  }
+}
+
+.col-form-label {
+  font-size: 0.9em;
 }
 
 /** end general style */
@@ -214,6 +254,11 @@ ul {
       margin-bottom: 0;
       font-size: 0.8rem;
       line-height: 1.3rem;
+
+      &.hundreds {
+        font-size: 0.6em;
+        line-height: 2.3em;
+      }
     }
 
     .btn {

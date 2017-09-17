@@ -5,7 +5,12 @@ import EditObjectiveModalForm from './../forms/EditObjectiveModalForm';
 import DescriptionModal from './../../misc/DescriptionModal';
 import { confirmAlert } from './../../misc/ConfirmDialog';
 import Strings from '../../../strings/dialogs';
-import { scratchObjective, unscratchObjective, completeObjective } from './../../../actions/objectives';
+import { 
+	scratchObjective,
+	unscratchObjective,
+	completeObjective,
+	deleteObjective 
+} from './../../../actions/objectives';
 import { connect } from 'react-redux';
 
 class ObjectivesListItem extends Component {
@@ -39,6 +44,9 @@ class ObjectivesListItem extends Component {
 	}
 	completeObjective = () => {
 		this.props.completeObjective(this.props.objective._id);
+	}
+	deleteObjective = () => {
+		this.props.deleteObjective(this.props.objective._id);
 	}
 	render() {
 		const { objective, index } = this.props;
@@ -90,6 +98,11 @@ class ObjectivesListItem extends Component {
 								<Icon fa-undo />
 							</Button>
 						}
+						{ !objective.scratched && !completed && 
+							<Button color='secondary' onClick={this.deleteObjective}>
+								<Icon fa-remove />
+							</Button>
+						}
 					</Col>
 				</Row>
 				<EditObjectiveModalForm edit show={this.state.editModal} 
@@ -108,7 +121,8 @@ class ObjectivesListItem extends Component {
 const mapDispatchToProps = (dispatch) => { return {
 	scratchObjective 	: (oid) => dispatch(scratchObjective(oid)),
 	unscratchObjective  : (oid) => dispatch(unscratchObjective(oid)),
-	completeObjective	: (oid) => dispatch(completeObjective(oid))
+	completeObjective	: (oid) => dispatch(completeObjective(oid)),
+	deleteObjective 	: (oid) => dispatch(deleteObjective(oid))
 }}
 
 export default connect(null, mapDispatchToProps)(ObjectivesListItem);
