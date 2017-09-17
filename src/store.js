@@ -11,12 +11,16 @@ const loggerMiddleware = createLogger();
 // use redux-dev tools
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
+let middleware = [ 
+	thunkMiddleware // lets us dispatch() functions
+]
+if (process.env.NODE_ENV !== 'production') {
+  middleware = [ ...middleware, loggerMiddleware ] // dev logging middleware
+}
+
 const Store = createStore(AppReducer, 
 	composeEnhancers(
-		applyMiddleware(
-			thunkMiddleware, // lets us dispatch() functions
-			loggerMiddleware // neat middleware that logs actions
-		)
+		applyMiddleware(...middleware)
 	)
 );
 
