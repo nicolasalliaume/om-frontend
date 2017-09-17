@@ -7,7 +7,7 @@ import moment from 'moment';
 
 let Store;
 
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV !== 'production') { 
 	const reduxLogger = require('redux-logger');
 	const loggerMiddleware = reduxLogger.createLogger();
 
