@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';	
-import moment from 'moment';
 import update from 'immutability-helper';
 import { 
 	Row, 
@@ -26,15 +25,7 @@ class EditObjectiveModalForm extends Component {
 		}
 	}
 	componentWillMount() {
-		this.setState({ 
-			objective 	: this.props.objective || {
-				no_task_title 	: '',
-				owners 			: [localStorage.getItem('currentUser')],
-				objective_date 	: moment().format('YYYY-MM-DD'),
-				created_by 		: localStorage.getItem('currentUser'),
-				level 			: 'day',
-				progress 		: 0
-			} });
+		this.setState({ objective 	: this.props.objective });
 	}
 	submitObjective = () => {
 		const { edit, createObjective, updateObjective } = this.props;

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import ObjectivesListItem from './ObjectivesListItem';
 import EditObjectiveModalForm from './../forms/EditObjectiveModalForm';
 import Icon from '../../misc/Icon';
+import moment from 'moment';
 
 export default class ObjectivesList extends Component {
 	constructor() {
@@ -42,6 +43,7 @@ export default class ObjectivesList extends Component {
 	}
 
 	renderNoObjectives() {
+		const { level } = this.props;
 		return (
 			<div className='list-empty'>
 				<p className='empty-message-text'>
@@ -51,7 +53,7 @@ export default class ObjectivesList extends Component {
 				<Row className='empty-message-options'>
 					<Col xs={3}></Col>
 					<Col xs={6}>
-						<Button color='secondary' onClick={this.showCreateObjective}>
+						<Button color='secondary' onClick={this.toggleCreateObjectiveModal}>
 							+ create one
 						</Button>
 						{' '}
@@ -62,9 +64,18 @@ export default class ObjectivesList extends Component {
 						</Link>
 					</Col>
 				</Row>
-				<EditObjectiveModalForm show={this.state.toggleCreateObjectiveModal} 
-					toggle={this.toggleCreateObjectiveModal} />
+				<EditObjectiveModalForm show={this.state.createObjModal} 
+					toggle={this.toggleCreateObjectiveModal} objective={this.getNewObjectiveTemplate(level)} />
 			</div>
 		)
 	}
+
+	getNewObjectiveTemplate = (level) => { return {
+		no_task_title 	: '',
+		owners 			: [localStorage.getItem('currentUser')],
+		objective_date 	: moment().format('YYYY-MM-DD'),
+		created_by 		: localStorage.getItem('currentUser'),
+		level 			: level,
+		progress 		: 0
+	}}
 }

@@ -24,7 +24,6 @@ export default class EditObjectiveForm extends Component {
 		this.setState({objective : this.props.objective});
 	}
 	objectivePropChanged = (event) => {
-		console.log(event);
 		const newState = update(this.state,
 			{objective: {[event.target.name]: {$set: event.target.value}}});
 		this.setState(newState);
