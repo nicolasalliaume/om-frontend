@@ -35,6 +35,7 @@ export function updateTask(taskId, update) {
 			.then(body => dispatch(receiveUpdateTask(body)))
 			.then(() => dispatch(invalidateTasksList()))
 			.then(() => dispatch(invalidateObjectivesList())) // may have changed
+			.then(() => dispatch(invalidateLatestActivity()))
 	}
 }
 
@@ -122,6 +123,7 @@ export function createTask(task) {
 			.then(response => response.body)
 			.then(body => dispatch(receiveCreateTask(body)))
 			.then(() => dispatch(invalidateTasksList()))
+			.then(() => dispatch(invalidateLatestActivity()))
 			.then(() => dispatch(moveToPage(1)))
 	}
 }

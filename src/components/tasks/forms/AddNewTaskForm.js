@@ -27,7 +27,8 @@ class AddNewTaskForm extends Component {
 			tags: [],
 			project: '',
 			origin: "web",
-			description: '' 
+			description: '',
+			created_by: localStorage.getItem('currentUser')
 		}
 	}}
 	taskChanged = (task) => {
