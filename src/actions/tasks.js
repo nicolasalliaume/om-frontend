@@ -13,6 +13,7 @@ import {
 
 import superagent from 'superagent';
 import { Endpoints, EndpointAuth } from './endpoints';
+import { invalidateObjectivesList } from './objectives';
 
 function requestUpdateTask(taskId) {
 	return { type : REQUEST_UPDATE_TASK, payload : taskId }
@@ -32,6 +33,7 @@ export function updateTask(taskId, update) {
 			.then(response => response.body)
 			.then(body => dispatch(receiveUpdateTask(body)))
 			.then(() => dispatch(invalidateTasksList()))
+			.then(() => dispatch(invalidateObjectivesList())) // may have changed
 	}
 }
 
@@ -52,6 +54,7 @@ export function deleteTask(taskId) {
 			.then((response) => response.body)
 			.then(body => dispatch(receiveDeleteTask(body)))
 			.then(() => dispatch(invalidateTasksList()))
+			.then(() => dispatch(invalidateObjectivesList())) // may have changed
 	}
 }
 
