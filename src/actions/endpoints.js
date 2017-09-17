@@ -18,6 +18,8 @@ export const Endpoints = {
 	/** task endopoins */
 	GET_TASKS_LIST_PAGE 		: (page) => `${BASE_URL}/tasks/${page}`,
 	ADD_TASK					: () => `${BASE_URL}/tasks/add`,
+	UPDATE_TASK					: (taskId) => `${BASE_URL}/tasks/${taskId}`,
+	DELETE_TASK					: (taskId) => `${BASE_URL}/tasks/${taskId}`,
 
 	/** activity endpoints */
 	GET_LATEST_ACTIVITY_PAGE 	: (page) => `${BASE_URL}/activity/${page}`,

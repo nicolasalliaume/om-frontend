@@ -70,7 +70,7 @@ export default class ConfirmDialog extends Component {
         <ModalHeader toggle={this.close}>{title}</ModalHeader>
         <ModalBody>
           {message && <p dangerouslySetInnerHTML={{__html: message}} />}
-          {childrenElement()}
+          {childrenElement}
         </ModalBody>
         <ModalFooter>
           <Button color="primary" onClick={this.onClickConfirm}>{confirmLabel}</Button>{' '}

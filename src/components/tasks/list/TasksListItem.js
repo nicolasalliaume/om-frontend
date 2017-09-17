@@ -2,18 +2,25 @@ import React, { Component } from 'react';
 import { Col, Button } from 'reactstrap';
 import { connect } from 'react-redux';
 import { createObjectiveFromTask } from './../../../actions/objectives';
+import { deleteTask } from './../../../actions/tasks';
 import { withRouter } from 'react-router-dom';
 import Icon from './../../misc/Icon';
 import DescriptionModal from './../../misc/DescriptionModal';
+import EditTaskModalForm from '../forms/EditTaskModalForm';
+import { confirmAlert } from './../../misc/ConfirmDialog';
+import Strings from '../../../strings/dialogs';
+import TaskReview from '../misc/TaskReview';
 
 class TasksListItem extends Component {
 	constructor() {
 		super();
-		this.state = { descriptionModal: false }
+		this.state = { descriptionModal: false, editModal : false }
 	}
-	toggleDescriptionModal = () => {
-		this.setState({ descriptionModal: !this.state.descriptionModal });
-	}
+	
+	toggleDescriptionModal = () => this.toggleModal('descriptionModal')
+	toggleEditModal = () => this.toggleModal('editModal')
+	toggleModal = (modal) => this.setState({ [modal] : !this.state[modal] })
+	
 	addToObjectives = () => {
 		const { task, createObjectiveFromTask } = this.props;
 		createObjectiveFromTask(task);
@@ -22,6 +29,18 @@ class TasksListItem extends Component {
 	navigateToDashboard() {
 		this.props.history.push('/');
 	}
+	confirmDelete = () => {
+		confirmAlert({
+			title : 'Remove task',
+			message : Strings.DELETE_TASK,
+			confirmLabel : 'delete',
+			cancelLabel : 'cancel',
+			onConfirm : this.deleteTask,
+			childrenElement : <TaskReview task={this.props.task} />
+		})
+	}
+	deleteTask = () => this.props.deleteTask(this.props.task._id)
+
 	render() {
 		const { task, index } = this.props;
 		const hasDescription = !!task.description;
@@ -40,6 +59,12 @@ class TasksListItem extends Component {
 							<Icon fa-file-text-o />
 						</Button>
 					}
+					<Button color='primary' onClick={this.toggleEditModal}>
+						<Icon fa-edit />
+					</Button>
+					<Button color='primary' onClick={this.confirmDelete}>
+						<Icon fa-remove />
+					</Button>
 					<Button color='primary' onClick={this.addToObjectives}>
 						<Icon fa-handshake-o tooltip='Add to my objectives' id={`add-to-objectives-${index}`} />
 					</Button>
@@ -50,6 +75,8 @@ class TasksListItem extends Component {
 						description={task.description}
 						title='Task description' />
 				}
+				<EditTaskModalForm task={task} show={this.state.editModal} 
+					toggle={this.toggleEditModal} />
 			</li>
 		)
 	}
@@ -57,7 +84,8 @@ class TasksListItem extends Component {
 
 const mapDispatchToProps = dispatch => {
 	return {
-		createObjectiveFromTask : (task) => dispatch(createObjectiveFromTask(task))
+		createObjectiveFromTask : (task) => dispatch(createObjectiveFromTask(task)),
+		deleteTask : (taskId) => dispatch(deleteTask(taskId))
 	}
 }
 

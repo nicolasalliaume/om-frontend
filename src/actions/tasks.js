@@ -4,11 +4,56 @@ import {
 	INVALIDATE_TASKS_LIST,
 	REQUEST_ADD_TASK,
 	RECEIVE_ADD_TASK,
-	CHANGE_VISIBLE_PAGE
+	CHANGE_VISIBLE_PAGE,
+	REQUEST_UPDATE_TASK,
+	RECEIVE_UPDATE_TASK,
+	REQUEST_DELETE_TASK,
+	RECEIVE_DELETE_TASK
 } from './types';
 
 import superagent from 'superagent';
 import { Endpoints, EndpointAuth } from './endpoints';
+
+function requestUpdateTask(taskId) {
+	return { type : REQUEST_UPDATE_TASK, payload : taskId }
+}
+
+function receiveUpdateTask(response) {
+	return { type : RECEIVE_UPDATE_TASK, payload : response }
+}
+
+export function updateTask(taskId, update) {
+	return function(dispatch) {
+		dispatch(requestUpdateTask(taskId));
+		superagent
+			.post(Endpoints.UPDATE_TASK(taskId))
+			.set(...EndpointAuth)
+			.send(update)
+			.then(response => response.body)
+			.then(body => dispatch(receiveUpdateTask(body)))
+			.then(() => dispatch(invalidateTasksList()))
+	}
+}
+
+function requestDeleteTask(taskId) {
+	return { type : REQUEST_DELETE_TASK, payload : taskId }
+}
+
+function receiveDeleteTask(response) {
+	return { type : RECEIVE_DELETE_TASK, payload : response }
+}
+
+export function deleteTask(taskId) {
+	return function(dispatch) {
+		dispatch(requestDeleteTask(taskId));
+		superagent
+			.delete(Endpoints.DELETE_TASK(taskId))
+			.set(...EndpointAuth)
+			.then((response) => response.body)
+			.then(body => dispatch(receiveDeleteTask(body)))
+			.then(() => dispatch(invalidateTasksList()))
+	}
+}
 
 function requestTasksListPage(page) {
 	return { type : REQUEST_TASKS_LIST_PAGE, payload : {page} }
@@ -71,7 +116,8 @@ export function createTask(task) {
 			.send(task)
 			.then(response => response.body)
 			.then(body => dispatch(receiveCreateTask(body)))
-			.then(() => dispatch(fetchTasksListPage(1))) // should dispatch a 'move to page 1'. it is invalidated to it will load again
+			.then(() => dispatch(invalidateTasksList()))
+			.then(() => dispatch(moveToPage(1)))
 	}
 }
 

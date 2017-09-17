@@ -64,9 +64,12 @@ const mapStateToProps = state => {
 	return {
 		visiblePage,
 		count,
-		tasks 	   : tasksByPage[visiblePage],
-		totalPages : total_pages,
-		pageSize   : page_size
+		tasks 	   		: tasksByPage[visiblePage],
+		totalPages 		: total_pages,
+		pageSize   		: page_size,
+
+		// we wanna know if it's been invalidated to reload
+		didInvalidate 	: tasksView.tasksList.didInvalidate 
   	}
 }
 
