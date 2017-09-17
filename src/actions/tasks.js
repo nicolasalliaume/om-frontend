@@ -14,6 +14,7 @@ import {
 import superagent from 'superagent';
 import { Endpoints, EndpointAuth } from './endpoints';
 import { invalidateObjectivesList } from './objectives';
+import { invalidateLatestActivity } from './activity';
 
 function requestUpdateTask(taskId) {
 	return { type : REQUEST_UPDATE_TASK, payload : taskId }
@@ -55,6 +56,7 @@ export function deleteTask(taskId) {
 			.then(body => dispatch(receiveDeleteTask(body)))
 			.then(() => dispatch(invalidateTasksList()))
 			.then(() => dispatch(invalidateObjectivesList())) // may have changed
+			.then(() => dispatch(invalidateLatestActivity())) // may have changed
 	}
 }
 
