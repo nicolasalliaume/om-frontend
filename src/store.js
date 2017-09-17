@@ -8,20 +8,24 @@ import moment from 'moment';
 
 const loggerMiddleware = createLogger();
 
-// use redux-dev tools
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+let Store;
 
-let middleware = [ 
-	thunkMiddleware // lets us dispatch() functions
-]
 if (process.env.NODE_ENV !== 'production') {
-  middleware = [ ...middleware, loggerMiddleware ] // dev logging middleware
+	// use redux-dev tools
+	const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+	let middleware = [ 
+		thunkMiddleware, // lets us dispatch() functions
+		loggerMiddleware
+	]
+
+	Store = createStore(AppReducer, 
+		composeEnhancers(applyMiddleware(...middleware))
+	);
+}
+else {
+	Store = createStore(AppReducer, applyMiddleware(thunkMiddleware));
 }
 
-const Store = createStore(AppReducer, 
-	composeEnhancers(
-		applyMiddleware(...middleware)
-	)
-);
 
 export default Store;
