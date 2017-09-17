@@ -29,9 +29,9 @@ class EditObjectiveModalForm extends Component {
 		this.setState({ 
 			objective 	: this.props.objective || {
 				no_task_title 	: '',
-				owners 			: [localStorage.getItem('currentUser')._id],
+				owners 			: [localStorage.getItem('currentUser')],
 				objective_date 	: moment().format('YYYY-MM-DD'),
-				created_by 		: localStorage.getItem('currentUser')._id,
+				created_by 		: localStorage.getItem('currentUser'),
 				level 			: 'day',
 				progress 		: 0
 			} });

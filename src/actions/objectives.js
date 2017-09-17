@@ -66,9 +66,9 @@ export function createObjectiveFromTask(task) {
 	const objective = {
 		related_task 	: task._id,
 		level 			: 'day',
-		owners 			: [localStorage.getItem('currentUser')._id],
+		owners 			: [localStorage.getItem('currentUser')],
 		objective_date 	: Date.now(),
-		created_by 		: localStorage.getItem('currentUser')._id
+		created_by 		: localStorage.getItem('currentUser')
 	}
 	return createObjective(objective);
 }
@@ -154,7 +154,7 @@ export function scratchObjective(objectiveId) {
 	return function(dispatch) {
 		dispatch(updateObjective(objectiveId, { 
 			scratched 	 : true, 
-			scratched_by : localStorage.getItem('currentUser')._id,
+			scratched_by : localStorage.getItem('currentUser'),
 			scratched_ts : Date.now() 
 		}))
 	}
@@ -174,7 +174,7 @@ export function completeObjective(objectiveId) {
 	return function(dispatch) {
 		dispatch(updateObjective(objectiveId, { 
 			progress 	 : 1, 
-			completed_by : localStorage.getItem('currentUser')._id,
+			completed_by : localStorage.getItem('currentUser'),
 			completed_ts : Date.now()
 		}))
 	}
