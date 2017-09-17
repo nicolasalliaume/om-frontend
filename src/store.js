@@ -5,13 +5,12 @@ import AppReducer from './reducers/AppReducer';
 import { fetchObjectivesForDateIfNeeded } from './actions/objectives';
 import moment from 'moment';
 
-const loggerMiddleware = createLogger();
-
 let Store;
 
 if (process.env.NODE_ENV !== 'production') {
-	import { createLogger } from 'redux-logger';
-	
+	const reduxLogger = require('redux-logger');
+	const loggerMiddleware = reduxLogger.createLogger();
+
 	// use redux-dev tools
 	const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
