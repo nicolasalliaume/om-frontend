@@ -4,7 +4,7 @@ let BASE_URL;
 if (process.env.NODE_ENV !== 'production') { 
 	BASE_URL = 'http://localhost:3000/api/1.0'
 } else {
-	BASE_URL = 'https://cors-anywhere.herokuapp.com/https://om-services.herokuapp.com/api/1.0';
+	BASE_URL = 'https://om-services.herokuapp.com/api/1.0';
 }
 
 export const Endpoints = {
