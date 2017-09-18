@@ -4,6 +4,7 @@ import ObjectivesSummaryPanel from './../components/objectives/summary/Objective
 import TodaysObjectivesPanel from './../components/objectives/all/TodaysObjectivesPanel';
 import EditObjectiveModalForm from './../components/objectives/forms/EditObjectiveModalForm';
 import LatestActivityPanel from './../components/activity/LatestActivityPanel';
+import CreateObjectiveFloatingButton from './../components/objectives/all/CreateObjectiveFloatingButton';
 
 import './../styles/Dashboard.css';
 
@@ -23,6 +24,7 @@ export default class Dashboard extends Component {
 						<LatestActivityPanel />
 					</Col>
 				</Row>
+				<CreateObjectiveFloatingButton />
 			</div>
 		)
 	}

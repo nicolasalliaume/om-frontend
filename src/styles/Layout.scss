@@ -30,6 +30,27 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   border: 0 !important;
   padding: 5pt 8pt;
   font-size: 11pt;
+
+  &.floating {
+    $size: 44pt;
+    position: fixed;
+    right: 42pt;
+    bottom: 32pt;
+    height: $size;
+    width:$size;
+    border-radius: $size/2;
+    box-shadow: 0px 2px 5px 0px $dark-color;
+    transition: box-shadow 0.2s;
+    .fa {
+      -webkit-text-stroke-width: 3pt;
+      font-size: 24pt;
+      line-height: 38pt;
+    }
+
+    &:active {
+      box-shadow: 0px 4px 14px 0px $dark-color;
+    }
+  }
 }
 
 p {

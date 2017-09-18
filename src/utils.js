@@ -1,3 +1,4 @@
+import moment from 'moment';
 
 String.prototype.capitalizeFirst = function() {
 	return this.charAt(0).toUpperCase() + this.slice(1);
@@ -32,3 +33,14 @@ export function getPaginationBarFirstAndLastVisiblePages(visiblePage, totalPages
 	}
 	return [first, last];
 }
+
+/** object templates */
+
+export function getNewObjectiveTemplate(level) { return {
+	no_task_title 	: '',
+	owners 			: [localStorage.getItem('currentUser')],
+	objective_date 	: moment().format('YYYY-MM-DD'),
+	created_by 		: localStorage.getItem('currentUser'),
+	level 			: level,
+	progress 		: 0
+}}

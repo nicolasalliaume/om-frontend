@@ -5,6 +5,7 @@ import ObjectivesListItem from './ObjectivesListItem';
 import EditObjectiveModalForm from './../forms/EditObjectiveModalForm';
 import Icon from '../../misc/Icon';
 import moment from 'moment';
+import { getNewObjectiveTemplate } from '../../../utils';
 
 export default class ObjectivesList extends Component {
 	constructor() {
@@ -65,17 +66,9 @@ export default class ObjectivesList extends Component {
 					</Col>
 				</Row>
 				<EditObjectiveModalForm show={this.state.createObjModal} 
-					toggle={this.toggleCreateObjectiveModal} objective={this.getNewObjectiveTemplate(level)} />
+					toggle={this.toggleCreateObjectiveModal} objective={getNewObjectiveTemplate(level)} />
 			</div>
 		)
 	}
 
-	getNewObjectiveTemplate = (level) => { return {
-		no_task_title 	: '',
-		owners 			: [localStorage.getItem('currentUser')],
-		objective_date 	: moment().format('YYYY-MM-DD'),
-		created_by 		: localStorage.getItem('currentUser'),
-		level 			: level,
-		progress 		: 0
-	}}
 }

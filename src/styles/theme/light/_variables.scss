@@ -12,6 +12,7 @@ $lighter-color: #f2f2f2;
 $white: #fff;
 $info-color: #17a2b8;
 $warn-color: #ffd761;
+$accent-color: #17a2b8;
 
 $text-color: #777;
 $light-text-color: #a2a2a2;
@@ -52,20 +53,28 @@ $p-letter-spacing: normal;
 	background-color: $text-color;
 	color: white;
 }
-
 .btn-secondary {
 	background-color: $white;
 	color: $text-color;
 }
-
 .btn:hover {
-	background-color: $light-color !important;
+	background-color: $light-color;
 }
-
 .btn {
 	text-transform: lowercase;
 }
-
 .done-color {
 	color: $done-color !important;
+}
+.btn-accent {
+	color: $white;
+	background-color: $accent-color;
+	$hover-color: darken( $accent-color, 10% );
+	&:hover {
+		background-color: $hover-color;
+	}
+	&.floating {
+		.fa { -webkit-text-stroke-color: $accent-color; }
+		&:hover .fa { -webkit-text-stroke-color: $hover-color; }
+	}
 }
