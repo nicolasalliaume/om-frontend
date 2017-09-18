@@ -26,6 +26,7 @@ export const Endpoints = {
 
 	/** user endpoints */
 	GET_USERS_LIST				: () => `${BASE_URL}/users`,
+	AUTH_USER_LINK				: () => `${BASE_URL}/users/auth-link`,
 
 	/** project endpoints */
 	GET_PROJECTS_LIST			: () => `${BASE_URL}/projects`

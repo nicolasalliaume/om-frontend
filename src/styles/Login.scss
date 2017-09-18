@@ -1,0 +1,10 @@
+@import 'variables';
+
+.login {
+	padding-top: 30pt;
+
+	.login-invalid.alert {
+		margin-top: 20pt;
+		background-color: $light-color;
+	}
+}
