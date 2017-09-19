@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter } from "react-router-dom";
+import { HashRouter } from "react-router-dom";
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { connect } from 'react-redux';
@@ -17,12 +17,12 @@ export default class App extends Component {
   render() {
 	return (
 		<Provider store={store}>
-			<BrowserRouter>
+			<HashRouter>
 			  	<Switch>
 			  		<Route path='/login/:userId?/:authToken?' component={Login} />
 			  		<Route path='/' render={this.renderLayoutIfUserLoggedIn} />
 			  	</Switch>
-			</BrowserRouter>
+			</HashRouter>
 		</Provider>
 	)
   }
