@@ -18,7 +18,7 @@ function fetchProjectsList() {
 		dispatch(requestProjectsList());
 		superagent
 			.get(Endpoints.GET_PROJECTS_LIST())
-			.set(...EndpointAuth)
+			.set(...EndpointAuth())
 			.then(response => response.body)
 			.then(body => dispatch(receiveProjectsList(body)))
 	}

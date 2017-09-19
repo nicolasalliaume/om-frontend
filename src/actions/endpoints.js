@@ -33,4 +33,6 @@ export const Endpoints = {
 	GET_PROJECTS_LIST			: () => `${BASE_URL}/projects`
 }
 
-export const EndpointAuth = ['Authorization', 'Basic: ' + localStorage.getItem('om-auth-token')];
+export const EndpointAuth = () => { 
+	return ['Authorization', 'Basic: ' + localStorage.getItem('om-auth-token')];
+}

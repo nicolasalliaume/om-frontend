@@ -29,7 +29,7 @@ export function updateTask(taskId, update) {
 		dispatch(requestUpdateTask(taskId));
 		superagent
 			.post(Endpoints.UPDATE_TASK(taskId))
-			.set(...EndpointAuth)
+			.set(...EndpointAuth())
 			.send(update)
 			.then(response => response.body)
 			.then(body => dispatch(receiveUpdateTask(body)))
@@ -52,7 +52,7 @@ export function deleteTask(taskId) {
 		dispatch(requestDeleteTask(taskId));
 		superagent
 			.delete(Endpoints.DELETE_TASK(taskId))
-			.set(...EndpointAuth)
+			.set(...EndpointAuth())
 			.then((response) => response.body)
 			.then(body => dispatch(receiveDeleteTask(body)))
 			.then(() => dispatch(invalidateTasksList()))
@@ -74,7 +74,7 @@ function fetchTasksListPage(page) {
 		dispatch(requestTasksListPage(page));
 		return superagent
 			.get(Endpoints.GET_TASKS_LIST_PAGE(page))
-			.set(...EndpointAuth)
+			.set(...EndpointAuth())
 			.then((response) => response.body)
 			.then((tasksListPage) => dispatch(receiveTasksListPage(tasksListPage)))
 	}
@@ -94,7 +94,7 @@ export function fetchTasksListPageIfNeeded(page = 1) {
 			dispatch(requestTasksListPage(page));
 			return superagent
 				.get(Endpoints.GET_TASKS_LIST_PAGE(page))
-				.set(...EndpointAuth)
+				.set(...EndpointAuth())
 				.then((response) => response.body)
 				.then((tasksListPage) => dispatch(receiveTasksListPage(tasksListPage)))
 		}
@@ -118,7 +118,7 @@ export function createTask(task) {
 		dispatch(requestCreateTask());
 		return superagent
 			.post(Endpoints.ADD_TASK())
-			.set(...EndpointAuth)
+			.set(...EndpointAuth())
 			.send(task)
 			.then(response => response.body)
 			.then(body => dispatch(receiveCreateTask(body)))

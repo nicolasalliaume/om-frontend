@@ -39,7 +39,7 @@ function fetchUsersList() {
 		dispatch(requestUsersList());
 		superagent
 			.get(Endpoints.GET_USERS_LIST())
-			.set(...EndpointAuth)
+			.set(...EndpointAuth())
 			.then(response => response.body)
 			.then(body => dispatch(receiveUsersList(body)))
 	}

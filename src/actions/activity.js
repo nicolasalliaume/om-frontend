@@ -20,7 +20,7 @@ function fetchLatestActivityPage(page) {
 		dispatch(requestLatestActvityPage(page));
 		superagent
 			.get(Endpoints.GET_LATEST_ACTIVITY_PAGE(page))
-			.set(...EndpointAuth)
+			.set(...EndpointAuth())
 			.then(response => response.body)
 			.then(body => dispatch(receiveLatestActivityPage(body)))
 	}

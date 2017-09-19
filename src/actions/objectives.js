@@ -38,7 +38,7 @@ function fetchObjectivesSummaryForDate(date) {
 		dispatch(requestObjectivesSummary());
 		superagent
 			.get(Endpoints.GET_OBJECTIVES_SUMMARY(year, month, day))
-			.set(...EndpointAuth)
+			.set(...EndpointAuth())
 			.then(response => response.body)
 			.then(body => dispatch(receiveObjectivesSummary(body)))
 	}
@@ -74,7 +74,7 @@ export function updateObjective(objectiveId, update) {
 		dispatch(requestUpdateObjective(objectiveId));
 		superagent
 			.post(Endpoints.UPDATE_OBJECTIVE(objectiveId))
-			.set(...EndpointAuth)
+			.set(...EndpointAuth())
 			.send(update)
 			.then(response => response.body)
 			.then(body => dispatch(receiveUpdateObjective(body, objectiveId)))
@@ -97,7 +97,7 @@ export function deleteObjective(objectiveId) {
 		dispatch(requestDeleteObjective(objectiveId));
 		superagent
 			.delete(Endpoints.DELETE_OBJECTIVE(objectiveId))
-			.set(...EndpointAuth)
+			.set(...EndpointAuth())
 			.then(response => response.body)
 			.then(body => dispatch(receiveDeleteObjective(objectiveId)))
 			.then(() => dispatch(invalidateObjectivesList()))
@@ -126,7 +126,7 @@ export function createObjective(objective) {
 
 		return superagent
 			.post(Endpoints.CREATE_OBJECTIVE())
-			.set(...EndpointAuth)
+			.set(...EndpointAuth())
 			.send(objective)
 			.then((response) => {
 				return response.body;
@@ -169,7 +169,7 @@ function fetchObjectivesForDate(date) {
     	// that is passed on as the return value of the dispatch method.
     	return superagent
     		.get(Endpoints.GET_DATE_OBJECTIVES(year, month, day))
-    		.set(...EndpointAuth)
+    		.set(...EndpointAuth())
     		.then((response) => {
     			return response.body;
     		})
