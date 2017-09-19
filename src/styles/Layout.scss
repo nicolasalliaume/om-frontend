@@ -24,6 +24,10 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   line-height: 1.4rem;
 }
 
+pre {
+  white-space: pre-wrap;
+}
+
 .btn {
   border-radius: 0;
   outline: none !important;
@@ -40,7 +44,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     width:$size;
     border-radius: $size/2;
     box-shadow: 0px 2px 5px 0px $dark-color;
-    transition: box-shadow 0.2s;
+    transition: all 0.2s;
     .fa {
       -webkit-text-stroke-width: 3pt;
       font-size: 24pt;

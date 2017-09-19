@@ -8,13 +8,58 @@ import {
 	REQUEST_UPDATE_OBJECTIVE,
 	RECEIVE_UPDATE_OBJECTIVE,
 	REQUEST_DELETE_OBJECTIVE,
-	RECEIVE_DELETE_OBJECTIVE
+	RECEIVE_DELETE_OBJECTIVE,
+	REQUEST_OBJECTIVES_SUMMARY,
+	RECEIVE_OBJECTIVES_SUMMARY,
+	INVALIDATE_OBJECTIVES_SUMMARY
 } from './types';
 
 import { invalidateLatestActivity } from './activity';
 import superagent from 'superagent';
 import moment from 'moment';
 import { Endpoints, EndpointAuth } from './endpoints';
+
+
+export function invalidateObjectivesSummary() {
+	return { type: INVALIDATE_OBJECTIVES_SUMMARY }
+}
+
+function requestObjectivesSummary() {
+	return { type: REQUEST_OBJECTIVES_SUMMARY }
+}
+
+function receiveObjectivesSummary(result) {
+	return { type : RECEIVE_OBJECTIVES_SUMMARY, payload: result }
+}
+
+function fetchObjectivesSummaryForDate(date) {
+	const [day, month, year] = moment.utc(date).format('DD/MM/YYYY').split('/');
+	return function(dispatch) {
+		dispatch(requestObjectivesSummary());
+		superagent
+			.get(Endpoints.GET_OBJECTIVES_SUMMARY(year, month, day))
+			.set(...EndpointAuth)
+			.then(response => response.body)
+			.then(body => dispatch(receiveObjectivesSummary(body)))
+	}
+}
+
+function shouldFetchObjectivesSummaryForDate(state, date) {
+	// already fetching. don't fetch
+	if (state.objectivesSummary.isFetching) return false;
+	// fetch if date is different or we've invalidated
+	return isDateDifferent(state.visibleDate, date)
+		|| state.objectivesSummary.didInvalidate;
+}
+
+export function fetchObjectivesSummaryForDateIfNeeded(date) {
+	return function(dispatch, getState) {
+		// fetch only if we need to (date change, invalidated, ...)
+		if (shouldFetchObjectivesSummaryForDate(getState().dashboardView, date)) {
+			return dispatch(fetchObjectivesSummaryForDate(date));
+		}
+	}
+}
 
 function requestUpdateObjective(objectiveId) {
 	return { type: REQUEST_UPDATE_OBJECTIVE, payload: objectiveId }
@@ -35,6 +80,7 @@ export function updateObjective(objectiveId, update) {
 			.then(body => dispatch(receiveUpdateObjective(body, objectiveId)))
 			.then(() => dispatch(invalidateObjectivesList()))
 			.then(() => dispatch(invalidateLatestActivity()))
+			.then(() => dispatch(invalidateObjectivesSummary()))
 	}
 }
 
@@ -55,6 +101,7 @@ export function deleteObjective(objectiveId) {
 			.then(response => response.body)
 			.then(body => dispatch(receiveDeleteObjective(objectiveId)))
 			.then(() => dispatch(invalidateObjectivesList()))
+			.then(() => dispatch(invalidateObjectivesSummary()))
 	}
 }
 
@@ -88,6 +135,7 @@ export function createObjective(objective) {
 			.then((body) => dispatch(receiveAddObjective(body)))
 			.then(() => dispatch(invalidateObjectivesList()))
 			.then(() => dispatch(invalidateLatestActivity()))
+			.then(() => dispatch(invalidateObjectivesSummary()))
 	}
 }
 
@@ -111,7 +159,7 @@ function receiveObjectivesForDate(date, data) {
 }
 
 function fetchObjectivesForDate(date) {
-	const [day, month, year] = date.format('DD/MM/YYYY').split('/');
+	const [day, month, year] = moment.utc(date).format('DD/MM/YYYY').split('/');
 	// async action. returning function
 	return function(dispatch) {
 		// First dispatch: the app state is updated to inform

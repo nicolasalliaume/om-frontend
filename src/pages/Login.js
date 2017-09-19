@@ -15,27 +15,34 @@ class Login extends Component {
 		this.doLogin();
 	}
 	componentWillReceiveProps(props) {
-		if (props.currentUser !== null) {
-			if (props.currentUser.error !== undefined) {
-				this.setState({ error : props.currentUser.error })
+		this.testLoginResponse(props.currentUser);
+	}
+	testLoginResponse(currentUser) {
+		if (currentUser !== null) {
+			if (currentUser.error !== undefined) {
+				this.setError(currentUser.error);
 			} else {
-				this.finishLogin(props.user);
+				this.finishLogin(currentUser.user);
 			}
 		}
 	}
+	setError(errorMessage) {
+		this.setState({ error : errorMessage })
+	}
 	finishLogin(currentUser) {
-		if (currentUser !== null) {
-			// logged in correctly
-			// setup local storage for fast access from endpoints and stuff
-			const { userId, authToken } = this.props.match.params;
-			localStorage.setItem('currentUser',	userId);
-			localStorage.setItem('om-auth-token', authToken);
+		// logged in correctly
+		// setup local storage for fast access from endpoints and stuff
+		const { userId, authToken } = this.props.match.params;
+		localStorage.setItem('currentUser',	userId);
+		localStorage.setItem('om-auth-token', authToken);
 
-			this.moveToDashboard();
-		}
+		this.moveToDashboard();
 	}
 	doLogin() {
 		const { userId, authToken } = this.props.match.params;
+		if (!userId || !authToken) {
+			return this.setError('invalid link');
+		}
 		this.props.authUserWithAuthToken(authToken);
 	}
 	moveToDashboard() {
@@ -53,10 +60,8 @@ class Login extends Component {
 								<p><b>{ error }</b></p>
 								<p>I'm sorry my friend, but I really need to know who you are to show you your own stuff!</p>
 								<p>But let me help you out.</p>
-								<p>
-									Check that the link is correct. Should look somethin' like this:<br/>
-									<pre>/login/bunch-of-characters/weird-shit:some-other-weird-shit</pre>
-								</p>
+								<p>Check that the link is correct. Should look somethin' like this:<br/></p>
+								<pre>/login/bunch-of-characters/weird-shit:some-other-weird-shit</pre>
 								<p>
 									If you're missing some of that or the link is correct but not working,
 									&nbsp;<a href='mailto:nicolas@on-lab.com' target='_blank'>let me know</a>&nbsp;

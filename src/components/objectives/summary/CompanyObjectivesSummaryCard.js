@@ -5,7 +5,7 @@ export default function CompanyObjectivesSummaryCard(props) {
 	return <ObjectivesSummaryCard type='company'{...props}
 		title='<b>Everybody</b> today' 
 		description="This is how much progress everyone has made so far today"
-		progress={0.7}
+		progress={props.completed/props.count}
 		color='warning'
-		label={`We've completed <b>${7} out of ${10}</b> objectives`} />
+		label={`We've completed <b>${props.completed} out of ${props.count}</b> objectives`} />
 }

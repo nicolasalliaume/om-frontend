@@ -11,6 +11,7 @@ export const Endpoints = {
 
 	/** objective endpoins */
 	GET_DATE_OBJECTIVES 		: (year, month, day) => `${BASE_URL}/objectives/${year}/${month}/${day}/all`,
+	GET_OBJECTIVES_SUMMARY 		: (year, month, day) => `${BASE_URL}/objectives/${year}/${month}/${day}/summary`,
 	CREATE_OBJECTIVE 			: () => `${BASE_URL}/objectives/add`,
 	UPDATE_OBJECTIVE 			: (objectiveId) => `${BASE_URL}/objectives/${objectiveId}`,
 	DELETE_OBJECTIVE			: (objectiveId) => `${BASE_URL}/objectives/${objectiveId}`,

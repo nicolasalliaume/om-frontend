@@ -4,9 +4,12 @@ import {
 	INVALIDATE_OBJECTIVES_LIST,
 	REQUEST_DATE_OBJECTIVES,
 	RECEIVE_DATE_OBJECTIVES,
-	DASHBOARD_SET_VISIBLE_DATE,
 	REQUEST_UPDATE_OBJECTIVE,
-	RECEIVE_UPDATE_OBJECTIVE
+	RECEIVE_UPDATE_OBJECTIVE,
+	REQUEST_OBJECTIVES_SUMMARY,
+	RECEIVE_OBJECTIVES_SUMMARY,
+	DASHBOARD_SET_VISIBLE_DATE,
+	INVALIDATE_OBJECTIVES_SUMMARY
 } from './../../actions/types';
 
 import update from 'immutability-helper';
@@ -14,10 +17,30 @@ import update from 'immutability-helper';
 
 export function objectivesSummary(state, action) {
 	if (state === undefined) return {
-		company: {}, 
-		me: {}
+		didInvalidate: true,
+		lastUpdated: null,
+		isFetching: false,
+		summary: {
+			everyone: { completed: 0, count: 0 },
+			user: { completed: 0, count: 0 }
+		}
 	}
-	return state;
+
+	switch (action.type) {
+		case REQUEST_OBJECTIVES_SUMMARY:
+			return update(state, {isFetching: {$set: true}});
+		case RECEIVE_OBJECTIVES_SUMMARY:
+			return update(state, {
+				isFetching: {$set: false},
+				didInvalidate: {$set: false},
+				lastUpdated: {$set: new Date()},
+				summary: {$set: action.payload.summary}
+			});
+		case INVALIDATE_OBJECTIVES_SUMMARY:
+			return update(state, {didInvalidate: {$set: true}});
+		default:
+			return state;
+	}
 }
 
 export function objectivesList(state, action) {
@@ -32,7 +55,8 @@ export function objectivesList(state, action) {
 	};
 
 	switch (action.type) {
-		case INVALIDATE_OBJECTIVES_LIST: 
+		case INVALIDATE_OBJECTIVES_LIST:
+		case DASHBOARD_SET_VISIBLE_DATE:
 			return update(state, {didInvalidate : {$set : true}})
 
 		case REQUEST_DATE_OBJECTIVES:
@@ -57,9 +81,6 @@ export function objectivesList(state, action) {
 				return update(state, {didInvalidate: {$set: true}})
 			}
 
-		case DASHBOARD_SET_VISIBLE_DATE:
-			return update(state, {didInvalidate: {$set: true}})
-		
 		default: return state;
 	}
 }

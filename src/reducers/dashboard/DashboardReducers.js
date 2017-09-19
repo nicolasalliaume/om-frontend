@@ -7,7 +7,10 @@ import {
 	DASHBOARD_SET_VISIBLE_DATE,
 	REQUEST_LATEST_ACTIVITY_LIST_PAGE,
 	RECEIVE_LATEST_ACTIVITY_LIST_PAGE,
-	INVALIDATE_LATEST_ACTIVITY
+	INVALIDATE_LATEST_ACTIVITY,
+	REQUEST_OBJECTIVES_SUMMARY,
+	RECEIVE_OBJECTIVES_SUMMARY,
+	INVALIDATE_OBJECTIVES_SUMMARY
 } from './../../actions/types';
 
 import update from 'immutability-helper';
@@ -62,6 +65,12 @@ export function dashboardView(state, action) {
 		case INVALIDATE_LATEST_ACTIVITY:
 			return update(state, {
 				latestActivity: {$set: latestActivity(state.latestActivity, action)}})
+		case REQUEST_OBJECTIVES_SUMMARY:
+		case RECEIVE_OBJECTIVES_SUMMARY:
+		case INVALIDATE_OBJECTIVES_SUMMARY:
+			return update(state, {
+				objectivesSummary: {$set: objectivesSummary(state.objectivesSummary, action)}
+			})
 		default: return state
 	}
 }
