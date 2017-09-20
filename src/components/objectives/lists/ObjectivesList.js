@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import ObjectivesListItem from './ObjectivesListItem';
 import EditObjectiveModalForm from './../forms/EditObjectiveModalForm';
 import Icon from '../../misc/Icon';
-import moment from 'moment';
 import { getNewObjectiveTemplate } from '../../../utils';
 
 export default class ObjectivesList extends Component {

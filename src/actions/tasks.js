@@ -69,17 +69,6 @@ function receiveTasksListPage(tasksListPage) {
 	return { type : RECEIVE_TASKS_LIST_PAGE, payload : tasksListPage }
 }
 
-function fetchTasksListPage(page) {
-	return function(dispatch) {
-		dispatch(requestTasksListPage(page));
-		return superagent
-			.get(Endpoints.GET_TASKS_LIST_PAGE(page))
-			.set(...EndpointAuth())
-			.then((response) => response.body)
-			.then((tasksListPage) => dispatch(receiveTasksListPage(tasksListPage)))
-	}
-}
-
 function shouldFetchTasksListPage(page, state) {
 	if (state.tasksList.isFetching) return false;
 	if (state.tasksList.didInvalidate) return true;

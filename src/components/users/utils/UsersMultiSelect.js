@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Select from 'react-select';
-import { Input } from 'reactstrap';
 import { connect } from 'react-redux';
 import { fetchUsersListIfNeeded } from './../../../actions/users';
 

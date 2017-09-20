@@ -33,7 +33,8 @@ export function cache(state, action) {
 			return update(state, {projects: {
 				projectsById: {$set: projectsById}, 
 				isFetching: {$set: false} }})
+		default:
+			return state;
 	}
-
-	return state;
+	
 }

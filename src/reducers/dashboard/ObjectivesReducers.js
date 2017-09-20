@@ -1,10 +1,7 @@
 import { 
-	REMOVE_OBJECTIVE, 
-	REQUEST_ADD_OBJECTIVE, 
 	INVALIDATE_OBJECTIVES_LIST,
 	REQUEST_DATE_OBJECTIVES,
 	RECEIVE_DATE_OBJECTIVES,
-	REQUEST_UPDATE_OBJECTIVE,
 	RECEIVE_UPDATE_OBJECTIVE,
 	REQUEST_OBJECTIVES_SUMMARY,
 	RECEIVE_OBJECTIVES_SUMMARY,
@@ -80,7 +77,7 @@ export function objectivesList(state, action) {
 			if (isObjectiveInCollection(objectiveId, state.objectivesByLevel)) {
 				return update(state, {didInvalidate: {$set: true}})
 			}
-
+			return state;
 		default: return state;
 	}
 }
@@ -88,7 +85,7 @@ export function objectivesList(state, action) {
 function isObjectiveInCollection(objectiveId, collection) {
 	Object.keys(collection).forEach(level => {
 		collection[level].forEach(o => {
-			if (o._id == objectiveId) return true;
+			if (o._id === objectiveId) return true;
 		})
 	})
 	return false;

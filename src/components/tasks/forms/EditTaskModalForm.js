@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';	
 import update from 'immutability-helper';
 import { 
-	Row, 
-	Col, 
 	Button, 
 	Modal, 
 	ModalHeader, 

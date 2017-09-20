@@ -106,6 +106,23 @@ select {
   font-size: 0.9em;
 }
 
+.tag {
+	background-color: $warn-color;
+	color: $white;
+	font-size: 0.7em;
+	padding: 2pt 4pt 3pt;
+	border-radius: 2pt;
+	letter-spacing: 0.05em;
+}
+
+.tag.migrated {
+	.date {
+		font-weight: 400;
+		letter-spacing: 0.1em;
+		margin-left: 2pt;
+	}
+}
+
 /** end general style */
 
 /** main layout */

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';	
 import update from 'immutability-helper';
-import { createTask, invalidateTasksList } from './../../../actions/tasks';
+import { createTask } from './../../../actions/tasks';
 import { 
 	Row, 
 	Col, 

@@ -42,7 +42,7 @@ function activityItemsByPage(state, action) {
 	switch (action.type) {
 		case RECEIVE_LATEST_ACTIVITY_LIST_PAGE:
 			const { cursor, activity } = action.payload;
-			const page = parseInt(cursor.current_page);
+			const page = parseInt(cursor.current_page, 10);
 			return update(state, {[page]: {$set: activity}})
 		default: 
 			return state;

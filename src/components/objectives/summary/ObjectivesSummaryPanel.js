@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Card, CardBlock } from 'reactstrap';
+import { Row, Col } from 'reactstrap';
 import { connect } from 'react-redux';
 import { fetchObjectivesSummaryForDateIfNeeded } from './../../../actions/objectives';
 

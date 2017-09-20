@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import TasksListItem from './TasksListItem';
 
 export default function TasksList(props) {

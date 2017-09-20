@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';	
-import update from 'immutability-helper';
 import { 
-	Row, 
-	Col, 
 	Button, 
 	Modal, 
 	ModalHeader, 
@@ -13,9 +10,10 @@ import {
 import EditObjectiveForm from './EditObjectiveForm';
 import { 
 	createObjective, 
-	invalidateObjectivesList,
 	updateObjective 
 } from './../../../actions/objectives';
+import update from 'immutability-helper';
+import moment from 'moment';
 
 class EditObjectiveModalForm extends Component {
 	constructor() {
@@ -25,7 +23,13 @@ class EditObjectiveModalForm extends Component {
 		}
 	}
 	componentWillMount() {
-		this.setState({ objective 	: this.props.objective });
+		const { objective } = this.props;
+		if (objective !== undefined) {
+			const formattedDate = moment.utc(objective.objective_date).format('YYYY-MM-DD');
+			this.setState({ objective : update(objective, {
+				objective_date : {$set: formattedDate}
+			}) });
+		}
 	}
 	submitObjective = () => {
 		const { edit, createObjective, updateObjective } = this.props;

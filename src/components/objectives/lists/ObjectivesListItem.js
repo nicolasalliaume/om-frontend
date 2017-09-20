@@ -12,21 +12,18 @@ import {
 	deleteObjective 
 } from './../../../actions/objectives';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
 class ObjectivesListItem extends Component {
 	constructor() {
 		super();
 		this.state = { editModal : false, descriptionModal : false }
 	}
-	toggleEditModal = () => {
-		this.toggleStateProp('editModal');
-	}
-	toggleDescriptionModal = () => {
-		this.toggleStateProp('descriptionModal');
-	}
-	toggleStateProp = (prop) => {
-		this.setState({ [prop] : !this.state[prop] })
-	}
+
+	toggleEditModal = () => this.toggleStateProp('editModal')
+	toggleDescriptionModal = () => this.toggleStateProp('descriptionModal')
+	toggleStateProp = (prop) => this.setState({ [prop] : !this.state[prop] })
+
 	confirmScratchObjective = () => {
 		confirmAlert({
 			title : 'Scratch objective',
@@ -36,25 +33,42 @@ class ObjectivesListItem extends Component {
 			onConfirm : this.scratchObjective
 		})
 	}
-	scratchObjective = () => {
-		this.props.scratchObjective(this.props.objective._id);
+
+	scratchObjective = () => this.props.scratchObjective(this.props.objective._id)
+	unscratchObjective = () => this.props.unscratchObjective(this.props.objective._id)
+	completeObjective = () => this.props.completeObjective(this.props.objective._id)
+	deleteObjective = () => this.props.deleteObjective(this.props.objective._id)
+
+	isMigrated = () => {
+		const { objective } = this.props;
+		const date = moment.utc(objective.objective_date);
+		const today = moment.utc();
+		const compareFormat = this.getIsMigratedDateFormat(objective.level);
+		const isMigrated = date.format(compareFormat) !== today.format(compareFormat);
+		return isMigrated;
 	}
-	unscratchObjective = () => {
-		this.props.unscratchObjective(this.props.objective._id);
+
+	getMigratedFormattedDate = () => {
+		const { objective } = this.props;
+		const level = objective.level;
+		let date = moment.utc(objective.objective_date).startOf(level).startOf('day');
+		let today = moment.utc().startOf(level).startOf('day');
+		const diff = Math.ceil(today.diff(date, level + 's', true));
+		const unit = diff > 1 ? level + 's' : level;
+		return diff + ' ' + unit;
 	}
-	completeObjective = () => {
-		this.props.completeObjective(this.props.objective._id);
+
+	getIsMigratedDateFormat = (level) => {
+		return level === 'day' ? "YYYY/MM/DD" 
+			: (level === 'month' ? 'YYYY/MM' : 'YYYY');
 	}
-	deleteObjective = () => {
-		this.props.deleteObjective(this.props.objective._id);
-	}
+
 	render() {
 		const { objective, index } = this.props;
-		const description = objective.related_task ? objective.related_task.description : null;
-		const title = objective.title.capitalizeFirst();
 		const { scratched, progress, related_task } = objective;
-		const completed = objective.progress === 1;
+		const completed = progress === 1;
 		const hasDescription = related_task && !!related_task.description;
+
 		let additionalClasess = (scratched ? ' scratched line-through' : '')
 							  + (completed ? ' completed' : '');
 		return (
@@ -68,6 +82,11 @@ class ObjectivesListItem extends Component {
 					</Col>
 					<Col xs={11}>
 						<h4 className='objective-title'>{objective.title}</h4>
+						{ this.isMigrated() && 
+							<span className='migrated tag'>Migrated{' '}
+								<span className='date'>{this.getMigratedFormattedDate()}</span>
+							</span> 
+						}
 					</Col>
 					<Col xs={12} className='text-right list-item-bottom-options'>
 						{ completed && !hasDescription && 
@@ -107,6 +126,7 @@ class ObjectivesListItem extends Component {
 				</Row>
 				<EditObjectiveModalForm edit show={this.state.editModal} 
 					toggle={this.toggleEditModal} objective={objective} />
+
 				{ hasDescription && 
 					<DescriptionModal show={this.state.descriptionModal} 
 						toggle={this.toggleDescriptionModal} 

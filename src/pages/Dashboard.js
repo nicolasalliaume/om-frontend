@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Row, Col } from 'reactstrap';
 import ObjectivesSummaryPanel from './../components/objectives/summary/ObjectivesSummaryPanel';
 import TodaysObjectivesPanel from './../components/objectives/all/TodaysObjectivesPanel';
-import EditObjectiveModalForm from './../components/objectives/forms/EditObjectiveModalForm';
 import LatestActivityPanel from './../components/activity/LatestActivityPanel';
 import CreateObjectiveFloatingButton from './../components/objectives/all/CreateObjectiveFloatingButton';
 

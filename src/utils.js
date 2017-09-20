@@ -1,10 +1,13 @@
 import moment from 'moment';
+import Store from './store';
 
-String.prototype.capitalizeFirst = function() {
+/*jshint freeze: false */
+String.prototype.capitalizeFirst = function() { 
 	return this.charAt(0).toUpperCase() + this.slice(1);
 }
 
-String.prototype.trimToWords = function(maxCharLength) {
+/*jshint freeze: false */
+String.prototype.trimToWords = function(maxCharLength) { 
 	if (this.length <= maxCharLength) return this;
 	var trimmedString = this.substr(0, maxCharLength);
 	trimmedString = trimmedString.substr(0, 
@@ -12,7 +15,8 @@ String.prototype.trimToWords = function(maxCharLength) {
 	return trimmedString + '...';
 }
 
-Array.prototype.empty = function() {
+/*jshint freeze: false */
+Array.prototype.empty = function() { 
 	return this.length === 0;
 }
 
@@ -36,11 +40,15 @@ export function getPaginationBarFirstAndLastVisiblePages(visiblePage, totalPages
 
 /** object templates */
 
-export function getNewObjectiveTemplate(level) { return {
-	no_task_title 	: '',
-	owners 			: [localStorage.getItem('currentUser')],
-	objective_date 	: moment().format('YYYY-MM-DD'),
-	created_by 		: localStorage.getItem('currentUser'),
-	level 			: level,
-	progress 		: 0
-}}
+export function getNewObjectiveTemplate(level) { 
+	// can assume there's a current user if you got here
+	const currentUser = Store.getState().currentUser.user;
+	return {
+		no_task_title 	: '',
+		owners 			: [currentUser],
+		objective_date 	: moment().format('YYYY-MM-DD'),
+		created_by 		: currentUser,
+		level 			: level,
+		progress 		: 0
+	}
+}

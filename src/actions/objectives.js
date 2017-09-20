@@ -1,7 +1,6 @@
 import { 
 	REQUEST_ADD_OBJECTIVE, 
 	RECEIVE_ADD_OBJECTIVE,
-	REMOVE_OBJECTIVE, 
 	INVALIDATE_OBJECTIVES_LIST,
 	REQUEST_DATE_OBJECTIVES,
 	RECEIVE_DATE_OBJECTIVES,
@@ -178,7 +177,7 @@ function fetchObjectivesForDate(date) {
 }
 
 function isDateDifferent(d1, d2) {
-	return moment(d1).format('DD/MM/YYYY') != moment(d2).format('DD/MM/YYYY');
+	return moment(d1).format('DD/MM/YYYY') !== moment(d2).format('DD/MM/YYYY');
 }
 
 function shouldFetchObjectivesForDate(state, date) {

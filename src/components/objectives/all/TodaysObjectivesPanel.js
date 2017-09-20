@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Row, Col } from 'reactstrap';
-import ObjectivesList from './ObjectivesList';
+import ObjectivesList from './../lists/ObjectivesList';
 import { fetchObjectivesForDateIfNeeded } from './../../../actions/objectives';
 
 class TodaysObjectivesPanel extends Component {

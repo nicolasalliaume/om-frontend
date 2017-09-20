@@ -2,9 +2,6 @@ import React, { Component } from 'react';
 import { Input } from 'reactstrap';
 
 export default class EntityCombo extends Component {
-	constructor() {
-		super();
-	}
 	componentDidMount() {
 		if (this.props.async)
 			this.props.fetchItems();

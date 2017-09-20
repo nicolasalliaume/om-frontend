@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Row, Col } from 'reactstrap';
 import ActivityListItem from './ActivityListItem';
 import { connect } from 'react-redux';
 import { fetchLatestActivityPageIfNeeded } from './../../actions/activity';

@@ -62,7 +62,7 @@ function tasksListByPage(state, action) {
 	switch (action.type) {
 		case RECEIVE_TASKS_LIST_PAGE:
 			const { cursor, tasks } = action.payload;
-			const page = parseInt(cursor.current_page);
+			const page = parseInt(cursor.current_page, 10);
 
 			return update(state, {[page]: {$set: tasks}})
 		

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { HashRouter } from "react-router-dom";
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { connect } from 'react-redux';
 
 import store from './store';
 

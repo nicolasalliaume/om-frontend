@@ -64,7 +64,8 @@ class Login extends Component {
 								<pre>/login/bunch-of-characters/weird-shit:some-other-weird-shit</pre>
 								<p>
 									If you're missing some of that or the link is correct but not working,
-									&nbsp;<a href='mailto:nicolas@on-lab.com' target='_blank'>let me know</a>&nbsp;
+									&nbsp;<a href='mailto:nicolas@on-lab.com' target='_blank' rel="noopener noreferrer">
+									let me know</a>&nbsp;
 									and I'll give you a hand. Don't forget to add who you are in the email!
 								</p>
 							</Alert>

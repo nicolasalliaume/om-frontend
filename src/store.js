@@ -2,9 +2,6 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import AppReducer from './reducers/AppReducer';
 
-import { fetchObjectivesForDateIfNeeded } from './actions/objectives';
-import moment from 'moment';
-
 let Store;
 
 if (process.env.NODE_ENV !== 'production') { 

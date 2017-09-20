@@ -1,19 +1,13 @@
 import React, { Component } from 'react';
-import moment from 'moment';
 import update from 'immutability-helper';
 import { 
-	Row, 
 	Col, 
-	Button, 
 	Form, 
 	FormGroup, 
 	Label, 
-	Input, 
-	FormText 
+	Input 
 } from 'reactstrap';
 import UsersMultiSelect from './../../users/utils/UsersMultiSelect';
-
-import { createObjective, invalidateObjectivesList } from './../../../actions/objectives';
 
 export default class EditObjectiveForm extends Component {
 	constructor() {
@@ -80,7 +74,7 @@ export default class EditObjectiveForm extends Component {
 						<FormGroup check>
 							<Label check>
 								<Input type="checkbox" name="completed" id="completed" 
-									onChange={this.completedChanged} checked={objective.progress == 1}/>{' '}
+									onChange={this.completedChanged} checked={objective.progress === 1}/>{' '}
 								Already completed?
 							</Label>
 						</FormGroup>
