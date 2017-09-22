@@ -16,7 +16,7 @@ class ObjectivesSummaryPanel extends Component {
 	render() {
 		const { user, everyone } = this.props.objectivesSummary.summary;
 		return (
-			<Row className='objectives-summary'>
+			<Row className='objectives-summary row-eq-height'>
 				<Col xs={12} sm={6}>
 					<CompanyObjectivesSummaryCard {...everyone} />
 				</Col>

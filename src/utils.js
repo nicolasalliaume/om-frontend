@@ -20,6 +20,13 @@ Array.prototype.empty = function() {
 	return this.length === 0;
 }
 
+//The maximum is inclusive and the minimum is inclusive 
+export function getRandomIntInclusive(min, max) {
+	min = Math.ceil(min);
+	max = Math.floor(max);
+	return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 export function getPaginationBarFirstAndLastVisiblePages(visiblePage, totalPages) {
 	let first = 1, last = 1;
 	if (totalPages < 11) { last = totalPages }
