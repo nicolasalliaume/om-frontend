@@ -6,6 +6,7 @@ import {
 } from './types';
 import superagent from 'superagent';
 import { Endpoints, EndpointAuth } from './endpoints';
+import { addMessage, addError } from './messages';
 
 function requestUserAuth() {
 	return { type: REQUEST_USER_AUTH }
@@ -23,6 +24,8 @@ export function authUserWithAuthToken(authToken) {
 			.send({ authToken })
 			.then(response => response.body)
 			.then(body => dispatch(receiveUserAuth(body)))
+			// error handling
+			.catch(error => dispatch(addError(error.message, 'Authorize user')))
 	}
 }
 
@@ -42,6 +45,8 @@ function fetchUsersList() {
 			.set(...EndpointAuth())
 			.then(response => response.body)
 			.then(body => dispatch(receiveUsersList(body)))
+			// error handling
+			.catch(error => dispatch(addError(error.message, 'Fetch users list')))
 	}
 }
 

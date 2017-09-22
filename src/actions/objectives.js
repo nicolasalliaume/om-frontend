@@ -10,10 +10,11 @@ import {
 	RECEIVE_DELETE_OBJECTIVE,
 	REQUEST_OBJECTIVES_SUMMARY,
 	RECEIVE_OBJECTIVES_SUMMARY,
-	INVALIDATE_OBJECTIVES_SUMMARY
+	INVALIDATE_OBJECTIVES_SUMMARY,
 } from './types';
 
 import { invalidateLatestActivity } from './activity';
+import { addMessage, addError } from './messages';
 import superagent from 'superagent';
 import moment from 'moment';
 import { Endpoints, EndpointAuth } from './endpoints';
@@ -40,6 +41,8 @@ function fetchObjectivesSummaryForDate(date) {
 			.set(...EndpointAuth())
 			.then(response => response.body)
 			.then(body => dispatch(receiveObjectivesSummary(body)))
+			// error handling
+			.catch(error => dispatch(addError(error.message, 'Objectives summary')));
 	}
 }
 
@@ -80,6 +83,9 @@ export function updateObjective(objectiveId, update) {
 			.then(() => dispatch(invalidateObjectivesList()))
 			.then(() => dispatch(invalidateLatestActivity()))
 			.then(() => dispatch(invalidateObjectivesSummary()))
+			.then(() => dispatch(addMessage('', 'Objective updated')))
+			// error handling
+			.catch(error => dispatch(addError(error.message, 'Update objective')));
 	}
 }
 
@@ -101,6 +107,9 @@ export function deleteObjective(objectiveId) {
 			.then(body => dispatch(receiveDeleteObjective(objectiveId)))
 			.then(() => dispatch(invalidateObjectivesList()))
 			.then(() => dispatch(invalidateObjectivesSummary()))
+			.then(() => dispatch(addMessage('', 'Objective deleted')))
+			// error handling
+			.catch(error => dispatch(addError(error.message, 'Delete objective')));
 	}
 }
 
@@ -130,11 +139,14 @@ export function createObjective(objective) {
 			.then((response) => {
 				return response.body;
 			})
-			.then((body) => dispatch(invalidateObjectivesList()))
-			.then((body) => dispatch(receiveAddObjective(body)))
+			.then((doc) => { dispatch(invalidateObjectivesList()); return doc; })
+			.then((doc) => { dispatch(receiveAddObjective(doc)); return doc; })
+			.then((doc) => dispatch(addMessage(doc.title, 'Objective added')))
 			.then(() => dispatch(invalidateObjectivesList()))
 			.then(() => dispatch(invalidateLatestActivity()))
 			.then(() => dispatch(invalidateObjectivesSummary()))
+			// error handling
+			.catch(error => dispatch(addError(error.message, 'Create objective')));
 	}
 }
 
@@ -172,7 +184,9 @@ function fetchObjectivesForDate(date) {
     		.then((response) => {
     			return response.body;
     		})
-    		.then((body) => dispatch(receiveObjectivesForDate(date, body)));
+    		.then((body) => dispatch(receiveObjectivesForDate(date, body)))
+    		// error handling
+			.catch(error => dispatch(addError(error.message, 'Fetch objectives')));
 	}
 }
 

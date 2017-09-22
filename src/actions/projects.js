@@ -4,6 +4,7 @@ import {
 } from './types';
 import superagent from 'superagent';
 import { Endpoints, EndpointAuth } from './endpoints';
+import { addMessage, addError } from './messages';
 
 function requestProjectsList() {
 	return { type: REQUEST_PROJECTS_LIST }
@@ -21,6 +22,8 @@ function fetchProjectsList() {
 			.set(...EndpointAuth())
 			.then(response => response.body)
 			.then(body => dispatch(receiveProjectsList(body)))
+			// error handling
+			.catch(error => dispatch(addError(error.message, 'Projects list')));
 	}
 }
 

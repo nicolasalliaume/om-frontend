@@ -15,6 +15,7 @@ import superagent from 'superagent';
 import { Endpoints, EndpointAuth } from './endpoints';
 import { invalidateObjectivesList } from './objectives';
 import { invalidateLatestActivity } from './activity';
+import { addMessage, addError } from './messages';
 
 function requestUpdateTask(taskId) {
 	return { type : REQUEST_UPDATE_TASK, payload : taskId }
@@ -36,6 +37,9 @@ export function updateTask(taskId, update) {
 			.then(() => dispatch(invalidateTasksList()))
 			.then(() => dispatch(invalidateObjectivesList())) // may have changed
 			.then(() => dispatch(invalidateLatestActivity()))
+			.then(() => dispatch(addMessage('', 'Task updated')))
+			// error handling
+			.catch(error => dispatch(addError(error.message, 'Update task')))
 	}
 }
 
@@ -58,6 +62,9 @@ export function deleteTask(taskId) {
 			.then(() => dispatch(invalidateTasksList()))
 			.then(() => dispatch(invalidateObjectivesList())) // may have changed
 			.then(() => dispatch(invalidateLatestActivity())) // may have changed
+			.then(() => dispatch(addMessage('', 'Task deleted')))
+			// error handling
+			.catch(error => dispatch(addError(error.message, 'Delete task')))
 	}
 }
 
@@ -86,6 +93,8 @@ export function fetchTasksListPageIfNeeded(page = 1) {
 				.set(...EndpointAuth())
 				.then((response) => response.body)
 				.then((tasksListPage) => dispatch(receiveTasksListPage(tasksListPage)))
+				// error handling
+				.catch(error => dispatch(addError(error.message, 'Fetch tasks')))
 		}
 	}
 }
@@ -114,6 +123,9 @@ export function createTask(task) {
 			.then(() => dispatch(invalidateTasksList()))
 			.then(() => dispatch(invalidateLatestActivity()))
 			.then(() => dispatch(moveToPage(1)))
+			.then(() => dispatch(addMessage('', 'Task created')))
+			// error handling
+			.catch(error => dispatch(addError(error.message, 'Create task')))
 	}
 }
 

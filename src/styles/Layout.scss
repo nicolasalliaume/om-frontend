@@ -143,9 +143,96 @@ select {
       margin-bottom: 1.3rem;
     }
   }
+
+  /** messages bar **/
+  .messages-bar {
+    margin: 30pt 30pt -8pt;
+    background-color: $dark-color;
+    color: $white;
+    font-size: 11pt;
+    position: relative;
+    transition: all 0.3s ease-in-out;
+
+    &.error {
+      background-color: $error-color;
+    }
+
+    .text-bar {
+      margin: 9pt;
+    }
+    .title {
+      font-weight: 400;
+      text-transform: uppercase;
+      margin-right: 6pt;
+    }
+    .message {
+      font-weight: lighter;
+    }
+    .dismiss {
+      position: absolute;
+      right: 0;
+      top: 0;
+      height: 100%;
+      width: 40pt;
+      background: transparent;
+      color: $white;
+      border: none;
+      box-shadow: none;
+      outline: none !important;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+  /** end messages bar */
 }
 
+
+/** messages bar animation */
+
+.message-bar-animation {
+  opacity: 0.01;
+}
+
+.message-bar-animation-enter {
+  opacity: 0.01;
+  max-height: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.message-bar-animation-enter.message-bar-animation-enter-active {
+  opacity: 1;
+  max-height: 60px;
+  transition: 700ms;
+}
+
+.message-bar-animation-leave {
+  opacity: 1;
+  max-height: 100px;
+}
+
+.message-bar-animation-leave.message-bar-animation-leave-active {
+  opacity: 0.01;
+  max-height: 0;
+  margin-top: 0px;
+  margin-bottom: 0;
+  transition: 700ms;
+}
+
+/** end messages bar animation */
+
 /** end main layout */
+
+/** icon tweaks */
+
+.fa.thin {
+  &.fa-close:before {
+    content: '\00d7';
+  }
+}
+
+/** end icon tweaks */
 
 /** navigation */
 
