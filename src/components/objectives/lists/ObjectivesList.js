@@ -33,7 +33,7 @@ export default class ObjectivesList extends Component {
 					{ !sortedObjectives.empty() && 
 						<ul className={`objectives-list ${level}`}>
 							{ sortedObjectives.map((o, idx) => 
-								<ObjectivesListItem key={idx} objective={o} index={idx} />
+								<ObjectivesListItem key={o._id} objective={o} index={idx} />
 							)}
 						</ul> 
 					}
