@@ -41,6 +41,34 @@
 			margin-top: 1rem;
 			margin-bottom: 0;
 		}
+
+		&.celebration {
+			animation: fadeInDown 0.7s ease-out forwards;
+			opacity: 0;
+			height: 100%; // match the other card
+
+			.card-body {
+				background-position: center;
+				background-size: cover;
+			}
+
+			@for $i from 0 through 4 {
+				&.style-#{$i} .card-body {
+					background-image: url('./../images/celebration_#{$i}.gif');
+
+					// tweaks for each celebration image
+					@if $i == 0 {
+						background-position-y: 5pt;
+					}
+					@if $i == 4 {
+						background-position-y: 20pt;
+					}
+					@if $i == 2 {
+						background-position-y: 10pt;
+					}
+				}
+			}
+		}
 	}
 
 	.today-objectives .list {
