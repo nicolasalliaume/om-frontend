@@ -3,17 +3,40 @@ import { Container, Row, Col, Alert } from 'reactstrap';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { authUserWithAuthToken } from '../actions/users';
+import Cookies from 'js-cookie';
 
 import './../styles/Login.css';
+
+const REMEMBER_ME_COOKIE = 'om-rememberme';
 
 class Login extends Component {
 	constructor() {
 		super()
 		this.state = { error: null }
+		this.loggingInWithAuthToken = null;
 	}
 	componentDidMount() {
 		this.doLogin();
 	}
+	doLogin() {
+		let authToken = this.props.match.params.authToken || this.getAuthTokenFromCookie();
+		if (!authToken) return this.setError('invalid link');
+
+		this.loggingInWithAuthToken = authToken;
+		this.props.authUserWithAuthToken(authToken);
+	}
+
+	hasLogInCookie = () => !!Cookies.get(REMEMBER_ME_COOKIE);
+
+	getAuthTokenFromCookie() {
+		if (this.hasLogInCookie()) {
+			const cookie = Cookies.get(REMEMBER_ME_COOKIE);
+			const [ userId, authToken ] = cookie.split("|");
+			return authToken;
+		}
+		return undefined;
+	}
+
 	componentWillReceiveProps(props) {
 		this.testLoginResponse(props.currentUser);
 	}
@@ -31,19 +54,16 @@ class Login extends Component {
 	}
 	finishLogin(currentUser) {
 		// logged in correctly
+		const authToken = this.loggingInWithAuthToken;
 		// setup local storage for fast access from endpoints and stuff
-		const { userId, authToken } = this.props.match.params;
-		localStorage.setItem('currentUser',	userId);
+		localStorage.setItem('currentUser',	currentUser._id);
 		localStorage.setItem('om-auth-token', authToken);
-
+		// set cookie and move on
+		this.setRememberMeCookie(currentUser._id, authToken);
 		this.moveToDashboard();
 	}
-	doLogin() {
-		const { userId, authToken } = this.props.match.params;
-		if (!userId || !authToken) {
-			return this.setError('invalid link');
-		}
-		this.props.authUserWithAuthToken(authToken);
+	setRememberMeCookie(userId, authToken) {
+		Cookies.set(REMEMBER_ME_COOKIE, `${userId}|${authToken}`, { expires: 1 });
 	}
 	moveToDashboard() {
 		this.props.history.push('/');
