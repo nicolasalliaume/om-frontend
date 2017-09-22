@@ -57,8 +57,14 @@
 					background-image: url('./../images/celebration_#{$i}.gif');
 
 					// tweaks for each celebration image
-					@if $i == 0 { background-position-y: 5pt; }
-					@if $i == 4 { background-position-y: 20pt; }
+					@if $i == 0 { 
+						background-position-y: 5pt; 
+						.card-title { color: $white; } 
+					}
+					@if $i == 4 { 
+						background-position-y: 20pt; 
+						.card-title { color: $white; } 
+					}
 					@if $i == 2 { background-position-y: 10pt; }
 				}
 			}
