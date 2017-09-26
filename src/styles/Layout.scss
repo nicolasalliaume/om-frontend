@@ -107,15 +107,17 @@ select {
 }
 
 .tag {
-	background-color: $warn-color;
-	color: $white;
-	font-size: 0.7em;
-	padding: 2pt 4pt 3pt;
-	border-radius: 2pt;
-	letter-spacing: 0.05em;
+  background-color: $tag-color;
+  color: $white;
+  font-size: 0.7em;
+  padding: 2pt 4pt 3pt;
+  border-radius: 2pt;
+  letter-spacing: 0.05em;
+  margin-right: 0.6em;
 }
 
 .tag.migrated {
+	background-color: $warn-color;
 	.date {
 		font-weight: 400;
 		letter-spacing: 0.1em;

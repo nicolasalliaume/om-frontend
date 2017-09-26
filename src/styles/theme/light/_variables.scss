@@ -2,6 +2,7 @@
  
 @import url('https://fonts.googleapis.com/css?family=Lato:300,400,600,700,800');
 
+$main-font: 'Lato', sans-serif;
 
 // general palette //
 
@@ -13,16 +14,13 @@ $white: #fff;
 $info-color: #17a2b8;
 $warn-color: #ffd761;
 $error-color: #d00b00;
-$accent-color: #17a2b8;
+$accent-color: $info-color;
 
 $text-color: #777;
 $light-text-color: #a2a2a2;
 $lighter-text-color: #b2b2b2;
 
 $done-color: #6faf6f;
-
-$main-font: 'Lato', sans-serif;
-
 
 // component-specific //
 
@@ -32,6 +30,7 @@ $card-bg: $white;
 $card-fg: $text-color;
 $shadow-color: #d7d7d7;
 $headline-fg: $dark-color;
+$tag-color: $accent-color;
 
 @mixin shadow {
 	box-shadow: 0px 2px 6px 0px #d7d7d7;

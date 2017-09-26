@@ -12,6 +12,7 @@ import {
 	deleteObjective 
 } from './../../../actions/objectives';
 import { connect } from 'react-redux';
+import Tag from '../../misc/Tag';
 import moment from 'moment';
 
 class ObjectivesListItem extends Component {
@@ -41,11 +42,9 @@ class ObjectivesListItem extends Component {
 
 	isMigrated = () => {
 		const { objective } = this.props;
-		const date = moment.utc(objective.objective_date);
-		const today = moment.utc();
 		const compareFormat = this.getIsMigratedDateFormat(objective.level);
-		const isMigrated = date.format(compareFormat) !== today.format(compareFormat);
-		return isMigrated;
+		return moment.utc(objective.objective_date).format(compareFormat) 
+				!== moment.utc().format(compareFormat);
 	}
 
 	getMigratedFormattedDate = () => {
@@ -59,8 +58,7 @@ class ObjectivesListItem extends Component {
 	}
 
 	getIsMigratedDateFormat = (level) => {
-		return level === 'day' ? "YYYY/MM/DD" 
-			: (level === 'month' ? 'YYYY/MM' : 'YYYY');
+		return level === 'day' ? "YYYY/MM/DD" : (level === 'month' ? 'YYYY/MM' : 'YYYY');
 	}
 
 	render() {
@@ -83,9 +81,9 @@ class ObjectivesListItem extends Component {
 					<Col xs={11}>
 						<h4 className='objective-title'>{objective.title}</h4>
 						{ this.isMigrated() && 
-							<span className='migrated tag'>Migrated{' '}
-								<span className='date'>{this.getMigratedFormattedDate()}</span>
-							</span> 
+							<Tag className='migrated'>
+								Migrated{' '}<span className='date'>{this.getMigratedFormattedDate()}</span>
+							</Tag>
 						}
 					</Col>
 					<Col xs={12} className='text-right list-item-bottom-options'>

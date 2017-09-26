@@ -10,6 +10,7 @@ import EditTaskModalForm from '../forms/EditTaskModalForm';
 import { confirmAlert } from './../../misc/ConfirmDialog';
 import Strings from '../../../strings/dialogs';
 import TaskReview from '../misc/TaskReview';
+import Tag from '../../misc/Tag';
 
 class TasksListItem extends Component {
 	constructor() {
@@ -50,8 +51,17 @@ class TasksListItem extends Component {
 					<p className={`list-number ${index>=99 ? 'hundreds' : ''}`}>{index + 1}</p>
 				</Col>
 				<Col xs={11}>
-					<h4><b>{task.project.name}</b>{':  '}{task.title}</h4>
+					<h4>
+						<b>{task.project.name}</b>{':  '}
+						{ task.origin !== 'web' && <Tag className='origin'>{task.origin}</Tag> }
+						{task.title}
+					</h4>
 					{ task.description && <p>{task.description.trimToWords(400)}</p> }
+					{ task.tags.length > 0 && 
+						<div className="tags">
+							{ task.tags.map((t,i) => <Tag key={i}>{t}</Tag>) }
+						</div>
+					}
 				</Col>
 				<Col xs={12} className='text-right list-item-bottom-options'>
 					{ hasDescription &&

@@ -7,6 +7,14 @@
 
 	.tasks.list {
 		padding-bottom: 10pt;
+
+		.tag.origin {
+			background-color: $light-color;
+		}
+
+		.tags {
+			margin: 0;
+		}
 	}
 }
 
