@@ -43,6 +43,19 @@ class TasksListItem extends Component {
 	}
 	deleteTask = () => this.props.deleteTask(this.props.task._id)
 
+	getDescriptionHtml = () => {
+		const { task } = this.props;
+		if (!task.description) return '';
+		if (task.origin === 'email') {
+			return (
+				<div className='task-email-body'>
+					<pre>{task.description}</pre>
+				</div>
+			);
+		}
+		return <p>{task.description}</p>;
+	}
+
 	render() {
 		const { task, index } = this.props;
 		const hasDescription = !!task.description;
@@ -87,7 +100,7 @@ class TasksListItem extends Component {
 				{ hasDescription && 
 					<DescriptionModal show={this.state.descriptionModal} 
 						toggle={this.toggleDescriptionModal} 
-						description={task.description}
+						description={this.getDescriptionHtml()}
 						title='Task description' />
 				}
 				<EditTaskModalForm task={task} show={this.state.editModal} 

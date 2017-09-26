@@ -12,7 +12,7 @@ export default class DescriptionModal extends Component {
 			<Modal isOpen={show} toggle={toggle}>
 				<ModalHeader toggle={toggle}>{title}</ModalHeader>
 				<ModalBody>
-					<p dangerouslySetInnerHTML={{__html: description}} />
+					{description}
 				</ModalBody>
 			</Modal>
 		)
