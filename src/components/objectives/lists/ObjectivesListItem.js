@@ -36,6 +36,16 @@ class ObjectivesListItem extends Component {
 		})
 	}
 
+	confirmDeleteObjective = () => {
+		confirmAlert({
+			title : 'Delete objective',
+			message : Strings.DELETE_OBJECTIVE,
+			confirmLabel : 'delete',
+			cancelLabel : 'cancel',
+			onConfirm : this.deleteObjective
+		})
+	}
+
 	scratchObjective = () => this.props.scratchObjective(this.props.objective._id)
 	unscratchObjective = () => this.props.unscratchObjective(this.props.objective._id)
 	completeObjective = () => this.props.completeObjective(this.props.objective._id)
@@ -121,7 +131,7 @@ class ObjectivesListItem extends Component {
 							</Button>
 						}
 						{ !objective.scratched && !completed && 
-							<Button color='secondary' onClick={this.deleteObjective}>
+							<Button color='secondary' onClick={this.confirmDeleteObjective}>
 								<Icon fa-remove />
 							</Button>
 						}

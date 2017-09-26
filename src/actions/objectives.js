@@ -14,6 +14,7 @@ import {
 } from './types';
 
 import { invalidateLatestActivity } from './activity';
+import { invalidateTasksList } from './tasks';
 import { addMessage, addError } from './messages';
 import superagent from 'superagent';
 import moment from 'moment';
@@ -72,7 +73,11 @@ function receiveUpdateObjective(result, objectiveId) {
 }
 
 export function updateObjective(objectiveId, update) {
-	return function(dispatch) {
+	return function(dispatch, getState) {
+		// find the objective to show the title once updated
+		const objective = findObjectiveById(objectiveId, 
+			getState().dashboardView.objectivesList.objectivesByLevel);
+
 		dispatch(requestUpdateObjective(objectiveId));
 		superagent
 			.post(Endpoints.UPDATE_OBJECTIVE(objectiveId))
@@ -83,7 +88,7 @@ export function updateObjective(objectiveId, update) {
 			.then(() => dispatch(invalidateObjectivesList()))
 			.then(() => dispatch(invalidateLatestActivity()))
 			.then(() => dispatch(invalidateObjectivesSummary()))
-			.then(() => dispatch(addMessage('', 'Objective updated')))
+			.then(() => dispatch(addMessage(objective.title, 'Objective updated')))
 			// error handling
 			.catch(error => dispatch(addError(error.message, 'Update objective')));
 	}
@@ -98,7 +103,11 @@ function receiveDeleteObjective(objectiveId) {
 }
 
 export function deleteObjective(objectiveId) {
-	return function(dispatch) {
+	return function(dispatch, getState) {
+		// find the objective to show the title once deleted
+		const objective = findObjectiveById(objectiveId, 
+			getState().dashboardView.objectivesList.objectivesByLevel);
+
 		dispatch(requestDeleteObjective(objectiveId));
 		superagent
 			.delete(Endpoints.DELETE_OBJECTIVE(objectiveId))
@@ -107,10 +116,16 @@ export function deleteObjective(objectiveId) {
 			.then(body => dispatch(receiveDeleteObjective(objectiveId)))
 			.then(() => dispatch(invalidateObjectivesList()))
 			.then(() => dispatch(invalidateObjectivesSummary()))
-			.then(() => dispatch(addMessage('', 'Objective deleted')))
+			.then(() => dispatch(addMessage(objective.title, 'Objective deleted')))
 			// error handling
 			.catch(error => dispatch(addError(error.message, 'Delete objective')));
 	}
+}
+
+function findObjectiveById(id, objectivesByLevel) {
+	const { day, month, year } = objectivesByLevel;
+	const flattened = [].concat(day, month, year);
+	return flattened.filter(o => o._id === id)[0];
 }
 
 function requestCreateObjective(objective) {
@@ -125,10 +140,10 @@ export function createObjectiveFromTask(task) {
 		objective_date 	: Date.now(),
 		created_by 		: localStorage.getItem('currentUser')
 	}
-	return createObjective(objective);
+	return createObjective(objective, true);
 }
 
-export function createObjective(objective) {
+export function createObjective(objective, invalidateTasks = false) {
 	return function(dispatch) {
 		dispatch(requestCreateObjective(objective));
 
@@ -145,6 +160,10 @@ export function createObjective(objective) {
 			.then(() => dispatch(invalidateObjectivesList()))
 			.then(() => dispatch(invalidateLatestActivity()))
 			.then(() => dispatch(invalidateObjectivesSummary()))
+			.then(() => {
+				if (invalidateTasks)
+					return dispatch(invalidateTasksList())
+			})
 			// error handling
 			.catch(error => dispatch(addError(error.message, 'Create objective')));
 	}
