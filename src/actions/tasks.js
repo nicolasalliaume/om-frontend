@@ -26,7 +26,11 @@ function receiveUpdateTask(response) {
 }
 
 export function updateTask(taskId, update) {
-	return function(dispatch) {
+	return function(dispatch, getState) {
+		// get task to show title on info
+		const task = findTaskById(taskId, getState().tasksView.tasksList.tasksByPage);
+		const title = update.title || task.title;
+
 		dispatch(requestUpdateTask(taskId));
 		superagent
 			.post(Endpoints.UPDATE_TASK(taskId))
@@ -37,7 +41,7 @@ export function updateTask(taskId, update) {
 			.then(() => dispatch(invalidateTasksList()))
 			.then(() => dispatch(invalidateObjectivesList())) // may have changed
 			.then(() => dispatch(invalidateLatestActivity()))
-			.then(() => dispatch(addMessage('', 'Task updated')))
+			.then(() => dispatch(addMessage(title, 'Task updated')))
 			// error handling
 			.catch(error => dispatch(addError(error.message, 'Update task')))
 	}
@@ -52,7 +56,10 @@ function receiveDeleteTask(response) {
 }
 
 export function deleteTask(taskId) {
-	return function(dispatch) {
+	return function(dispatch, getState) {
+		// get task to show title on info
+		const task = findTaskById(taskId, getState().tasksView.tasksList.tasksByPage);
+
 		dispatch(requestDeleteTask(taskId));
 		superagent
 			.delete(Endpoints.DELETE_TASK(taskId))
@@ -62,7 +69,7 @@ export function deleteTask(taskId) {
 			.then(() => dispatch(invalidateTasksList()))
 			.then(() => dispatch(invalidateObjectivesList())) // may have changed
 			.then(() => dispatch(invalidateLatestActivity())) // may have changed
-			.then(() => dispatch(addMessage('', 'Task deleted')))
+			.then(() => dispatch(addMessage(task.title, 'Task deleted')))
 			// error handling
 			.catch(error => dispatch(addError(error.message, 'Delete task')))
 	}
@@ -119,11 +126,11 @@ export function createTask(task) {
 			.set(...EndpointAuth())
 			.send(task)
 			.then(response => response.body)
-			.then(body => dispatch(receiveCreateTask(body)))
+			.then(doc => { dispatch(receiveCreateTask(doc)); return doc; })
+			.then(doc => dispatch(addMessage(doc.title, 'Task created')))
 			.then(() => dispatch(invalidateTasksList()))
 			.then(() => dispatch(invalidateLatestActivity()))
 			.then(() => dispatch(moveToPage(1)))
-			.then(() => dispatch(addMessage('', 'Task created')))
 			// error handling
 			.catch(error => dispatch(addError(error.message, 'Create task')))
 	}
@@ -131,4 +138,15 @@ export function createTask(task) {
 
 export function invalidateTasksList() {
 	return { type: INVALIDATE_TASKS_LIST }
+}
+
+function findTaskById(id, tasksByPage) {
+	const pages = Object.keys(tasksByPage);
+	for (var i = 0; i < pages.length; i++) {
+		const p = pages[i];
+		const tasks = tasksByPage[p];
+		const task = tasks.filter(t => t._id === id);
+		if (task.length > 0) return task[0];
+	}
+	return null;
 }

@@ -122,12 +122,6 @@ export function deleteObjective(objectiveId) {
 	}
 }
 
-function findObjectiveById(id, objectivesByLevel) {
-	const { day, month, year } = objectivesByLevel;
-	const flattened = [].concat(day, month, year);
-	return flattened.filter(o => o._id === id)[0];
-}
-
 function requestCreateObjective(objective) {
 	return { type: REQUEST_ADD_OBJECTIVE }
 }
@@ -270,3 +264,8 @@ export function setObjectiveProgress(objectiveId, progress) {
 	}
 }
 
+function findObjectiveById(id, objectivesByLevel) {
+	const { day, month, year } = objectivesByLevel;
+	const flattened = [].concat(day, month, year);
+	return flattened.filter(o => o._id === id)[0];
+}
