@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Col, Button } from 'reactstrap';
 import Icon from './../../misc/Icon';
+import ExternalUrlLink from './../../misc/ExternalUrlLink';
 import EditObjectiveModalForm from './../forms/EditObjectiveModalForm';
 import DescriptionModal from './../../misc/DescriptionModal';
 import { confirmAlert } from './../../misc/ConfirmDialog';
@@ -87,6 +88,10 @@ class ObjectivesListItem extends Component {
 						}
 					</Col>
 					<Col xs={12} className='text-right list-item-bottom-options'>
+						{ related_task && related_task.external_url &&
+							<ExternalUrlLink url={related_task.external_url} tooltip='Open original task' 
+								id={`task-external-link-${index}`} />
+						}
 						{ completed && !hasDescription && 
 							<span>&nbsp;</span> 
 						}

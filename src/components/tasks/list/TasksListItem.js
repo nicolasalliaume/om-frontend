@@ -11,6 +11,7 @@ import { confirmAlert } from './../../misc/ConfirmDialog';
 import Strings from '../../../strings/dialogs';
 import TaskReview from '../misc/TaskReview';
 import Tag from '../../misc/Tag';
+import ExternalUrlLink from './../../misc/ExternalUrlLink';
 
 class TasksListItem extends Component {
 	constructor() {
@@ -65,9 +66,8 @@ class TasksListItem extends Component {
 				</Col>
 				<Col xs={12} className='text-right list-item-bottom-options'>
 					{ task.external_url && 
-						<a href={task.external_url} target='_blank' rel='nofollow noopener' className='btn btn-secondary'>
-							<Icon fa-external-link tooltip='Open original task' id={`task-external-link-${index}`} />
-						</a>
+						<ExternalUrlLink url={task.external_url} tooltip='Open original task' 
+							id={`task-external-link-${index}`} />
 					}
 					{ hasDescription &&
 						<Button color='secondary' onClick={this.toggleDescriptionModal}>
