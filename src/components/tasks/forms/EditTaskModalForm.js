@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';	
 import update from 'immutability-helper';
+import Tag from '../../misc/Tag';
 import { 
 	Button, 
 	Modal, 
@@ -37,6 +38,9 @@ class EditTaskModalForm extends Component {
 					<EditTaskForm onChange={this.onFormChange} task={task} />
 				</ModalBody>
 				<ModalFooter>
+					{ task.origin !== 'web' && 
+						<p>Created from <Tag className='origin'>{task.origin}</Tag></p>
+					}
 					<Button color="primary" onClick={this.submitTask}>Done</Button>{' '}
 					<Button color="secondary" onClick={toggle}>Cancel</Button>
 				</ModalFooter>

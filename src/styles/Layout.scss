@@ -314,6 +314,22 @@ select {
 
   }
 
+  .modal-footer {
+    p {
+      margin: 0;
+      margin-right: auto;
+      font-size: 0.85em;
+
+      .tag {
+        display: inline-block;
+        vertical-align: middle;
+        font-size: 0.8em;
+        font-weight: 400;
+        margin-left: 2pt;
+      }
+    }
+  }
+
   .btn {
     min-width: 70pt;
   }

@@ -20,7 +20,8 @@ $text-color: #777;
 $light-text-color: #a2a2a2;
 $lighter-text-color: #b2b2b2;
 
-$done-color: #6faf6f;
+// $done-color: #6faf6f;
+$done-color: $info-color;
 
 // component-specific //
 

@@ -75,7 +75,7 @@ class ObjectivesListItem extends Component {
 					<Col xs={1}>
 						<p className='list-number'>
 							{ !completed && (index+1) }
-							{ completed && <Icon fa-check done-color /> }
+							{ completed && <Icon fa-check /> }
 						</p>
 					</Col>
 					<Col xs={11}>

@@ -78,6 +78,13 @@
 			&.scratched {
 				.list-number { display: none }
 			}
+			&.completed {
+				.list-number { 
+					background-color: $done-color;
+					border-color: transparent;
+					.fa { color: $white; }
+				}
+			}
 		}
 	}		
 }
