@@ -64,6 +64,11 @@ class TasksListItem extends Component {
 					}
 				</Col>
 				<Col xs={12} className='text-right list-item-bottom-options'>
+					{ task.external_url && 
+						<a href={task.external_url} target='_blank' rel='nofollow noopener' className='btn btn-secondary'>
+							<Icon fa-external-link tooltip='Open original task' id={`task-external-link-${index}`} />
+						</a>
+					}
 					{ hasDescription &&
 						<Button color='secondary' onClick={this.toggleDescriptionModal}>
 							<Icon fa-file-text-o />
