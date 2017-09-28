@@ -68,7 +68,12 @@ class TasksListItem extends Component {
 						{ task.origin !== 'web' && <Tag className='origin'>{task.origin}</Tag> }
 						{task.title}
 					</h4>
-					{ task.description && <p>{task.description.trimToWords(400)}</p> }
+					{ task.description && task.origin !== 'email' && 
+						<p>{task.description.trimToWords(400)}</p> 
+					}
+					{ task.description && task.origin === 'email' && 
+						<p><i>HTML description hidden. Tap on <Icon fa-file-text-o/> to see</i></p> 
+					}
 					{ task.tags.length > 0 && 
 						<div className="tags">
 							{ task.tags.map((t,i) => <Tag key={i}>{t}</Tag>) }
