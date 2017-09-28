@@ -48,9 +48,7 @@ class TasksListItem extends Component {
 		if (!task.description) return '';
 		if (task.origin === 'email') {
 			return (
-				<div className='task-email-body'>
-					<pre>{task.description}</pre>
-				</div>
+				<div className='task-email-body' dangerouslySetInnerHTML={{__html: task.description}}></div>
 			);
 		}
 		return <p>{task.description}</p>;
@@ -101,7 +99,8 @@ class TasksListItem extends Component {
 					<DescriptionModal show={this.state.descriptionModal} 
 						toggle={this.toggleDescriptionModal} 
 						description={this.getDescriptionHtml()}
-						title='Task description' />
+						title='Task description'
+						className={`${task.origin === 'email' ? 'email' : ''}`} />
 				}
 				<EditTaskModalForm task={task} show={this.state.editModal} 
 					toggle={this.toggleEditModal} />

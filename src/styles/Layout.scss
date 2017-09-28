@@ -276,6 +276,11 @@ select {
     max-width: 600px;
   }
 }
+@media (min-width: 820px) {
+  .modal-dialog.email {
+    max-width: 800px;
+  }
+}
 
 .modal-content {
   border-radius: 0;

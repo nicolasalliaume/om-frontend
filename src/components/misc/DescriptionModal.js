@@ -7,9 +7,9 @@ import {
 
 export default class DescriptionModal extends Component {
 	render() {
-		const { description, title, toggle, show } = this.props;
+		const { description, title, toggle, show, className } = this.props;
 		return (
-			<Modal isOpen={show} toggle={toggle}>
+			<Modal isOpen={show} toggle={toggle} className={className}>
 				<ModalHeader toggle={toggle}>{title}</ModalHeader>
 				<ModalBody>
 					{description}

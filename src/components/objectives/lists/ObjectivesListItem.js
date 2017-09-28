@@ -96,6 +96,9 @@ class ObjectivesListItem extends Component {
 								Migrated{' '}<span className='date'>{this.getMigratedFormattedDate()}</span>
 							</Tag>
 						}
+						{ related_task && related_task.tags.length > 0 &&
+							related_task.tags.map((t,i) => <Tag key={i}>{t}</Tag>)
+						}
 					</Col>
 					<Col xs={12} className='text-right list-item-bottom-options'>
 						{ related_task && related_task.external_url &&

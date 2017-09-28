@@ -18,13 +18,11 @@
 	}
 }
 
-.task-review, .task-email-body {
+.task-review {
 	padding: 20pt;
 	margin-top: 22pt;
 	background: $lighter-color;
 	border-radius: 4px;
-
-	&.task-email-body { margin-top: 0; }
 
 	h4, h6 {
 		text-align: left;
@@ -40,10 +38,5 @@
 	p {
 		margin: 8pt 0 0;
 		font-size: 0.9em;
-	}
-
-	pre {
-		font-family: $main-font;
-		color: $dark-color;
 	}
 }
