@@ -63,7 +63,7 @@ class Login extends Component {
 		this.moveToDashboard();
 	}
 	setRememberMeCookie(userId, authToken) {
-		Cookies.set(REMEMBER_ME_COOKIE, `${userId}|${authToken}`, { expires: 1 });
+		Cookies.set(REMEMBER_ME_COOKIE, `${userId}|${authToken}`, { expires: 30 });
 	}
 	moveToDashboard() {
 		this.props.history.push('/');
