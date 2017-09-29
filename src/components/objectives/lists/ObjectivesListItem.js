@@ -77,6 +77,7 @@ class ObjectivesListItem extends Component {
 		const { scratched, progress, related_task } = objective;
 		const completed = progress === 1;
 		const hasDescription = related_task && !!related_task.description;
+		const taskBased = !!related_task;
 
 		let additionalClasess = (scratched ? ' scratched line-through' : '')
 							  + (completed ? ' completed' : '');
@@ -90,18 +91,22 @@ class ObjectivesListItem extends Component {
 						</p>
 					</Col>
 					<Col xs={11}>
-						<h4 className='objective-title'>{objective.title}</h4>
+						<h4 className='objective-title'>
+							{ taskBased && <b>{related_task.project.name}</b> }
+							{ taskBased && ':  ' }
+							{objective.title}
+						</h4>
 						{ this.isMigrated() && 
 							<Tag className='migrated'>
 								Migrated{' '}<span className='date'>{this.getMigratedFormattedDate()}</span>
 							</Tag>
 						}
-						{ related_task && related_task.tags.length > 0 &&
+						{ taskBased && related_task.tags.length > 0 &&
 							related_task.tags.map((t,i) => <Tag key={i}>{t}</Tag>)
 						}
 					</Col>
 					<Col xs={12} className='text-right list-item-bottom-options'>
-						{ related_task && related_task.external_url &&
+						{ taskBased && related_task.external_url &&
 							<ExternalUrlLink url={related_task.external_url} tooltip='Open original task' 
 								id={`task-external-link-${index}`} />
 						}
@@ -147,6 +152,7 @@ class ObjectivesListItem extends Component {
 					<DescriptionModal show={this.state.descriptionModal} 
 						toggle={this.toggleDescriptionModal} 
 						description={related_task.description}
+						isHTML={related_task.origin === 'email'}
 						title='Task description' />
 				}
 			</li>

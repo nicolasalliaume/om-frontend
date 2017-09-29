@@ -6,13 +6,21 @@ import {
 } from 'reactstrap';
 
 export default class DescriptionModal extends Component {
-	render() {
-		const { description, title, toggle, show, className } = this.props;
+	getDescriptionHTML = () => {
+		const { description } = this.props;
 		return (
-			<Modal isOpen={show} toggle={toggle} className={className}>
+			<div className='task-email-body' dangerouslySetInnerHTML={{__html: description}}></div>
+		);
+	}
+	render() {
+		const { description, title, toggle, show, className, isHTML } = this.props;
+		const classes = (className || '') + (isHTML ? ' html' : '');
+		return (
+			<Modal isOpen={show} toggle={toggle} className={classes}>
 				<ModalHeader toggle={toggle}>{title}</ModalHeader>
 				<ModalBody>
-					{description}
+					{ isHTML && this.getDescriptionHTML() }
+					{ !isHTML && description}
 				</ModalBody>
 			</Modal>
 		)
