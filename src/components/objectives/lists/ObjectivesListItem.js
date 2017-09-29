@@ -5,6 +5,7 @@ import ExternalUrlLink from './../../misc/ExternalUrlLink';
 import EditObjectiveModalForm from './../forms/EditObjectiveModalForm';
 import DescriptionModal from './../../misc/DescriptionModal';
 import AttachmentsModal from './../../misc/AttachmentsModal';
+import ObjectiveWorkEntriesModal from './../../work_entries/modals/ObjectiveWorkEntriesModal';
 import { confirmAlert } from './../../misc/ConfirmDialog';
 import Strings from '../../../strings/dialogs';
 import { 
@@ -23,13 +24,15 @@ class ObjectivesListItem extends Component {
 		this.state = { 
 			editModal: false, 
 			descriptionModal: false,
-			attachmentsModal: false
+			attachmentsModal: false,
+			workEntriesModal: false
 		}
 	}
 
 	toggleEditModal = () => this.toggleStateProp('editModal')
 	toggleDescriptionModal = () => this.toggleStateProp('descriptionModal')
-	toggleAttachmentsModal = () => this.toggleStateProp('attachmentsModal');
+	toggleAttachmentsModal = () => this.toggleStateProp('attachmentsModal')
+	toggleWorkEntriesModal = () => this.toggleStateProp('workEntriesModal')
 	toggleStateProp = (prop) => this.setState({ [prop] : !this.state[prop] })
 
 	confirmScratchObjective = () => {
@@ -93,12 +96,14 @@ class ObjectivesListItem extends Component {
 		return (
 			<li className={`objective list-item ${additionalClasess}`}>
 				<Row>
+
 					<Col xs={1}>
 						<p className='list-number'>
 							{ !completed && (index+1) }
 							{ completed && <Icon fa-check /> }
 						</p>
 					</Col>
+
 					<Col xs={11}>
 						<h4 className='objective-title'>
 							{ taskBased && <b>{related_task.project.name}</b> }
@@ -114,6 +119,7 @@ class ObjectivesListItem extends Component {
 							related_task.tags.map((t,i) => <Tag key={i}>{t}</Tag>)
 						}
 					</Col>
+
 					<Col xs={12} className='text-right list-item-bottom-options'>
 						{ taskBased && related_task.external_url &&
 							<ExternalUrlLink url={related_task.external_url} tooltip='Open original task' 
@@ -133,6 +139,10 @@ class ObjectivesListItem extends Component {
 									id={`view-attachments-${uid}`} />
 							</Button>
 						}
+						<Button color='secondary' onClick={this.toggleWorkEntriesModal}>
+								<Icon fa-th-list tooltip="View work entries" 
+									id={`view-work-entries-${uid}`} />
+							</Button>
 						{ !objective.scratched && !completed && 
 							<Button color='secondary' onClick={this.completeObjective}>
 								<Icon fa-check tooltip="Set completed" id={`set-completed-${uid}`} />
@@ -160,8 +170,12 @@ class ObjectivesListItem extends Component {
 						}
 					</Col>
 				</Row>
+
 				<EditObjectiveModalForm edit show={this.state.editModal} 
 					toggle={this.toggleEditModal} objective={objective} />
+
+				<ObjectiveWorkEntriesModal show={this.state.workEntriesModal}
+					toggle={this.toggleWorkEntriesModal} objective={objective} />
 
 				{ hasDescription && 
 					<DescriptionModal show={this.state.descriptionModal} 

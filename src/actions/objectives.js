@@ -11,6 +11,8 @@ import {
 	REQUEST_OBJECTIVES_SUMMARY,
 	RECEIVE_OBJECTIVES_SUMMARY,
 	INVALIDATE_OBJECTIVES_SUMMARY,
+	REQUEST_OBJECTIVE_WORK_ENTRIES,
+	RECEIVE_OBJECTIVE_WORK_ENTRIES
 } from './types';
 
 import { invalidateLatestActivity } from './activity';
@@ -268,4 +270,25 @@ function findObjectiveById(id, objectivesByLevel) {
 	const { day, month, year } = objectivesByLevel;
 	const flattened = [].concat(day, month, year);
 	return flattened.filter(o => o._id === id)[0];
+}
+
+function requestObjectiveWorkEntries(objectiveId) {
+	return { type: REQUEST_OBJECTIVE_WORK_ENTRIES, payload: objectiveId }
+}
+
+function receiveObjectiveWorkEntries(objectiveId, workEntries) {
+	return { type: RECEIVE_OBJECTIVE_WORK_ENTRIES, payload: { objectiveId, workEntries } }
+}
+
+export function fetchObjectiveWorkEntries(objectiveId) {
+	return function(dispatch, getState) {
+		dispatch(requestObjectiveWorkEntries(objectiveId));
+		superagent
+			.get(Endpoints.GET_OBJECTIVE_WORK_ENTRIES(objectiveId))
+			.set(...EndpointAuth())
+			.then(response => response.body.entries)
+			.then(entries => dispatch(receiveObjectiveWorkEntries(objectiveId, entries)))
+			// error handling
+			.catch(error => dispatch(addError(error.message, 'Fetch work entries')));
+	}
 }

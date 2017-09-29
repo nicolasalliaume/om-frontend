@@ -367,6 +367,22 @@ select {
   }
 }
 
+.modal .work-entries .modal-body {
+  padding-bottom: 20pt;
+  padding-top: 15pt;
+
+  .entry {
+    margin-bottom: 10pt;
+
+    .date, .time {
+      font-weight: 600;
+    }
+    .ago {
+      color: lighten($text-color, 30%);
+    }
+  }
+}
+
 /** end modals */
 
 /** objectives */
