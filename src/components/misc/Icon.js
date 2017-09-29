@@ -17,7 +17,8 @@ export default class Icon extends Component {
 		return (
 			<i className={`fa ${[...Object.keys(props)].join(' ')}`} id={id} aria-hidden="true">
 				{ tooltip && 
-					<Tooltip placement="bottom" isOpen={this.state.tooltipOpen} target={id} toggle={this.toggle}>
+					<Tooltip placement="top" delay={{show: 500, hide: 200}} 
+							isOpen={this.state.tooltipOpen} target={id} toggle={this.toggle}>
 						{ tooltip }
 					</Tooltip>
 				}

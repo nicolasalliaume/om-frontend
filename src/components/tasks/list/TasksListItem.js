@@ -12,15 +12,21 @@ import Strings from '../../../strings/dialogs';
 import TaskReview from '../misc/TaskReview';
 import Tag from '../../misc/Tag';
 import ExternalUrlLink from './../../misc/ExternalUrlLink';
+import AttachmentsModal from './../../misc/AttachmentsModal';
 
 class TasksListItem extends Component {
 	constructor() {
 		super();
-		this.state = { descriptionModal: false, editModal : false }
+		this.state = { 
+			descriptionModal: false, 
+			editModal: false, 
+			attachmentsModal: false 
+		}
 	}
 	
 	toggleDescriptionModal = () => this.toggleModal('descriptionModal')
 	toggleEditModal = () => this.toggleModal('editModal')
+	toggleAttachmentsModal = () => this.toggleModal('attachmentsModal');
 	toggleModal = (modal) => this.setState({ [modal] : !this.state[modal] })
 	
 	addToObjectives = () => {
@@ -46,6 +52,7 @@ class TasksListItem extends Component {
 	render() {
 		const { task, index } = this.props;
 		const hasDescription = !!task.description;
+		const hasAttachments = task.attachments && task.attachments.length > 0;
 		return (
 			<li className='tasks-list-item row'>
 				<Col xs={1}>
@@ -76,14 +83,19 @@ class TasksListItem extends Component {
 					}
 					{ hasDescription &&
 						<Button color='secondary' onClick={this.toggleDescriptionModal}>
-							<Icon fa-file-text-o />
+							<Icon fa-file-text-o tooltip="View description" id={`description-${index}`} />
+						</Button>
+					}
+					{ hasAttachments && 
+						<Button color='secondary' onClick={this.toggleAttachmentsModal}>
+							<Icon fa-paperclip tooltip="View attachments" id={`view-attachments-${index}`} />
 						</Button>
 					}
 					<Button color='primary' onClick={this.toggleEditModal}>
-						<Icon fa-edit />
+						<Icon fa-edit tooltip="Edit" id={`edit-${index}`} />
 					</Button>
 					<Button color='primary' onClick={this.confirmDelete}>
-						<Icon fa-remove />
+						<Icon fa-remove tooltip="Delete" id={`delete-${index}`} />
 					</Button>
 					<Button color='primary' onClick={this.addToObjectives}>
 						<Icon fa-handshake-o tooltip='Add to my objectives' id={`add-to-objectives-${index}`} />
@@ -95,6 +107,12 @@ class TasksListItem extends Component {
 						description={task.description}
 						title='Task description'
 						isHTML={task.origin === 'email'} />
+				}
+				{ hasAttachments && 
+					<AttachmentsModal show={this.state.attachmentsModal}
+						title={<span>Email <b>attachments</b></span>}
+						toggle={this.toggleAttachmentsModal}
+						files={task.attachments} />
 				}
 				<EditTaskModalForm task={task} show={this.state.editModal} 
 					toggle={this.toggleEditModal} />

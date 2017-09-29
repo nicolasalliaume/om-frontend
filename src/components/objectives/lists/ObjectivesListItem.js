@@ -4,6 +4,7 @@ import Icon from './../../misc/Icon';
 import ExternalUrlLink from './../../misc/ExternalUrlLink';
 import EditObjectiveModalForm from './../forms/EditObjectiveModalForm';
 import DescriptionModal from './../../misc/DescriptionModal';
+import AttachmentsModal from './../../misc/AttachmentsModal';
 import { confirmAlert } from './../../misc/ConfirmDialog';
 import Strings from '../../../strings/dialogs';
 import { 
@@ -19,11 +20,16 @@ import moment from 'moment';
 class ObjectivesListItem extends Component {
 	constructor() {
 		super();
-		this.state = { editModal : false, descriptionModal : false }
+		this.state = { 
+			editModal: false, 
+			descriptionModal: false,
+			attachmentsModal: false
+		}
 	}
 
 	toggleEditModal = () => this.toggleStateProp('editModal')
 	toggleDescriptionModal = () => this.toggleStateProp('descriptionModal')
+	toggleAttachmentsModal = () => this.toggleStateProp('attachmentsModal');
 	toggleStateProp = (prop) => this.setState({ [prop] : !this.state[prop] })
 
 	confirmScratchObjective = () => {
@@ -76,8 +82,10 @@ class ObjectivesListItem extends Component {
 		const { objective, index } = this.props;
 		const { scratched, progress, related_task } = objective;
 		const completed = progress === 1;
-		const hasDescription = related_task && !!related_task.description;
 		const taskBased = !!related_task;
+		const hasDescription = related_task && !!related_task.description;
+		const hasAttachments = related_task && related_task.attachments 
+				&& related_task.attachments.length > 0;
 
 		let additionalClasess = (scratched ? ' scratched line-through' : '')
 							  + (completed ? ' completed' : '');
@@ -115,32 +123,38 @@ class ObjectivesListItem extends Component {
 						}
 						{ hasDescription &&
 							<Button color='secondary' onClick={this.toggleDescriptionModal}>
-								<Icon fa-file-text-o />
+								<Icon fa-file-text-o tooltip="View description" id={`description-${index}`} />
+							</Button>
+						}
+						{ hasAttachments && 
+							<Button color='secondary' onClick={this.toggleAttachmentsModal}>
+								<Icon fa-paperclip tooltip="View attachments" 
+									id={`view-attachments-${index}`} />
 							</Button>
 						}
 						{ !objective.scratched && !completed && 
 							<Button color='secondary' onClick={this.completeObjective}>
-								<Icon fa-check />
+								<Icon fa-check tooltip="Set completed" id={`set-completed-${index}`} />
 							</Button>
 						}
 						{ !objective.scratched && !completed && 
 							<Button color='secondary' onClick={this.toggleEditModal}>
-								<Icon fa-pencil />
+								<Icon fa-pencil tooltip="Edit" id={`edit-${index}`}/>
 							</Button>
 						}
 						{ !objective.scratched && !completed && 
 							<Button color='secondary' onClick={this.confirmScratchObjective}>
-								<Icon fa-minus-square-o />
+								<Icon fa-minus-square-o tooltip="Scratch" id={`scratch-${index}`} />
 							</Button>
 						}
 						{ objective.scratched && !completed && 
 							<Button color='secondary' onClick={this.unscratchObjective}>
-								<Icon fa-undo />
+								<Icon fa-undo tooltip="Un-scratch" id={`unscratch-${index}`} />
 							</Button>
 						}
 						{ !objective.scratched && !completed && 
 							<Button color='secondary' onClick={this.confirmDeleteObjective}>
-								<Icon fa-remove />
+								<Icon fa-remove tooltip="Delete objective" id={`delete-${index}`} />
 							</Button>
 						}
 					</Col>
@@ -154,6 +168,12 @@ class ObjectivesListItem extends Component {
 						description={related_task.description}
 						isHTML={related_task.origin === 'email'}
 						title='Task description' />
+				}
+				{ hasAttachments && 
+					<AttachmentsModal show={this.state.attachmentsModal}
+						title={<span>Task <b>attachments</b></span>}
+						toggle={this.toggleAttachmentsModal}
+						files={related_task.attachments} />
 				}
 			</li>
 		)

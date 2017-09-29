@@ -28,6 +28,17 @@ pre {
   white-space: pre-wrap;
 }
 
+.p16-9 {
+  overflow: hidden;
+  height: 0;
+  padding-top: 56.25%;
+}
+
+.img-preview {
+  background-size: cover;
+  background-position: center center;
+}
+
 .btn {
   border-radius: 0;
   outline: none !important;
@@ -342,6 +353,18 @@ select {
 
 .modal-backdrop {
   background-color: rgba(0,0,0,0.2);
+}
+
+.modal .attachments .modal-body {
+  padding-top: 15pt;
+
+  .file-col {
+    margin-bottom: 15pt;
+  }
+
+  .img-preview {
+    border: 1px solid $light-color;
+  }
 }
 
 /** end modals */

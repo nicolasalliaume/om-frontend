@@ -59,3 +59,11 @@ export function getNewObjectiveTemplate(level) {
 		progress 		: 0
 	}
 }
+
+/** attachments */
+
+export function getUrlForAttachmentFile(url) {
+	const base = process.env.NODE_ENV === 'production' 
+					? 'https://om-integrations.herokuapp.com' : 'http://localhost:3001';
+	return base + url;
+}
