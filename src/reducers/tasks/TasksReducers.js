@@ -2,7 +2,8 @@ import {
 	REQUEST_TASKS_LIST_PAGE,
 	RECEIVE_TASKS_LIST_PAGE,
 	CHANGE_VISIBLE_PAGE,
-	INVALIDATE_TASKS_LIST
+	INVALIDATE_TASKS_LIST,
+	APPLY_TASKS_LIST_FILTERS
 } from './../../actions/types';
 
 import update from 'immutability-helper';
@@ -23,6 +24,11 @@ export function tasksView(state, action) {
 			return update(state, {
 				tasksList: {
 					$set: tasksList(state.tasksList, action)}})
+		case APPLY_TASKS_LIST_FILTERS:
+			return update(state, {
+				visiblePage : {$set: 1},
+				tasksList: {
+					$set: tasksList(state.tasksList, action)}})
 		default:
 			return state;
 	}
@@ -34,7 +40,8 @@ function tasksList(state, action) {
 		lastUpdated		: null,
 		isFetching		: false,
 		tasksByPage		: tasksListByPage(),
-		cursor 			: {}
+		cursor 			: {},
+		filters 		: {}
 	}
 
 	switch (action.type) {
@@ -51,6 +58,11 @@ function tasksList(state, action) {
 				cursor 			: {$set: cursor},
 				tasksByPage 	: {$set: tasksListByPage(state.tasksByPage, action)}
 			})
+		case APPLY_TASKS_LIST_FILTERS:
+			return update(state, {
+				filters 		: {$set: action.payload},
+				didInvalidate 	: {$set : true}
+			});
 		default: 
 			return state;
 	}

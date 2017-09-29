@@ -16,6 +16,24 @@
 			margin: 0;
 		}
 	}
+
+	.tasks-list-filters {
+		margin-bottom: 10pt;
+		
+		input, select {
+			border: none;
+			border-bottom: 1px solid $light-color;
+			padding: 0 0 2pt 0;
+			// line-height: 16pt;
+			height: calc(2.25rem + 2px);
+		}
+	}
+}
+
+.tags-input {
+	.Select-menu-outer, .Select-arrow-zone {
+		display: none;
+	}
 }
 
 .task-review {

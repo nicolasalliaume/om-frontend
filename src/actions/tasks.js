@@ -8,7 +8,8 @@ import {
 	REQUEST_UPDATE_TASK,
 	RECEIVE_UPDATE_TASK,
 	REQUEST_DELETE_TASK,
-	RECEIVE_DELETE_TASK
+	RECEIVE_DELETE_TASK,
+	APPLY_TASKS_LIST_FILTERS
 } from './types';
 
 import superagent from 'superagent';
@@ -16,6 +17,10 @@ import { Endpoints, EndpointAuth } from './endpoints';
 import { invalidateObjectivesList } from './objectives';
 import { invalidateLatestActivity } from './activity';
 import { addMessage, addError } from './messages';
+
+export function applyTasksListFilters(filters) {
+	return { type : APPLY_TASKS_LIST_FILTERS , payload : filters }
+}
 
 function requestUpdateTask(taskId) {
 	return { type : REQUEST_UPDATE_TASK, payload : taskId }
@@ -95,8 +100,9 @@ export function fetchTasksListPageIfNeeded(page = 1) {
 		// have the page fetched yet
 		if (shouldFetchTasksListPage(page, getState().tasksView)) {
 			dispatch(requestTasksListPage(page));
+			const { filters } = getState().tasksView.tasksList;
 			return superagent
-				.get(Endpoints.GET_TASKS_LIST_PAGE(page))
+				.get(Endpoints.GET_TASKS_LIST_PAGE(page, filters))
 				.set(...EndpointAuth())
 				.then((response) => response.body)
 				.then((tasksListPage) => dispatch(receiveTasksListPage(tasksListPage)))

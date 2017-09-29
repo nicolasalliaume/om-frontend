@@ -8,26 +8,18 @@ import {
 	Label, 
 	Input
 } from 'reactstrap';
-import EntityCombo from './../../misc/EntityCombo';
+import TagsInput from './../../misc/TagsInput';
+import ProjectsCombo from './../../projects/utils/ProjectsCombo';
 import { fetchProjectsListIfNeeded } from './../../../actions/projects';
 
-class EditTaskForm extends Component {
+export default class EditTaskForm extends Component {
 	taskPropChanged = (event) => {
 		this.props.onChange(update(this.props.task, 
 			{[event.target.name] : {$set: event.target.value}}));
 	}
-	projectSelected = (project) => {
-		this.taskPropChanged({ target: {name: 'project', value: project} })
-	}
-	getProjectOptions = (projectsById) => {
-		return Object.values(projectsById).map(p => {
-			return {label: p.name, value: p._id}
-		})
-	}
+	
 	render() {
 		const { task } = this.props;
-		const { fetchProjects, projectsById } = this.props;
-		const projects = this.getProjectOptions(projectsById);
 		return (
 			<Form className='edit-task-form' onSubmit={e => e.preventDefault() && false}>
 				<FormGroup row>
@@ -47,25 +39,20 @@ class EditTaskForm extends Component {
 					</Col>
 				</FormGroup>
 				<FormGroup row>
+					<Label for="tags" sm={2}>Tags</Label>
+					<Col sm={10}>
+						<TagsInput name='tags' value={task.tags} id="tags" 
+							onChange={this.taskPropChanged} />
+					</Col>
+				</FormGroup>
+				<FormGroup row>
 					<Label sm={2}>Project</Label>
 					<Col sm={10}>
-						<EntityCombo async items={projects} fetchItems={fetchProjects} 
-							value={task.project} onChange={this.projectSelected} />
+						<ProjectsCombo name='project' value={task.project} 
+							onChange={this.taskPropChanged} />
 					</Col>
 				</FormGroup>
 			</Form>
 		)
 	}
 }
-
-const mapStateToProps = state => { return {
-	projectsById : state.cache.projects ? state.cache.projects.projectsById : {}
-}}
-
-const mapDispatchToProps = dispatch => {
-  return {
-    fetchProjects : () => dispatch(fetchProjectsListIfNeeded())
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(EditTaskForm);

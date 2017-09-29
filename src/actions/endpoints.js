@@ -17,7 +17,7 @@ export const Endpoints = {
 	DELETE_OBJECTIVE			: (objectiveId) => `${BASE_URL}/objectives/${objectiveId}`,
 
 	/** task endopoins */
-	GET_TASKS_LIST_PAGE 		: (page) => `${BASE_URL}/tasks/${page}`,
+	GET_TASKS_LIST_PAGE 		: (page, filters) => `${BASE_URL}/tasks/${page}?${toQueryString(filters)}`,
 	ADD_TASK					: () => `${BASE_URL}/tasks/add`,
 	UPDATE_TASK					: (taskId) => `${BASE_URL}/tasks/${taskId}`,
 	DELETE_TASK					: (taskId) => `${BASE_URL}/tasks/${taskId}`,
@@ -35,4 +35,12 @@ export const Endpoints = {
 
 export const EndpointAuth = () => { 
 	return ['Authorization', 'Basic: ' + localStorage.getItem('om-auth-token')];
+}
+
+
+function toQueryString(obj) {
+	console.log(obj);
+	// skip empty or null fields
+	const validKeys = Object.keys(obj).filter(k => !!obj[k]);
+	return validKeys.map(k => `${encodeURIComponent(k)}=${encodeURIComponent(obj[k])}`).join('&');
 }
