@@ -81,6 +81,7 @@ class ObjectivesListItem extends Component {
 	render() {
 		const { objective, index } = this.props;
 		const { scratched, progress, related_task } = objective;
+		const uid = objective._id;
 		const completed = progress === 1;
 		const taskBased = !!related_task;
 		const hasDescription = related_task && !!related_task.description;
@@ -123,38 +124,38 @@ class ObjectivesListItem extends Component {
 						}
 						{ hasDescription &&
 							<Button color='secondary' onClick={this.toggleDescriptionModal}>
-								<Icon fa-file-text-o tooltip="View description" id={`description-${index}`} />
+								<Icon fa-file-text-o tooltip="View description" id={`description-${uid}`} />
 							</Button>
 						}
 						{ hasAttachments && 
 							<Button color='secondary' onClick={this.toggleAttachmentsModal}>
 								<Icon fa-paperclip tooltip="View attachments" 
-									id={`view-attachments-${index}`} />
+									id={`view-attachments-${uid}`} />
 							</Button>
 						}
 						{ !objective.scratched && !completed && 
 							<Button color='secondary' onClick={this.completeObjective}>
-								<Icon fa-check tooltip="Set completed" id={`set-completed-${index}`} />
+								<Icon fa-check tooltip="Set completed" id={`set-completed-${uid}`} />
 							</Button>
 						}
 						{ !objective.scratched && !completed && 
 							<Button color='secondary' onClick={this.toggleEditModal}>
-								<Icon fa-pencil tooltip="Edit" id={`edit-${index}`}/>
+								<Icon fa-pencil tooltip="Edit" id={`edit-${uid}`}/>
 							</Button>
 						}
 						{ !objective.scratched && !completed && 
 							<Button color='secondary' onClick={this.confirmScratchObjective}>
-								<Icon fa-minus-square-o tooltip="Scratch" id={`scratch-${index}`} />
+								<Icon fa-minus-square-o tooltip="Scratch" id={`scratch-${uid}`} />
 							</Button>
 						}
 						{ objective.scratched && !completed && 
 							<Button color='secondary' onClick={this.unscratchObjective}>
-								<Icon fa-undo tooltip="Un-scratch" id={`unscratch-${index}`} />
+								<Icon fa-undo tooltip="Un-scratch" id={`unscratch-${uid}`} />
 							</Button>
 						}
 						{ !objective.scratched && !completed && 
 							<Button color='secondary' onClick={this.confirmDeleteObjective}>
-								<Icon fa-remove tooltip="Delete objective" id={`delete-${index}`} />
+								<Icon fa-remove tooltip="Delete objective" id={`delete-${uid}`} />
 							</Button>
 						}
 					</Col>

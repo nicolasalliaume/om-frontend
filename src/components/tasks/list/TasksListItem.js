@@ -51,6 +51,7 @@ class TasksListItem extends Component {
 
 	render() {
 		const { task, index } = this.props;
+		const uid = task._id;
 		const hasDescription = !!task.description;
 		const hasAttachments = task.attachments && task.attachments.length > 0;
 		return (
@@ -79,26 +80,26 @@ class TasksListItem extends Component {
 				<Col xs={12} className='text-right list-item-bottom-options'>
 					{ task.external_url && 
 						<ExternalUrlLink url={task.external_url} tooltip='Open original task' 
-							id={`task-external-link-${index}`} />
+							id={`task-external-link-${uid}`} />
 					}
 					{ hasDescription &&
 						<Button color='secondary' onClick={this.toggleDescriptionModal}>
-							<Icon fa-file-text-o tooltip="View description" id={`description-${index}`} />
+							<Icon fa-file-text-o tooltip="View description" id={`description-${uid}`} />
 						</Button>
 					}
 					{ hasAttachments && 
 						<Button color='secondary' onClick={this.toggleAttachmentsModal}>
-							<Icon fa-paperclip tooltip="View attachments" id={`view-attachments-${index}`} />
+							<Icon fa-paperclip tooltip="View attachments" id={`view-attachments-${uid}`} />
 						</Button>
 					}
 					<Button color='primary' onClick={this.toggleEditModal}>
-						<Icon fa-edit tooltip="Edit" id={`edit-${index}`} />
+						<Icon fa-edit tooltip="Edit" id={`edit-${uid}`} />
 					</Button>
 					<Button color='primary' onClick={this.confirmDelete}>
-						<Icon fa-remove tooltip="Delete" id={`delete-${index}`} />
+						<Icon fa-remove tooltip="Delete" id={`delete-${uid}`} />
 					</Button>
 					<Button color='primary' onClick={this.addToObjectives}>
-						<Icon fa-handshake-o tooltip='Add to my objectives' id={`add-to-objectives-${index}`} />
+						<Icon fa-handshake-o tooltip='Add to my objectives' id={`add-to-objectives-${uid}`} />
 					</Button>
 				</Col>
 				{ hasDescription && 

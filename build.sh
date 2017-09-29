@@ -1,10 +1,10 @@
-echo "Building project.."
+echo "==> [STEP] Building project.."
 npm run build
-echo "Commiting new changes.."
+echo "==> [STEP] Commiting new changes.."
 git add . 
 git commit -m "Building and pushing to heroku"
-echo "Pushing to origin.."
+echo "==> [STEP] Pushing to origin.."
 git push origin
-echo "Pushing to heroku dev:master.."
+echo "==> [STEP] Pushing to heroku dev:master.."
 git push heroku dev:master
-echo "Done!"
+echo "==> [STEP] Done!"
