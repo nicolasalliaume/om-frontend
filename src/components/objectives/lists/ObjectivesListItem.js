@@ -140,9 +140,9 @@ class ObjectivesListItem extends Component {
 							</Button>
 						}
 						<Button color='secondary' onClick={this.toggleWorkEntriesModal}>
-								<Icon fa-th-list tooltip="View work entries" 
-									id={`view-work-entries-${uid}`} />
-							</Button>
+							<Icon fa-th-list tooltip="View work entries" 
+								id={`view-work-entries-${uid}`} />
+						</Button>
 						{ !objective.scratched && !completed && 
 							<Button color='secondary' onClick={this.completeObjective}>
 								<Icon fa-check tooltip="Set completed" id={`set-completed-${uid}`} />
