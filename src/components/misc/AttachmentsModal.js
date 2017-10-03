@@ -34,6 +34,7 @@ export default class AttachmentsModal extends Component {
 	}
 
 	isImage = (url) => url.toLowerCase().match(/\.(jpeg|jpg|gif|png)$/) !== null
+	getFormat = (url) => url.toLowerCase().match(/.*\.([a-z]+)$/)[1];
 
 	renderImage(url) {
 		return (
@@ -43,7 +44,9 @@ export default class AttachmentsModal extends Component {
 
 	renderFile(url) {
 		return (
-			<div className='file-preview p16-9'></div>
+			<div className='file-preview p16-9'>
+				<span className='format'>{this.getFormat(url)}</span>
+			</div>
 		);
 	}
 }

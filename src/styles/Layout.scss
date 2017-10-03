@@ -362,8 +362,19 @@ select {
     margin-bottom: 15pt;
   }
 
-  .img-preview {
+  .img-preview, .file-preview {
     border: 1px solid $light-color;
+  }
+  .file-preview {
+    position: relative;
+    span {
+      position: absolute;
+      text-align: center;
+      top: 38%;
+      width: 100%;
+      text-transform: uppercase;
+      color: $dark-color;
+    }
   }
 }
 
