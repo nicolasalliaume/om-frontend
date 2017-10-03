@@ -1,6 +1,6 @@
 import superagent from 'superagent';
 import { Endpoints, EndpointAuth } from './endpoints';
-import { addMessage, addError } from './messages';
+import { addError } from './messages';
 import { 
 	REQUEST_LATEST_ACTIVITY_LIST_PAGE,
 	RECEIVE_LATEST_ACTIVITY_LIST_PAGE,

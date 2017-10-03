@@ -6,6 +6,7 @@ import Icon from '../components/misc/Icon';
 
 import Dashboard from './Dashboard';
 import Tasks from './Tasks';
+import Integrations from './Integrations';
 
 export default class App extends Component {
 	render() {
@@ -21,7 +22,12 @@ export default class App extends Component {
 						</NavItem>
 						<NavItem>
 							<Link to="/tasks">
-								<Icon fa-shopping-basket/>
+								<Icon fa-list-ol/>
+							</Link>
+						</NavItem>
+						<NavItem>
+							<Link to="/integrations">
+								<Icon fa-cogs/>
 							</Link>
 						</NavItem>
 					</Nav>
@@ -31,6 +37,7 @@ export default class App extends Component {
 					<Switch>
 						<Route exact path='/' component={Dashboard} />
 						<Route path='/tasks' component={Tasks} />
+						<Route path='/integrations' component={Integrations} />
 					</Switch>
 				</Container>
 			</div>

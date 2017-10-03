@@ -1,0 +1,72 @@
+@import 'variables';
+
+$trello-color:  #026AA7;
+
+#main > .integrations {
+	animation: fadeIn 1s;
+	padding: $main-view-padding;
+
+	.title-card {
+		margin-bottom: 20pt;
+	}
+
+	.integration-card {
+		margin-bottom: 20pt;
+
+		.card-body {
+			padding-bottom: 8pt;
+		}
+
+		h4 {
+			font-size: 1em;
+			margin-bottom: 10pt;
+		}
+
+		.integration-service span {
+			padding: 3pt 8pt;
+			background: $accent-color;
+			color: $white;
+			border-radius: 3pt;
+			font-weight: bold;
+		}
+
+		button {
+			margin: 20pt 0 10pt;
+
+			&.view-details {
+				margin-right: 10pt;
+			}
+		}
+
+		.integration-id {
+			font-size: 0.4em;
+		}
+
+		&.trello {
+			background-color: $trello-color;
+			& * { color: #fff !important; }
+
+			button {
+				background: transparent !important;
+				border: 1px solid #fff !important;
+			}
+
+			.integration-service span {
+				background: #fff;
+				color: $trello-color !important;
+			}
+		}
+	}
+}
+
+.integration-instructions-modal {
+	ul {
+		padding-left: 15pt;
+		li {
+			margin-bottom: 5pt;
+		}
+		.body pre {
+			font-size: 0.8em;
+		}
+	}
+}

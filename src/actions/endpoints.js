@@ -31,7 +31,10 @@ export const Endpoints = {
 	AUTH_USER_LINK				: () => `${BASE_URL}/users/auth-link`,
 
 	/** project endpoints */
-	GET_PROJECTS_LIST			: () => `${BASE_URL}/projects`
+	GET_PROJECTS_LIST			: () => `${BASE_URL}/projects`,
+
+	/** admin endpoints */
+	GET_INTEGRATIONS			: () => `${BASE_URL}/admin/integrations`
 }
 
 export const EndpointAuth = () => { 
