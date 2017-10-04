@@ -39,13 +39,15 @@ export default class EditIntegrationForm extends Component {
 						</Input>
 					</Col>
 				</FormGroup>
-				<FormGroup row>
-					<Label for="service" sm={2}>Project</Label>
-					<Col sm={10}>
-						<ProjectsCombo name='project' value={integration.mappings.project} 
-							onChange={this.propChanged} />
-					</Col>
-				</FormGroup>
+				{ integtation.service === 'trello' && 
+					<FormGroup row>
+						<Label for="service" sm={2}>Project</Label>
+						<Col sm={10}>
+							<ProjectsCombo name='project' value={integration.mappings.project} 
+								onChange={this.propChanged} />
+						</Col>
+					</FormGroup>
+				}
 			</Form>
 		)
 	}
