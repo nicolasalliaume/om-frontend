@@ -39,7 +39,7 @@ export default class EditIntegrationForm extends Component {
 						</Input>
 					</Col>
 				</FormGroup>
-				{ integtation.service === 'trello' && 
+				{ integration.service === 'trello' && 
 					<FormGroup row>
 						<Label for="service" sm={2}>Project</Label>
 						<Col sm={10}>
