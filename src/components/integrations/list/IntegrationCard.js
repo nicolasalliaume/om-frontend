@@ -14,22 +14,25 @@ export default class IntegrationCard extends Component {
 	toggleState = (name) => this.setState({ [name] : !this.state[name] })
 	render() {
 		const { integration } = this.props;
+		const { service } = integration;
 		return (
 			<Col lg={3} md={4} sm={6} xs={6}>
 				<Card className={`integration-card ${integration.service}`}>
 					<CardBlock className='card-body'>
 						<CardTitle>{integration.name}</CardTitle>
 						<div className='integration-service text-center'>
-							<span>{integration.service}</span>
+							<span>{service}</span>
 						</div>
 						<div className='integration-author'>{integration.created_by.full_name}</div>
 						<div className='text-center'>
 							<Button className='view-details' onClick={this.toggleModal}>
 								View details
 							</Button>
-							<Button className='view-instructions' onClick={this.toggleInstructionsModal}>
-								Instructions
-							</Button>
+							{ (service === 'trello' || service === 'teamwork') && 
+								<Button className='view-instructions' onClick={this.toggleInstructionsModal}>
+									Instructions
+								</Button>
+							}
 						</div>
 						<div className='integration-id text-center'>ID: {integration._id}</div>
 					</CardBlock>

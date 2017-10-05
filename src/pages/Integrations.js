@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Col, Card, CardBlock, CardTitle } from 'reactstrap';
 import IntegrationsList from '../components/integrations/list/IntegrationsList';
+import CreateIntegrationFloatingButton from './../components/integrations/misc/CreateIntegrationFloatingButton';
 
 import './../styles/Integrations.css';
 
@@ -18,6 +19,7 @@ export default class Integrations extends Component {
 					</Col>
 				</Row>
 				<IntegrationsList />
+				<CreateIntegrationFloatingButton />
 			</div>
 		)
 	}

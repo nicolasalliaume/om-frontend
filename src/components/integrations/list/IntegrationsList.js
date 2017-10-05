@@ -2,16 +2,19 @@ import React, { Component } from 'react';
 import { Row } from 'reactstrap';
 import IntegrationCard from './IntegrationCard';
 import { connect } from 'react-redux';
-import { fetchIntegrations } from '../../../actions/admin';
+import { fetchIntegrationsIfNeeded } from '../../../actions/integrations';
 
 class IntegrationsList extends Component {
 	componentDidMount() {
-		this.props.fetchIntegrations()
+		this.props.fetchIntegrationsIfNeeded()
+	}
+	componentWillReceiveProps(props) {
+		this.props.fetchIntegrationsIfNeeded();
 	}
 	render() {
 		return (
 				<Row>
-				{ this.props.integrations.map(i => {
+				{ this.props.integrations.integrationsList.map(i => {
 					return <IntegrationCard key={i._id} integration={i} />
 				})}
 			</Row>
@@ -20,11 +23,11 @@ class IntegrationsList extends Component {
 }
 
 const mapStateToProps = state => { return {
-	integrations : state.integrations.integrationsList
+	integrations : state.integrations
 }}
 
 const mapDispatchToProps = dispatch => { return {
-	fetchIntegrations : () => dispatch(fetchIntegrations())
+	fetchIntegrationsIfNeeded : () => dispatch(fetchIntegrationsIfNeeded())
 }}
 
 export default connect(mapStateToProps, mapDispatchToProps)(IntegrationsList);

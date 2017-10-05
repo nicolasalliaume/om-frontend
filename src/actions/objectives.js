@@ -118,6 +118,7 @@ export function deleteObjective(objectiveId) {
 			.then(body => dispatch(receiveDeleteObjective(objectiveId)))
 			.then(() => dispatch(invalidateObjectivesList()))
 			.then(() => dispatch(invalidateObjectivesSummary()))
+			.then(() => dispatch(invalidateLatestActivity()))
 			.then(() => dispatch(addMessage(objective.title, 'Objective deleted')))
 			// error handling
 			.catch(error => dispatch(addError(error.message, 'Delete objective')));

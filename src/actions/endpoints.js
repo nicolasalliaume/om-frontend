@@ -34,7 +34,10 @@ export const Endpoints = {
 	GET_PROJECTS_LIST			: () => `${BASE_URL}/projects`,
 
 	/** admin endpoints */
-	GET_INTEGRATIONS			: () => `${BASE_URL}/admin/integrations`
+	GET_INTEGRATIONS			: () => `${BASE_URL}/admin/integrations`,
+	CREATE_INTEGRATION			: () => `${BASE_URL}/admin/integrations/add`,
+	UPDATE_INTEGRATION			: (integrationId) => `${BASE_URL}/admin/integrations/${integrationId}`,
+	DELETE_INTEGRATION			: (integrationId) => `${BASE_URL}/admin/integrations/${integrationId}`
 }
 
 export const EndpointAuth = () => { 

@@ -20,6 +20,11 @@ export default {
 						+ '<b><i>Any objectives related to this task will also be permanently '
 						+ 'deleted</i></b><br/><br/>'
 						+ 'You should continue with this if the task has no purpose anymore '
-						+ 'for anyone in your team.'
+						+ 'for anyone in your team.',
+
+	DELETE_INTEGRATION : 'Deleting an integration will stop creating tasks from that source.<br/><br/>'
+						+ 'You should delete an integration when that source of tasks is no longer in use '
+						+ 'or you wish to re-create it.<br/><br/>'
+						+ 'If you continue, the integration will be <b><i>permanently deleted</i></b>.',
 
 }

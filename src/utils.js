@@ -60,6 +60,15 @@ export function getNewObjectiveTemplate(level) {
 	}
 }
 
+export function getNewIntegrationTemplate() {
+	return {
+		name 		: 'New integration',
+		service 	: 'trello',
+		mappings	: { project : '' },
+		meta 		: {}
+	}
+}
+
 /** attachments */
 
 export function getUrlForAttachmentFile(url) {

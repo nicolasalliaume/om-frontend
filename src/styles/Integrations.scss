@@ -1,6 +1,7 @@
 @import 'variables';
 
 $trello-color:  #026AA7;
+$teamwork-color: #65d656;
 
 #main > .integrations {
 	animation: fadeIn 1s;
@@ -56,6 +57,30 @@ $trello-color:  #026AA7;
 				color: $trello-color !important;
 			}
 		}
+
+		&.teamwork {
+			background-color: $teamwork-color;
+			& * { color: #fff !important; }
+
+			button {
+				background: transparent !important;
+				border: 1px solid #fff !important;
+			}
+
+			.integration-service span {
+				background: #fff;
+				color: $teamwork-color !important;
+			}
+		}
+	}
+}
+
+.integration-edit-modal {
+	.btn.delete {
+		margin-right: auto;
+		border: $error-color;
+		color: $error-color;
+		background: transparent;
 	}
 }
 

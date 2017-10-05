@@ -70,23 +70,6 @@ export function objectivesList(state, action) {
 				lastUpdated: {$set: Date.now()},
 				objectivesByLevel : {$set : objectivesByLevel}
 			});
-
-		case RECEIVE_UPDATE_OBJECTIVE: 
-			// invalidate the list if the objective is there
-			const { objectiveId } = action.metadata;
-			if (isObjectiveInCollection(objectiveId, state.objectivesByLevel)) {
-				return update(state, {didInvalidate: {$set: true}})
-			}
-			return state;
 		default: return state;
 	}
-}
-
-function isObjectiveInCollection(objectiveId, collection) {
-	Object.keys(collection).forEach(level => {
-		collection[level].forEach(o => {
-			if (o._id === objectiveId) return true;
-		})
-	})
-	return false;
 }
