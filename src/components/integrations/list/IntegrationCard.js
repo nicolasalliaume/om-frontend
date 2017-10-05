@@ -38,7 +38,7 @@ export default class IntegrationCard extends Component {
 					</CardBlock>
 				</Card>
 				
-				<EditIntegrationModalForm show={this.state.modal} 
+				<EditIntegrationModalForm edit show={this.state.modal} 
 					toggle={this.toggleModal} integration={integration} />
 
 				{ integration.service === 'trello' && 

@@ -53,6 +53,8 @@ class EditIntegrationModalForm extends Component {
 		this.setState({ integration });
 	}
 
+	isDeletable = () => ['trello', 'teamwork'].includes(this.props.integration.service)
+
 	render() {
 		const { integration } = this.state;
 		const { toggle, show } = this.props;
@@ -63,7 +65,9 @@ class EditIntegrationModalForm extends Component {
 					<EditIntegrationForm onChange={this.onFormChange} integration={integration} />
 				</ModalBody>
 				<ModalFooter>
-					<Button color='danger' className='delete' onClick={this.confirmDelete}>Delete</Button>
+					{ this.isDeletable() && 
+						<Button color='danger' className='delete' onClick={this.confirmDelete}>Delete</Button>
+					}
 					<Button color="primary" onClick={this.submit}>Done</Button>{' '}
 					<Button color="secondary" onClick={toggle}>Close</Button>
 				</ModalFooter>

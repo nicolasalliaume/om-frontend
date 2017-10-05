@@ -2,6 +2,8 @@
 
 $trello-color:  #026AA7;
 $teamwork-color: #65d656;
+$slack-color: #E19424;
+$email-color: #27bcb0;
 
 #main > .integrations {
 	animation: fadeIn 1s;
@@ -37,40 +39,41 @@ $teamwork-color: #65d656;
 			&.view-details {
 				margin-right: 10pt;
 			}
+			&:last-child {
+				margin-right: 0;
+			}
 		}
 
 		.integration-id {
 			font-size: 0.4em;
 		}
 
-		&.trello {
-			background-color: $trello-color;
-			& * { color: #fff !important; }
+		@mixin theme-card($mainColor, $fontColor) {
+			background-color: $mainColor;
+			& * { color: $fontColor !important; }
 
 			button {
 				background: transparent !important;
-				border: 1px solid #fff !important;
+				border: 1px solid $fontColor !important;
 			}
 
 			.integration-service span {
-				background: #fff;
-				color: $trello-color !important;
+				background: $fontColor;
+				color: $mainColor !important;
 			}
 		}
 
+		&.trello {
+			@include theme-card($trello-color, $white);
+		}
 		&.teamwork {
-			background-color: $teamwork-color;
-			& * { color: #fff !important; }
-
-			button {
-				background: transparent !important;
-				border: 1px solid #fff !important;
-			}
-
-			.integration-service span {
-				background: #fff;
-				color: $teamwork-color !important;
-			}
+			@include theme-card($teamwork-color, $white);
+		}
+		&.slack {
+			@include theme-card($slack-color, $white);
+		}
+		&.email {
+			@include theme-card($email-color, $white);
 		}
 	}
 }
