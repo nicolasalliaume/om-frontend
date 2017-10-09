@@ -32,6 +32,7 @@ export const Endpoints = {
 
 	/** project endpoints */
 	GET_PROJECTS_LIST			: () => `${BASE_URL}/projects`,
+	GET_PROJECTS_BILLING		: () => `${BASE_URL}/projects/billing`,
 
 	/** admin endpoints */
 	GET_INTEGRATIONS			: () => `${BASE_URL}/admin/integrations`,

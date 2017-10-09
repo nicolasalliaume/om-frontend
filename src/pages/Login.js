@@ -36,7 +36,6 @@ class Login extends Component {
 		}
 		return undefined;
 	}
-
 	componentWillReceiveProps(props) {
 		this.testLoginResponse(props.currentUser);
 	}
@@ -66,7 +65,7 @@ class Login extends Component {
 		Cookies.set(REMEMBER_ME_COOKIE, `${userId}|${authToken}`, { expires: 30 });
 	}
 	moveToDashboard() {
-		this.props.history.push('/');
+		this.props.history.push('/billing'); //TODO remove /billing, leave /
 	}
 	render() {
 		const { error } = this.state;

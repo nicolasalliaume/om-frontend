@@ -22,6 +22,8 @@ $lighter-text-color: #b2b2b2;
 
 // $done-color: #6faf6f;
 $done-color: $info-color;
+$paid-color: #23daa1;
+$unpaid-color: lighten($error-color, 30%);
 
 // component-specific //
 

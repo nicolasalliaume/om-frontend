@@ -1,0 +1,109 @@
+@import "animations";
+@import "variables";
+
+#main > .billing {
+	animation: fadeIn 1s;
+	padding: $main-view-padding;
+
+	.projects-list-item {
+		position: relative;
+	}
+
+	.invoices-list {
+		margin-top: 15pt;
+
+		h4 {
+			text-align: left;
+			font-size: 1em;
+			font-weight: bold;
+		}
+		i { margin-right: 7pt; }
+
+		.invoices-list-item {
+			margin-bottom: 8pt;
+		}
+
+		.paid {
+			border-left: 3px solid $paid-color;
+		}
+		.unpaid { 
+			border-left: 3px solid $unpaid-color;
+		}
+	}
+}
+
+.hours-bars {
+	$barHeight: 6px;
+	$notWorkedColor: #e2e2e2;
+	$paidColor: $paid-color;
+	$notPaidColor: #3c3cfb;
+	$overworkedBackgroundColor: #ff5b5b;
+	$nearlimitBackgroundColor: #ffdf80;
+	$overworkedColor: red;
+
+	height: $barHeight;
+	width: 100%;
+	position: relative;
+	margin-bottom: 40px;
+	margin-top: 10px;
+
+	.bar {
+		height: $barHeight;
+		display: inline-block;
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+	.bar.grey {
+		background-color: $notWorkedColor !important;
+	}
+	.bar.green{
+		background: $paidColor;
+	}
+	.bar.blue{
+		background: $notPaidColor;
+	}
+	.bar.red{
+		background: $overworkedColor;
+	}
+	.content {
+		float: right;
+		margin-top: 10px;
+	}
+	.bar {
+		.content { 
+			opacity: 0;
+			transition: opacity 0.3s;
+		}
+		&:first-child .content { opacity: 1 }
+		&:hover .content { opacity: 1 }
+	}
+
+	.bar.grey .content, .overworked .bar.blue .content {
+		font-weight: bold;
+	}
+	.bar.red .content {
+		padding: 1px 5px;
+		background-color: #ededed;
+		border-radius: 3px;
+		color: red;
+		font-weight: bold;
+	}
+	.overworked {
+		.bar.blue .content {
+			position: relative;
+
+			&:before {
+				content: " ";
+				height: 16px;
+				width: 2px;
+				background-color: $overworkedColor;
+				display: block;
+				position: absolute;
+				top: -18px;
+				right: 0;
+				z-index: 300;
+			}
+		}
+	}
+}
