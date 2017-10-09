@@ -57,14 +57,14 @@ export default class ProjectsBillingStatusListItem extends Component {
 
 	getHoursExecuted() {
 		const p = this.props.project;
-		return p.hours_sold_unit === 'month' 
+		return p.hours_sold_unit === 'monthly' 
 			? p.executed_hours_month 
 			: p.executed_hours_total;
 	}
 
 	getHoursBilled() {
 		const p = this.props.project;
-		return p.hours_sold_unit === 'month' 
+		return p.hours_sold_unit === 'monthly' 
 			? p.billed_hours_month 
 			: p.billed_hours_total;
 	}

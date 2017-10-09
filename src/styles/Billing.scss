@@ -23,11 +23,27 @@
 			margin-bottom: 8pt;
 		}
 
+		footer {
+			font-size: 0.85em;
+
+			& > * { padding-right: 5px;	}
+		}
+
 		.paid {
 			border-left: 3px solid $paid-color;
 		}
 		.unpaid { 
 			border-left: 3px solid $unpaid-color;
+		}
+	}
+
+	.spaced {
+		margin-bottom: 15pt;
+	}
+
+	.overwork, .unpaid, .missing-invoice, .opportunities {
+		h4 {
+			font-size: 1.2em;
 		}
 	}
 }
@@ -36,10 +52,10 @@
 	$barHeight: 6px;
 	$notWorkedColor: #e2e2e2;
 	$paidColor: $paid-color;
-	$notPaidColor: #3c3cfb;
-	$overworkedBackgroundColor: #ff5b5b;
+	$notPaidColor: #54cde0;
+	$overworkedBackgroundColor: $unpaid-color;
 	$nearlimitBackgroundColor: #ffdf80;
-	$overworkedColor: red;
+	$overworkedColor: $unpaid-color;
 
 	height: $barHeight;
 	width: 100%;
@@ -74,6 +90,12 @@
 		.content { 
 			opacity: 0;
 			transition: opacity 0.3s;
+			font-size: 0.9em;
+			padding: 1px 5px;
+			border-radius: 3px;
+			font-weight: bold;
+			background-color: #fff;
+			color: #999;
 		}
 		&:first-child .content { opacity: 1 }
 		&:hover .content { opacity: 1 }
@@ -83,11 +105,8 @@
 		font-weight: bold;
 	}
 	.bar.red .content {
-		padding: 1px 5px;
 		background-color: #ededed;
-		border-radius: 3px;
 		color: red;
-		font-weight: bold;
 	}
 	.overworked {
 		.bar.blue .content {

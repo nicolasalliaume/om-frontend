@@ -15,7 +15,7 @@ class LatestInvoicesList extends Component {
 		const invoices = this.props.projects
 			.map(p => p.invoices)
 			.reduce((all, invoices) => all.concat(invoices), []);
-		invoices.sort((a, b) => a.created_ts < b.created_ts);
+		invoices.sort((a, b) => a.invoicing_date < b.invoicing_date);
 		return invoices.slice(0, 5);
 	}
 	render() {
