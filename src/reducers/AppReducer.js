@@ -6,6 +6,7 @@ import { tasksView } from './tasks/TasksReducers';
 import { cache } from './cache/CacheReducers';
 import { work_entries } from './work_entries/WorkEntriesReducer';
 import { integrations } from './admin/IntegrationsReducer';
+import { billingView } from './billing/BillingReducers';
 
 const AppReducer = combineReducers({
 	dashboardView,
@@ -14,7 +15,8 @@ const AppReducer = combineReducers({
 	cache,
 	messages,
 	work_entries,
-	integrations
+	integrations,
+	billingView
 })
 
 export default AppReducer;

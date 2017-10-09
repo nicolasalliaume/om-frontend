@@ -36,7 +36,6 @@ class Login extends Component {
 		}
 		return undefined;
 	}
-
 	componentWillReceiveProps(props) {
 		this.testLoginResponse(props.currentUser);
 	}

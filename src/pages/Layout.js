@@ -7,8 +7,14 @@ import Icon from '../components/misc/Icon';
 import Dashboard from './Dashboard';
 import Tasks from './Tasks';
 import Integrations from './Integrations';
+import Billing from './Billing';
+import { connect } from 'react-redux';
 
-export default class App extends Component {
+class App extends Component {
+	isAdminUser() {
+		console.log(this.props.currentUser);
+		return ['nico','fer','rafa'].includes(this.props.currentUser.user.username);
+	}
 	render() {
 		return (
 			<div className='layout'>
@@ -25,6 +31,13 @@ export default class App extends Component {
 								<Icon fa-list-ol/>
 							</Link>
 						</NavItem>
+						{ this.isAdminUser() && 
+							<NavItem>
+								<Link to="/billing">
+									<Icon fa-dollar/>
+								</Link>
+							</NavItem>
+						}
 						<NavItem>
 							<Link to="/integrations">
 								<Icon fa-cogs/>
@@ -38,9 +51,16 @@ export default class App extends Component {
 						<Route exact path='/' component={Dashboard} />
 						<Route path='/tasks' component={Tasks} />
 						<Route path='/integrations' component={Integrations} />
+						<Route path='/billing' component={Billing} />
 					</Switch>
 				</Container>
 			</div>
 		)
 	}
 }
+
+const mapStateToProps = state => { return {
+	currentUser: state.currentUser
+}}
+
+export default connect(mapStateToProps)(App);

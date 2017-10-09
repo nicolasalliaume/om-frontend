@@ -77,7 +77,7 @@ class TasksListItem extends Component {
 						</div>
 					}
 				</Col>
-				<Col xs={12} className='text-right list-item-bottom-options'>
+				<Col xs={12} className='text-right list-item-options'>
 					{ task.external_url && 
 						<ExternalUrlLink url={task.external_url} tooltip='Open original task' 
 							id={`task-external-link-${uid}`} />

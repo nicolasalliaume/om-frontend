@@ -32,6 +32,10 @@ export const Endpoints = {
 
 	/** project endpoints */
 	GET_PROJECTS_LIST			: () => `${BASE_URL}/projects`,
+	GET_PROJECTS_BILLING		: () => `${BASE_URL}/projects/billing`,
+	ADD_INVOICE					: (projectId) => `${BASE_URL}/projects/${projectId}/invoices/add-invoice`,
+	UPDATE_INVOICE				: (projectId, invoiceId) => `${BASE_URL}/projects/${projectId}/invoices/${invoiceId}`,
+	DELETE_INVOICE				: (projectId, invoiceId) => `${BASE_URL}/projects/${projectId}/invoices/${invoiceId}`,
 
 	/** admin endpoints */
 	GET_INTEGRATIONS			: () => `${BASE_URL}/admin/integrations`,
