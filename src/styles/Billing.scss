@@ -17,7 +17,6 @@
 			font-size: 1em;
 			font-weight: bold;
 		}
-		i { margin-right: 7pt; }
 
 		.invoices-list-item {
 			margin-bottom: 8pt;
@@ -25,7 +24,7 @@
 
 		footer {
 			font-size: 0.85em;
-
+			i { margin-right: 7pt; }
 			& > * { padding-right: 5px;	}
 		}
 
@@ -41,11 +40,34 @@
 		margin-bottom: 15pt;
 	}
 
-	.overwork, .unpaid, .missing-invoice, .opportunities {
+	.overwork-card, .unpaid-card, .missing-invoice-card, .opportunities-card {
 		h4 {
 			font-size: 1.2em;
 		}
 	}
+
+	.opportunities-card {
+		.card-body {
+			padding-bottom: 4pt;
+		}
+		li {
+    		padding: 5pt 0;
+    		&:last-child {
+    			border-bottom: solid 1px #f2f2f2;
+    		}
+		}
+		.reference {
+			font-size: 0.85em;
+			margin-top: 10pt;
+			font-style: italic;
+			color: #aaa;
+		}
+	}
+}
+
+.money-text {
+	font-size: 0.9em;
+	font-style: italic;
 }
 
 .hours-bars {

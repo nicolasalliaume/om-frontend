@@ -28,6 +28,10 @@ pre {
   white-space: pre-wrap;
 }
 
+.capitalize {
+  text-transform: capitalize;
+}
+
 .p16-9 {
   overflow: hidden;
   height: 0;
@@ -426,11 +430,6 @@ select {
   li {
     padding: 14px 1.25rem 8px;
     margin: 0 -1.25rem;
-    border-bottom: 1px solid $lighter-color;
-    &:last-child {
-      border-bottom: none;
-    }
-
     h4 {
       font-size: $font-size;
       text-align: left;
@@ -462,6 +461,16 @@ select {
         line-height: 2.3em;
       }
     }
+  }
+}
+
+.list {
+  li {
+    border-bottom: 1px solid $lighter-color;
+    
+    &:last-child {
+      border-bottom: none;
+    }
 
     .btn {
       padding: 0;
@@ -477,10 +486,8 @@ select {
       }
     }
   }
-}
 
-.list {
-  .list-item-bottom-options {
+  .list-item-options {
     .btn {
       margin-left: 10pt;
     }

@@ -4,7 +4,10 @@ import { fetchProjectsBillingIfNeeded } from '../../../actions/projects';
 import InvoicesList from './InvoicesList';
 
 class LatestInvoicesList extends Component {
-	componentDidMount() {
+	componentWillMount() {
+		this.props.fetchProjectsBillingIfNeeded();
+	}
+	componentWillReceiveProps(props) {
 		this.props.fetchProjectsBillingIfNeeded();
 	}
 	/**
@@ -12,11 +15,14 @@ class LatestInvoicesList extends Component {
 	 * @return {Array}
 	 */
 	getLatestInvoices() {
+		if (!this.props.projects) return [];
 		const invoices = this.props.projects
 			.map(p => p.invoices)
-			.reduce((all, invoices) => all.concat(invoices), []);
-		invoices.sort((a, b) => a.invoicing_date < b.invoicing_date);
-		return invoices.slice(0, 5);
+			.reduce((all, invoices) => all.concat(invoices), [])
+			.sort((a, b) => {
+				return new Date(b.invoicing_date) - new Date(a.invoicing_date);
+			});
+		return invoices.slice(0, 10);
 	}
 	render() {
 		const invoices = this.getLatestInvoices();

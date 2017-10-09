@@ -6,6 +6,7 @@ import UnpaidInvoicesCard from '../components/billing/invoices/UnpaidInvoicesCar
 import OverworkCard from '../components/billing/projects_status/OverworkCard';
 import MonthlyInvoicesMissing from '../components/billing/invoices/MonthlyInvoicesMissing';
 import BillingOpportunities from '../components/billing/opportunities/BillingOpportunities';
+import CreateInvoiceFloatingButton from '../components/billing/misc/CreateInvoiceFloatingButton';
 
 import './../styles/Billing.css';
 
@@ -47,6 +48,7 @@ export default class Tasks extends Component {
 						</Row>
 					</Col>
 				</Row>
+				<CreateInvoiceFloatingButton />
 			</div>
 		)
 	}

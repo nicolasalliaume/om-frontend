@@ -4,14 +4,17 @@ import { fetchProjectsBillingIfNeeded } from '../../../actions/projects';
 import ProjectsBillingStatusListItem from './ProjectsBillingStatusListItem';
 
 class ProjectsBillingStatusList extends Component {
-	componentDidMount() {
+	componentWillMount() {
+		this.props.fetchProjectsBillingIfNeeded();
+	}
+	componentWillReceiveProps(props) {
 		this.props.fetchProjectsBillingIfNeeded();
 	}
 	render() {
 		const { projects } = this.props;
 		return (
 			<ul className='projects-list'>
-				{ projects.map(project => {
+				{ projects && projects.map(project => {
 					return <ProjectsBillingStatusListItem key={project._id} project={project} />
 				})}
 			</ul>

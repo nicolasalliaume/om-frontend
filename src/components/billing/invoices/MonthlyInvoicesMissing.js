@@ -8,7 +8,11 @@ class MonthlyInvoicesMissing extends Component {
 	componentDidMount() {
 		this.props.fetchProjectsBillingIfNeeded();
 	}
+	componentWillReceiveProps(props) {
+		this.props.fetchProjectsBillingIfNeeded();
+	}
 	getMonthlyProjects() {
+		if (!this.props.projects) return [];
 		return this.props.projects.filter(p => p.hours_sold_unit === 'monthly');
 	}
 	isInvoiceForThisMonth = (i) => {
@@ -23,12 +27,11 @@ class MonthlyInvoicesMissing extends Component {
 	render() {
 		const monthlyProjects = this.getMonthlyProjects();
 		const projectWithMissingInvoice = this.getProjectsWithoutInvoicesForThisMonth(monthlyProjects);
-		console.log(projectWithMissingInvoice);
 		const count = projectWithMissingInvoice.length;
 		const toBe = count === 1 ? 'is' : 'are';
 		const singular_plural = 'project' + (count === 1 ? '' : 's');
 		return (
-			<Card className='missing-invoice spaced'>
+			<Card className='missing-invoice-card spaced'>
 				<CardBlock className='card-body'>
 					<CardTitle>Projects <b>missing invoices</b></CardTitle>
 					{ count === 0 && 
@@ -39,7 +42,7 @@ class MonthlyInvoicesMissing extends Component {
 							<ul>
 								{ projectWithMissingInvoice.map(p => {
 									return (
-										<li>{p.name}</li>
+										<li key={p._id}><b>{p.name}</b></li>
 									)
 								}) }
 							</ul>

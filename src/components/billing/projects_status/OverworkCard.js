@@ -4,10 +4,14 @@ import { connect } from 'react-redux';
 import { fetchProjectsBillingIfNeeded } from '../../../actions/projects';
 
 class OverworkCard extends Component {
-	componentDidMount() {
+	componentWillMount() {
+		this.props.fetchProjectsBillingIfNeeded();
+	}
+	componentWillReceiveProps(props) {
 		this.props.fetchProjectsBillingIfNeeded();
 	}
 	getOverworkedProjects() {
+		if (!this.props.projects) return [];
 		return this.props.projects
 			.filter(p => { 
 				const worked = p.hours_sold_unit === 'total' 
@@ -22,7 +26,7 @@ class OverworkCard extends Component {
 		const toBe = count === 1 ? 'is' : 'are';
 		const singular_plural = 'project' + (count === 1 ? '' : 's');
 		return (
-			<Card className='overwork spaced'>
+			<Card className='overwork-card spaced'>
 				<CardBlock className='card-body text-center'>
 					<CardTitle><b>Overwork</b></CardTitle>
 					{ count === 0 && <p>There are no overworked projects</p> }

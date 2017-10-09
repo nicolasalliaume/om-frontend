@@ -65,7 +65,7 @@ class Login extends Component {
 		Cookies.set(REMEMBER_ME_COOKIE, `${userId}|${authToken}`, { expires: 30 });
 	}
 	moveToDashboard() {
-		this.props.history.push('/billing'); //TODO remove /billing, leave /
+		this.props.history.push('/');
 	}
 	render() {
 		const { error } = this.state;

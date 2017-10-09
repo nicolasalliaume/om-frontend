@@ -4,10 +4,14 @@ import { connect } from 'react-redux';
 import { fetchProjectsBillingIfNeeded } from '../../../actions/projects';
 
 class UnpaidInvoicesCard extends Component {
-	componentDidMount() {
+	componentWillMount() {
+		this.props.fetchProjectsBillingIfNeeded();
+	}
+	componentWillReceiveProps(props) {
 		this.props.fetchProjectsBillingIfNeeded();
 	}
 	getUnpaidInvoices() {
+		if (!this.props.projects) return [];
 		return this.props.projects
 			.map(p => p.invoices)
 			.reduce((all, is) => all.concat(is), [])
@@ -19,7 +23,7 @@ class UnpaidInvoicesCard extends Component {
 		const toBe = count === 1 ? 'is' : 'are';
 		const singular_plural = 'invoice' + (count === 1 ? '' : 's');
 		return (
-			<Card className='unpaid spaced'>
+			<Card className='unpaid-card spaced'>
 				<CardBlock className='card-body text-center'>
 					<CardTitle><b>Unpaid</b></CardTitle>
 					{ count === 0 && <p>There are no unpaid invoices</p> }

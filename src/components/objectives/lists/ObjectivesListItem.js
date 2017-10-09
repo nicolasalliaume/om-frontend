@@ -120,7 +120,7 @@ class ObjectivesListItem extends Component {
 						}
 					</Col>
 
-					<Col xs={12} className='text-right list-item-bottom-options'>
+					<Col xs={12} className='text-right list-item-options'>
 						{ taskBased && related_task.external_url &&
 							<ExternalUrlLink url={related_task.external_url} tooltip='Open original task' 
 								id={`task-external-link-${index}`} />
