@@ -7,6 +7,7 @@ import { deleteInvoice } from '../../../actions/projects';
 import { connect } from 'react-redux';
 import Strings from '../../../strings/dialogs';
 import { confirmAlert } from './../../misc/ConfirmDialog';
+import { Endpoints, EndpointAuthQuerystring } from '../../../actions/endpoints';
 
 class InvoicesListItem extends Component {
 	constructor() {
@@ -26,9 +27,14 @@ class InvoicesListItem extends Component {
 		})
 	}
 
-	deleteInvoice =  () => {
+	deleteInvoice = () => {
 		const { invoice } = this.props;
 		this.props.deleteInvoice(invoice.project._id, invoice._id);
+	}
+
+	renderInvoiceLink = () => {
+		const { invoice } = this.props;
+		return Endpoints.RENDER_INVOICE(invoice.project._id, invoice._id) + EndpointAuthQuerystring();
 	}
 	
 	render() {
@@ -40,10 +46,10 @@ class InvoicesListItem extends Component {
 			<li className={`invoices-list-item ${className}`}>
 				<Card>
 					<CardBlock className='card-body row'>
-						<Col xs={9}>
+						<Col xs={8}>
 							<h4>{project.name}</h4>
 						</Col>
-						<Col xs={3} className='text-right list-item-options'>
+						<Col xs={4} className='text-right list-item-options'>
 							{ !invoice.paid && 
 								<Button color='secondary' onClick={this.toggleEditModal}>
 									<Icon fa-pencil tooltip="Edit" id={`edit-${invoice._id}`}/>
@@ -54,6 +60,10 @@ class InvoicesListItem extends Component {
 									<Icon fa-remove tooltip="Delete" id={`delete-${invoice._id}`}/>
 								</Button>
 							}
+							<a className='btn' color='secondary' href={this.renderInvoiceLink()} 
+									target='_blank' rel='nooption nofollow'>
+								<Icon fa-file-pdf-o tooltip="View invoice" id={`view-${invoice._id}`}/>
+							</a>
 						</Col>
 						<Col xs={12}>
 							<p>{invoice.description}</p>

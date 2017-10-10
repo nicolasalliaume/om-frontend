@@ -36,6 +36,7 @@ export const Endpoints = {
 	ADD_INVOICE					: (projectId) => `${BASE_URL}/projects/${projectId}/invoices/add-invoice`,
 	UPDATE_INVOICE				: (projectId, invoiceId) => `${BASE_URL}/projects/${projectId}/invoices/${invoiceId}`,
 	DELETE_INVOICE				: (projectId, invoiceId) => `${BASE_URL}/projects/${projectId}/invoices/${invoiceId}`,
+	RENDER_INVOICE				: (projectId, invoiceId) => `${BASE_URL}/projects/${projectId}/invoices/${invoiceId}/html`,
 
 	/** admin endpoints */
 	GET_INTEGRATIONS			: () => `${BASE_URL}/admin/integrations`,
@@ -48,6 +49,9 @@ export const EndpointAuth = () => {
 	return ['Authorization', 'Basic: ' + localStorage.getItem('om-auth-token')];
 }
 
+export const EndpointAuthQuerystring = () => {
+	return '?authtoken=' + localStorage.getItem('om-auth-token');
+}
 
 function toQueryString(obj) {
 	console.log(obj);

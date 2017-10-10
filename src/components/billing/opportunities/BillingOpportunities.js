@@ -3,6 +3,7 @@ import { Col, Card, CardBlock, CardTitle } from 'reactstrap';
 import { connect } from 'react-redux';
 import { fetchProjectsBillingIfNeeded } from '../../../actions/projects';
 import Icon from '../../misc/Icon';
+import CreateInvoiceCta from '../misc/CreateInvoiceCta';
 
 class BillingOpportunities extends Component {
 	componentWillMount() {
@@ -20,6 +21,15 @@ class BillingOpportunities extends Component {
 		})
 	}
 	
+	getInvoiceTemplate(project, amount) {
+		return {
+			project: project._id,
+			amount: amount,
+			description: 'Development services',
+			billed_hours: Math.round(amount / project.hourly_rate)
+		}
+	}
+
 	render() {
 		return (
 			<Card className='opportunities-card list spaced'>
@@ -30,9 +40,12 @@ class BillingOpportunities extends Component {
 							const profit = Math.round((p.executed_hours_total - p.billed_hours_total) * p.hourly_rate);
 							return (
 								<li key={p._id} className='row'>
-									<Col xs={8}><b>{p.name}</b></Col>
+									<Col xs={6}><b>{p.name}</b></Col>
 									<Col xs={4} className='text-right'>
 										<Icon fa-dollar /> {profit}
+									</Col>
+									<Col xs={2}>
+										<CreateInvoiceCta {...this.getInvoiceTemplate(p, profit)} />
 									</Col>
 								</li>
 							)

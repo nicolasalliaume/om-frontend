@@ -46,9 +46,9 @@
 		}
 	}
 
-	.opportunities-card {
+	.opportunities-card, .missing-invoice-card {
 		.card-body {
-			padding-bottom: 4pt;
+			padding-bottom: 0;
 		}
 		li {
     		padding: 5pt 0;

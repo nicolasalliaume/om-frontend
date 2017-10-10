@@ -3,6 +3,7 @@ import { Col, Card, CardBlock, CardTitle } from 'reactstrap';
 import { connect } from 'react-redux';
 import { fetchProjectsBillingIfNeeded } from '../../../actions/projects';
 import moment from 'moment';
+import CreateInvoiceCta from '../misc/CreateInvoiceCta';
 
 class MonthlyInvoicesMissing extends Component {
 	componentDidMount() {
@@ -24,6 +25,13 @@ class MonthlyInvoicesMissing extends Component {
 			return p.invoices.filter(this.isInvoiceForThisMonth).length === 0;
 		})
 	}
+	getInvoiceTemplate(project) {
+		const date = moment().format('MMM YYYY');
+		return {
+			project: project._id,
+			description: `Development services - ${date}`
+		}
+	}
 	render() {
 		const monthlyProjects = this.getMonthlyProjects();
 		const projectWithMissingInvoice = this.getProjectsWithoutInvoicesForThisMonth(monthlyProjects);
@@ -31,7 +39,7 @@ class MonthlyInvoicesMissing extends Component {
 		const toBe = count === 1 ? 'is' : 'are';
 		const singular_plural = 'project' + (count === 1 ? '' : 's');
 		return (
-			<Card className='missing-invoice-card spaced'>
+			<Card className='missing-invoice-card spaced list'>
 				<CardBlock className='card-body'>
 					<CardTitle>Projects <b>missing invoices</b></CardTitle>
 					{ count === 0 && 
@@ -42,7 +50,12 @@ class MonthlyInvoicesMissing extends Component {
 							<ul>
 								{ projectWithMissingInvoice.map(p => {
 									return (
-										<li key={p._id}><b>{p.name}</b></li>
+										<li key={p._id} className='row'>
+											<Col xs={8}><b>{p.name}</b></Col>
+											<Col xs={4} className='text-right'>
+												<CreateInvoiceCta {...this.getInvoiceTemplate(p)} />
+											</Col>
+										</li>
 									)
 								}) }
 							</ul>
