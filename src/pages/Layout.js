@@ -12,7 +12,6 @@ import { connect } from 'react-redux';
 
 class App extends Component {
 	isAdminUser() {
-		console.log(this.props.currentUser);
 		return ['nico','fer','rafa'].includes(this.props.currentUser.user.username);
 	}
 	render() {
