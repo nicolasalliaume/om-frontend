@@ -11,7 +11,7 @@ class LatestInvoicesList extends Component {
 		this.props.fetchProjectsBillingIfNeeded();
 	}
 	/**
-	 * Returns last 5 invoices sorted by created timestamp
+	 * Returns last X invoices sorted by created timestamp
 	 * @return {Array}
 	 */
 	getLatestInvoices() {
@@ -22,7 +22,7 @@ class LatestInvoicesList extends Component {
 			.sort((a, b) => {
 				return new Date(b.invoicing_date) - new Date(a.invoicing_date);
 			});
-		return invoices.slice(0, 10);
+		return invoices; //.slice(0, 10);
 	}
 	render() {
 		const invoices = this.getLatestInvoices();
