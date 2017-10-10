@@ -27,4 +27,8 @@ export default {
 						+ 'or you wish to re-create it.<br/><br/>'
 						+ 'If you continue, the integration will be <b><i>permanently deleted</i></b>.',
 
+	DELETE_INVOICE	   : 'This will <b>permanently delete</b> the invoice. If you continue, you won\'t be '
+						+ 'able to recover it.<br/><br/>This will affect the billed amount for the '
+						+ 'project this invoice belongs to.',
+
 }

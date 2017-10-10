@@ -5,6 +5,8 @@ import Icon from '../../misc/Icon';
 import EditInvoiceModalForm from './EditInvoiceModalForm';
 import { deleteInvoice } from '../../../actions/projects';
 import { connect } from 'react-redux';
+import Strings from '../../../strings/dialogs';
+import { confirmAlert } from './../../misc/ConfirmDialog';
 
 class InvoicesListItem extends Component {
 	constructor() {
@@ -13,6 +15,16 @@ class InvoicesListItem extends Component {
 	}
 	
 	toggleEditModal = () => this.setState({ editModal : !this.state.editModal })
+
+	confirmDelete = () => {
+		confirmAlert({
+			title : 'Delete invoice',
+			message : Strings.DELETE_INVOICE,
+			confirmLabel : 'delete',
+			cancelLabel : 'cancel',
+			onConfirm : this.deleteInvoice
+		})
+	}
 
 	deleteInvoice =  () => {
 		const { invoice } = this.props;
@@ -38,7 +50,7 @@ class InvoicesListItem extends Component {
 								</Button>
 							}
 							{ !invoice.paid && 
-								<Button color='secondary' onClick={this.deleteInvoice}>
+								<Button color='secondary' onClick={this.confirmDelete}>
 									<Icon fa-remove tooltip="Delete" id={`delete-${invoice._id}`}/>
 								</Button>
 							}
