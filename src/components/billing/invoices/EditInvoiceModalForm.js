@@ -123,6 +123,15 @@ class EditInvoiceModalForm extends Component {
 							</Col>
 						</FormGroup>
 						<FormGroup row>
+							<Label for="number" sm={2}>Invoice number</Label>
+							<Col sm={3} className='align-self-center'>
+								<Input type="number" className='text-right' 
+									min={1} name="number" id="number" 
+									onChange={this.onChange}
+									value={invoice.number} />
+							</Col>
+						</FormGroup>
+						<FormGroup row>
 							<Col sm={6}>
 								<FormGroup check>
 									<Label check>
