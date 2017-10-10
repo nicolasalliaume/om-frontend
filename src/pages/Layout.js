@@ -8,11 +8,11 @@ import Dashboard from './Dashboard';
 import Tasks from './Tasks';
 import Integrations from './Integrations';
 import Billing from './Billing';
-import { connect } from 'react-redux';
+import Store from '../store';
 
-class App extends Component {
+export default class Layout extends Component {
 	isAdminUser() {
-		return ['nico','fer','rafa'].includes(this.props.currentUser.user.username);
+		return ['nico','fer','rafa'].includes(Store.getState().currentUser.user.username);
 	}
 	render() {
 		return (
@@ -57,9 +57,3 @@ class App extends Component {
 		)
 	}
 }
-
-const mapStateToProps = state => { return {
-	currentUser: state.currentUser
-}}
-
-export default connect(mapStateToProps)(App);
