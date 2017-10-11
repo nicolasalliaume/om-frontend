@@ -19,7 +19,10 @@
 		}
 
 		.invoices-list-item {
-			margin-bottom: 8pt;
+			padding-top: 5pt;
+			.card-body {
+				padding: 1.24rem;
+			}
 		}
 
 		footer {
@@ -28,10 +31,10 @@
 			& > * { padding-right: 5px;	}
 		}
 
-		.paid {
+		.paid .card {
 			border-left: 3px solid $paid-color;
 		}
-		.unpaid { 
+		.unpaid .card { 
 			border-left: 3px solid $unpaid-color;
 		}
 	}

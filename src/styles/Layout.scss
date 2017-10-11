@@ -49,27 +49,6 @@ pre {
   border: 0 !important;
   padding: 5pt 8pt;
   font-size: 11pt;
-
-  &.floating {
-    $size: 44pt;
-    position: fixed;
-    right: 42pt;
-    bottom: 32pt;
-    height: $size;
-    width:$size;
-    border-radius: $size/2;
-    box-shadow: 0px 2px 5px 0px $dark-color;
-    transition: all 0.2s;
-    .fa {
-      -webkit-text-stroke-width: 3pt;
-      font-size: 24pt;
-      line-height: 38pt;
-    }
-
-    &:active {
-      box-shadow: 0px 4px 14px 0px $dark-color;
-    }
-  }
 }
 
 p {
@@ -415,21 +394,16 @@ select {
 
 /* Large list */
 
-.list--large {
-
-  .list-empty {
-    text-align: center;
-    font-size: 1.1em;
-    margin: 18pt 0;
-  }
-
-  .card-body {
-    padding-bottom: 0;
-  }
-
+.list {
   li {
-    padding: 14px 1.25rem 8px;
+    border-bottom: 1px solid $lighter-color;
+    padding: 5pt 0.45rem;
     margin: 0 -1.25rem;
+    
+    &:last-child {
+      border-bottom: none;
+    }
+
     h4 {
       font-size: $font-size;
       text-align: left;
@@ -444,32 +418,6 @@ select {
 
     h4 + p {
       margin-top: 10pt;
-    }
-
-    .list-number {
-      border: 1px solid $text-color;
-      border-radius: 12px;
-      text-align: center;
-      width: 24px;
-      height: 24px;
-      margin-bottom: 0;
-      font-size: 0.8rem;
-      line-height: 1.3rem;
-
-      &.hundreds {
-        font-size: 0.6em;
-        line-height: 2.3em;
-      }
-    }
-  }
-}
-
-.list {
-  li {
-    border-bottom: 1px solid $lighter-color;
-    
-    &:last-child {
-      border-bottom: none;
     }
 
     .btn {
@@ -492,6 +440,40 @@ select {
       margin-left: 10pt;
     }
   }  
+}
+
+.list--large {
+
+  .list-empty {
+    text-align: center;
+    font-size: 1.1em;
+    margin: 18pt 0;
+  }
+
+  .card-body {
+    padding-bottom: 0;
+  }
+
+  li {
+    padding: 14px 1.25rem 8px;
+    margin: 0 -1.25rem;
+
+    .list-number {
+      border: 1px solid $text-color;
+      border-radius: 12px;
+      text-align: center;
+      width: 24px;
+      height: 24px;
+      margin-bottom: 0;
+      font-size: 0.8rem;
+      line-height: 1.3rem;
+
+      &.hundreds {
+        font-size: 0.6em;
+        line-height: 2.3em;
+      }
+    }
+  }
 }
 
 /** end lists */

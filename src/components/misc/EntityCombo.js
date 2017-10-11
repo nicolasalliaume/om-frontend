@@ -3,9 +3,11 @@ import { Input } from 'reactstrap';
 
 export default class EntityCombo extends Component {
 	componentDidMount() {
-		if (this.props.async)
-			this.props.fetchItems();
+		if (this.props.async) this.props.fetchItems();
 	}
+	componentWillReceiveProps(props) {
+		if (this.props.async) this.props.fetchItems();
+	} 
 	selectItem = (event) => {
 		const selected = event.target.value;
 		this.props.onChange({ target: {

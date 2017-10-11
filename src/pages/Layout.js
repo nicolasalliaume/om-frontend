@@ -8,6 +8,8 @@ import Dashboard from './Dashboard';
 import Tasks from './Tasks';
 import Integrations from './Integrations';
 import Billing from './Billing';
+import Admin from './Admin';
+
 import Store from '../store';
 
 export default class Layout extends Component {
@@ -42,6 +44,13 @@ export default class Layout extends Component {
 								<Icon fa-cogs/>
 							</Link>
 						</NavItem>
+						{ this.isAdminUser() && 
+							<NavItem>
+								<Link to="/admin">
+									<Icon fa-cog/>
+								</Link>
+							</NavItem>
+						}
 					</Nav>
 				</Navbar>
 				<Container fluid id='main'>
@@ -51,6 +60,7 @@ export default class Layout extends Component {
 						<Route path='/tasks' component={Tasks} />
 						<Route path='/integrations' component={Integrations} />
 						<Route path='/billing' component={Billing} />
+						<Route path='/admin' component={Admin} />
 					</Switch>
 				</Container>
 			</div>

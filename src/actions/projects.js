@@ -9,7 +9,14 @@ import {
 	REQUEST_UPDATE_INVOICE,
 	RECEIVE_UPDATE_INVOICE,
 	REQUEST_DELETE_INVOICE,
-	RECEIVE_DELETE_INVOICE
+	RECEIVE_DELETE_INVOICE,
+	REQUEST_ADD_PROJECT,
+	RECEIVE_ADD_PROJECT,
+	REQUEST_UPDATE_PROJECT,
+	RECEIVE_UPDATE_PROJECT,
+	REQUEST_DELETE_PROJECT,
+	RECEIVE_DELETE_PROJECT,
+	INVALIDATE_PROJECTS_CACHE
 } from './types';
 import superagent from 'superagent';
 import { Endpoints, EndpointAuth } from './endpoints';
@@ -37,8 +44,8 @@ function fetchProjectsList() {
 }
 
 function shouldFetchProjectsList(cache) {
-	if (!cache.projects) return true;
-	return false; // we're either fetching or we fetched them already
+	if (cache.projects.isFetching) return false;
+	return cache.projects.didInvalidate;
 }
 
 export function fetchProjectsListIfNeeded() {
@@ -48,6 +55,86 @@ export function fetchProjectsListIfNeeded() {
 			dispatch(fetchProjectsList());
 		}
 	}
+}
+
+function requestAddProject(payload) {
+	return { type: REQUEST_ADD_PROJECT, payload }
+}
+
+function receiveAddProject(payload) {
+	return { type: RECEIVE_ADD_PROJECT, payload }
+}
+
+export function addProject(project) {
+	return function(dispatch) {
+		dispatch(requestAddProject(project));
+		superagent
+			.post(Endpoints.ADD_PROJECT())
+			.set(...EndpointAuth())
+			.send(project)
+			.then(response => response.body)
+			.then(body => dispatch(receiveAddProject(body)))
+			.then(() => dispatch(invalidateProjectsCache()))
+			.then(() => dispatch(invalidateProjectsBilling()))
+			.then(() => dispatch(addMessage(project.name, 'Project created')))
+			// error handling
+			.catch(error => dispatch(addError(error.message, 'Create project')));
+	}
+}
+
+function requestDeleteProject(payload) {
+	return { type: REQUEST_DELETE_PROJECT, payload }
+}
+
+function receiveDeleteProject(projectId, response) {
+	return { type: RECEIVE_DELETE_PROJECT, payload: { projectId, response } }
+}
+
+export function deleteProject(projectId) {
+	return function(dispatch, getState) {
+		const project = getState().cache.projects.projectsById[projectId];
+		dispatch(requestDeleteProject(projectId));
+		superagent
+			.delete(Endpoints.DELETE_PROJECT(projectId))
+			.set(...EndpointAuth())
+			.then(response => response.body)
+			.then(body => dispatch(receiveDeleteProject(projectId, body)))
+			.then(() => dispatch(invalidateProjectsCache()))
+			.then(() => dispatch(invalidateProjectsBilling()))
+			.then(() => dispatch(addMessage(project.name, 'Project deleted')))
+			// error handling
+			.catch(error => dispatch(addError(error.message, 'Delete project')));
+	}
+}
+
+function requestUpdateProject(payload) {
+	return { type: REQUEST_UPDATE_PROJECT, payload }
+}
+
+function receiveUpdateProject(payload) {
+	return { type: RECEIVE_UPDATE_PROJECT, payload }
+}
+
+export function updateProject(projectId, update) {
+	return function(dispatch, getState) {
+		const project = getState().cache.projects.projectsById[projectId];
+		dispatch(requestUpdateProject(projectId, update));
+		superagent
+			.post(Endpoints.UPDATE_PROJECT(projectId))
+			.set(...EndpointAuth())
+			.send(update)
+			.then(response => response.body)
+			.then(body => dispatch(receiveUpdateProject(body)))
+			.then(() => dispatch(invalidateProjectsCache()))
+			.then(() => dispatch(invalidateProjectsBilling()))
+			.then(() => dispatch(addMessage(project.name, 'Project updated')))
+			// error handling
+			.catch(error => dispatch(addError(error.message, 'Update project')));
+	}
+}
+
+function invalidateProjectsCache() {
+	return { type: INVALIDATE_PROJECTS_CACHE }
 }
 
 function requestProjectsBilling() {

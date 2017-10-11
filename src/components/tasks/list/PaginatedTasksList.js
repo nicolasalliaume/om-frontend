@@ -37,7 +37,6 @@ class PaginatedTasksList extends Component {
 	render() {
 		const { tasks, visiblePage, count, totalPages, pageSize } = this.props;
 		const firstListIndex = (visiblePage-1) * pageSize;
-		console.log('rendering page %d', visiblePage)
 		return (
 			<div className='paginated-tasks-list'>
 				<TasksList tasks={tasks} indexStart={firstListIndex} />

@@ -1,0 +1,35 @@
+@import "animations";
+@import "variables";
+
+#main > .admin {
+	animation: fadeIn 1s;
+	padding: $main-view-padding;
+
+	.list .card-body {
+		padding-bottom: 0;
+	}
+}
+
+.profile-image-preview {
+	text-align: center;
+	margin-bottom: 20pt;
+	& > div {
+		height: 66pt;
+		width: 66pt;
+		background-position: center;
+		background-size: cover;
+		border-radius: 33pt;
+		display: inline-block;
+	}		
+}
+
+.floating-btn .options .btn {
+	&:first-child {
+		background-color: $error-color;
+		color: $white;
+	}
+	&:nth-child(2) {
+		background-color: $error-color;
+		color: $white;
+	}
+}

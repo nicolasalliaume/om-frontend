@@ -30,14 +30,10 @@ class UsersMultiSelect extends Component {
 	 * @return {Array}
 	 */
 	options = () => {
-		const { usersCache } = this.props;
-		let users = [];
-		if (usersCache !== undefined) {
-			const { usersById } = usersCache;
-			users = Object.values(usersById).map(u => { 
-				return { label: u.full_name, value: u }});
-		}
-		return users;
+		const { usersById } = this.props.usersCache;
+		return Object.values(usersById)
+				.filter(u => u.enabled)
+				.map(u => { return { label: u.full_name, value: u }});
 	}
 
 	/**

@@ -29,10 +29,16 @@ export const Endpoints = {
 	/** user endpoints */
 	GET_USERS_LIST				: () => `${BASE_URL}/users`,
 	AUTH_USER_LINK				: () => `${BASE_URL}/users/auth-link`,
+	CREATE_USER					: () => `${BASE_URL}/users/add`,
+	UPDATE_USER					: (userId) => `${BASE_URL}/users/${userId}`,
+	DELETE_USER					: (userId) => `${BASE_URL}/users/${userId}`,
 
 	/** project endpoints */
 	GET_PROJECTS_LIST			: () => `${BASE_URL}/projects`,
 	GET_PROJECTS_BILLING		: () => `${BASE_URL}/projects/billing`,
+	ADD_PROJECT					: () => `${BASE_URL}/projects/add`,
+	DELETE_PROJECT				: (projectId) => `${BASE_URL}/projects/${projectId}`,
+	UPDATE_PROJECT				: (projectId) => `${BASE_URL}/projects/${projectId}`,
 	ADD_INVOICE					: (projectId) => `${BASE_URL}/projects/${projectId}/invoices/add-invoice`,
 	UPDATE_INVOICE				: (projectId, invoiceId) => `${BASE_URL}/projects/${projectId}/invoices/${invoiceId}`,
 	DELETE_INVOICE				: (projectId, invoiceId) => `${BASE_URL}/projects/${projectId}/invoices/${invoiceId}`,
@@ -54,7 +60,6 @@ export const EndpointAuthQuerystring = () => {
 }
 
 function toQueryString(obj) {
-	console.log(obj);
 	// skip empty or null fields
 	const validKeys = Object.keys(obj).filter(k => !!obj[k]);
 	return validKeys.map(k => `${encodeURIComponent(k)}=${encodeURIComponent(obj[k])}`).join('&');

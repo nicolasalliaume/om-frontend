@@ -14,3 +14,14 @@
     transform: none;
   }
 }
+
+
+@keyframes rotate-in {
+  0% { transform: rotateZ(0deg) }
+  100% { transform: rotateZ(225deg) }
+}
+
+@keyframes rotate-out {
+  0% { transform: rotateZ(225deg) }
+  100% { transform: rotateZ(0deg) }
+}

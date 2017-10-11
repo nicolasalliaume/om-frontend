@@ -71,13 +71,14 @@ $p-letter-spacing: normal;
 }
 .btn-accent {
 	color: $white;
-	background-color: $accent-color;
 	$hover-color: darken( $accent-color, 10% );
+	background-color: $accent-color;
 	&:hover {
 		background-color: $hover-color;
 	}
-	&.floating {
-		.fa { -webkit-text-stroke-color: $accent-color; }
-		&:hover .fa { -webkit-text-stroke-color: $hover-color; }
-	}
+}
+.floating-btn .btn-accent {
+	$hover-color: darken( $accent-color, 10% );
+	.fa { -webkit-text-stroke-color: $accent-color; }
+	&:hover .fa { -webkit-text-stroke-color: $hover-color; }
 }

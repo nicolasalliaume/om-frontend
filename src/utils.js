@@ -133,6 +133,19 @@ export function getNewInvoiceTemplate() {
 	}
 }
 
+export function getNewUserTemplate() {
+	return {
+		username 		: '',
+		first_name 		: '',
+		last_name		: '',
+		profile_image 	: '',
+		email 			: '',
+		trello_account	: '',
+		slack_account	: '',
+		git_account		: ''
+	}
+}
+
 /** attachments */
 
 export function getUrlForAttachmentFile(url) {
