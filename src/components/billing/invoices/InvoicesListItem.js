@@ -50,11 +50,9 @@ class InvoicesListItem extends Component {
 							<h4>{project.name}</h4>
 						</Col>
 						<Col xs={4} className='text-right list-item-options'>
-							{ !invoice.paid && 
-								<Button color='secondary' onClick={this.toggleEditModal}>
-									<Icon fa-pencil tooltip="Edit" id={`edit-${invoice._id}`}/>
-								</Button>
-							}
+							<Button color='secondary' onClick={this.toggleEditModal}>
+								<Icon fa-pencil tooltip="Edit" id={`edit-${invoice._id}`}/>
+							</Button>
 							{ !invoice.paid && 
 								<Button color='secondary' onClick={this.confirmDelete}>
 									<Icon fa-remove tooltip="Delete" id={`delete-${invoice._id}`}/>
