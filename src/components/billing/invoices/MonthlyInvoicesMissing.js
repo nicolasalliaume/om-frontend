@@ -14,8 +14,7 @@ class MonthlyInvoicesMissing extends Component {
 	}
 	getMonthlyProjects() {
 		if (!this.props.projects) return [];
-		return this.props.projects.filter(p => 
-			p.active && p.hours_sold_unit === 'monthly');
+		return this.props.projects.filter(p => p.hours_sold_unit === 'monthly');
 	}
 	isInvoiceForThisMonth = (i) => {
 		return moment.utc(i.invoicing_date).format('MM/YYYY') 
