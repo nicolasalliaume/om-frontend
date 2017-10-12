@@ -23,7 +23,7 @@ class ProjectsBillingStatusList extends Component {
 }
 
 const mapStateToProps = state => { return {
-	projects : state.billingView.projectsBilling.projects
+	projects: (state.billingView.projectsBilling.projects || []).filter(p => p.active)
 }}
 
 const mapDispatchToProps = dispatch => { return {

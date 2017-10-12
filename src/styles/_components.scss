@@ -65,9 +65,9 @@
     }
 
     &.opened {
-      & > .btn {
+      & > .btn .fa {
         animation: rotate-in 0.3s forwards;
-        transform-origin: 29.4px 30.5px;
+        transform-origin: 51% 47%;
       }
 
       .options {
@@ -82,8 +82,8 @@
       }
     }
 
-    &.closed > .btn {
-      transform-origin: 29.4px 30.5px;
+    &.closed > .btn .fa {
+      transform-origin: 51% 47%;
       animation: rotate-out 0.3s forwards;
     }
   }

@@ -24,12 +24,7 @@
 }
 
 .floating-btn .options .btn {
-	&:first-child {
-		background-color: $error-color;
-		color: $white;
-	}
-	&:nth-child(2) {
-		background-color: $error-color;
-		color: $white;
-	}
+	background-color: $accent-color;
+	color: $white;
+	&:hover { background-color: darken($accent-color, 10%) }
 }
