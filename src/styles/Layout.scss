@@ -17,7 +17,7 @@ body {
 
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   text-transform: uppercase;
-  font-weight: lighter;
+  font-weight: 200;
   letter-spacing: 1pt;
   text-align: center;
   color: $headline-fg;
@@ -131,7 +131,7 @@ select {
     border-radius: 1px;
     border: 0px;
     color: $card-fg;
-    font-weight: lighter;
+    font-weight: 200;
     letter-spacing: $p-letter-spacing;
     @include shadow;
 
@@ -162,7 +162,7 @@ select {
       margin-right: 6pt;
     }
     .message {
-      font-weight: lighter;
+      font-weight: 200;
     }
     .dismiss {
       position: absolute;
