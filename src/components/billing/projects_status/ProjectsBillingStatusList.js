@@ -11,7 +11,9 @@ class ProjectsBillingStatusList extends Component {
 		this.props.fetchProjectsBillingIfNeeded();
 	}
 	render() {
-		const { projects } = this.props;
+		let { projects, filter } = this.props;
+		projects = projects.filter(filter ? p => p._id === filter : p => p.active);
+		
 		return (
 			<ul className='projects-list'>
 				{ projects && projects.map(project => {
@@ -23,7 +25,7 @@ class ProjectsBillingStatusList extends Component {
 }
 
 const mapStateToProps = state => { return {
-	projects: (state.billingView.projectsBilling.projects || []).filter(p => p.active)
+	projects: state.billingView.projectsBilling.projects || []
 }}
 
 const mapDispatchToProps = dispatch => { return {

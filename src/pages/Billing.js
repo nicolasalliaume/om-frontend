@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Row, Col, Card, CardBlock, CardTitle } from 'reactstrap';
+import { connect } from 'react-redux';
 import ProjectsBillingStatusList from '../components/billing/projects_status/ProjectsBillingStatusList';
 import LatestInvoicesList from '../components/billing/invoices/LatestInvoicesList';
 import UnpaidInvoicesCard from '../components/billing/invoices/UnpaidInvoicesCard';
@@ -7,10 +8,30 @@ import OverworkCard from '../components/billing/projects_status/OverworkCard';
 import MonthlyInvoicesMissing from '../components/billing/invoices/MonthlyInvoicesMissing';
 import BillingOpportunities from '../components/billing/opportunities/BillingOpportunities';
 import CreateInvoiceFloatingButton from '../components/billing/misc/CreateInvoiceFloatingButton';
+import { fetchProjectsListIfNeeded } from '../actions/projects';
 
 import './../styles/Billing.css';
 
-export default class Tasks extends Component {
+class Billing extends Component {
+	componentWillMount() {
+		this.props.fetchProjectsListIfNeeded();
+	}
+	componentWillReceiveProps(props) {
+		console.log(props);
+		this.props.fetchProjectsListIfNeeded();
+	}
+	getFilteredProjectId() {
+		const { match, projectsById } = this.props;
+		if (!projectsById || !match.params) return null;
+		const { projectFilter } = match.params;
+		if (!projectFilter) return null;
+
+		const filter = projectFilter.replace(/-/g, ' ').toLowerCase();
+		const matches = Object.values(projectsById)
+			.filter(p => p.name.toLowerCase() === filter)
+		if (matches.length === 0) return null;
+		return matches[0]._id;
+	}
 	render() {
 		return (
 			<div className='billing'>
@@ -19,7 +40,8 @@ export default class Tasks extends Component {
 						<Card className='projects-status list list--large'>
 							<CardBlock className='card-body'>
 								<CardTitle>Projects <b>status</b></CardTitle>
-								<ProjectsBillingStatusList />
+								<ProjectsBillingStatusList 
+									filter={this.getFilteredProjectId()} />
 							</CardBlock>
 						</Card>
 					</Col>
@@ -29,7 +51,7 @@ export default class Tasks extends Component {
 								<CardTitle>Latest <b>invoices</b></CardTitle>
 							</CardBlock>
 						</Card>
-						<LatestInvoicesList />
+						<LatestInvoicesList filter={this.getFilteredProjectId()}/>
 					</Col>
 					<Col lg={4}>
 						<Row>
@@ -53,3 +75,13 @@ export default class Tasks extends Component {
 		)
 	}
 }
+
+const mapStateToProps = state => { return {
+	projectsById: state.cache.projects.projectsById
+}}
+
+const mapDispatchToProps = dispatch => { return {
+	fetchProjectsListIfNeeded : () => dispatch(fetchProjectsListIfNeeded())
+}}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Billing);
