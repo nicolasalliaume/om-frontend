@@ -9,9 +9,11 @@ import DescriptionModal from './../../misc/DescriptionModal';
 import EditTaskModalForm from '../forms/EditTaskModalForm';
 import { confirmAlert } from './../../misc/ConfirmDialog';
 import Strings from '../../../strings/dialogs';
+import { Link } from 'react-router-dom';
 import TaskReview from '../misc/TaskReview';
 import Tag from '../../misc/Tag';
 import ExternalUrlLink from './../../misc/ExternalUrlLink';
+import { encodeProjectName } from '../../../utils';
 import AttachmentsModal from './../../misc/AttachmentsModal';
 
 class TasksListItem extends Component {
@@ -61,7 +63,10 @@ class TasksListItem extends Component {
 				</Col>
 				<Col xs={11}>
 					<h4>
-						<b>{task.project.name}</b>{':  '}
+						<Link to={`/project/${encodeProjectName(task.project.name)}`}>
+							<b>{task.project.name}</b>
+						</Link>
+						{':  '}
 						{ task.origin !== 'web' && <Tag className='origin'>{task.origin}</Tag> }
 						{task.title}
 					</h4>

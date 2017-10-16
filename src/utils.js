@@ -96,6 +96,22 @@ export function getPaginationBarFirstAndLastVisiblePages(visiblePage, totalPages
 	return [first, last];
 }
 
+export function encodeProjectName(name) {
+	return name.toLowerCase().replace(/-/g, '=').replace(/\s/i, "-");
+}
+
+export function decodeProjectName(name) {
+	return name.toLowerCase().replace(/-/g, ' ').replace(/=/g, '-');
+}
+
+export function getProjectIdFromEncodedName(encodedName, projectsById) {
+	const name = decodeProjectName(encodedName);
+	const matches = Object.values(projectsById).filter(
+			p => p.name.toLowerCase() === name);
+	return matches.length > 0 ? matches[0]._id : null;
+}
+
+
 /** object templates */
 
 export function getNewObjectiveTemplate(level) { 
@@ -152,4 +168,48 @@ export function getUrlForAttachmentFile(url) {
 	const base = process.env.NODE_ENV === 'production' 
 					? 'https://om-integrations.herokuapp.com' : 'http://localhost:3001';
 	return base + url;
+}
+
+/** date formats */
+
+export function setShortDateFormat() {
+	moment.locale('en', {
+		relativeTime: {
+		  future: 'in %s',
+		  past: '%s',
+		  s:  '1s',
+		  ss: '%ss',
+		  m:  '1m',
+		  mm: '%dm',
+		  h:  '1h',
+		  hh: '%dh',
+		  d:  '1d',
+		  dd: '%dd',
+		  M:  '1 month',
+		  MM: '%d months',
+		  y:  '1y',
+		  yy: '%dy'
+		}
+	})
+}
+
+export function setLongDateFormat() {
+	moment.locale('en', {
+		relativeTime: {
+		  future: 'in %s',
+		  past: '%s',
+		  s:  '1 second',
+		  ss: '%s seconds',
+		  m:  '1 minute',
+		  mm: '%d minutes',
+		  h:  '1 hour',
+		  hh: '%d hours',
+		  d:  '1 day',
+		  dd: '%d days',
+		  M:  '1 month',
+		  MM: '%d months',
+		  y:  '1 year',
+		  yy: '%d years'
+		}
+	})
 }

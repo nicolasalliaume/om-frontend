@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {
-	Button,
 	Input,
 	Row,
 	Col 
@@ -42,7 +41,7 @@ class TasksListFilterBar extends Component {
 	render() {
 		const { filters } = this.state;
 		return (
-			<Row className='tasks-list-filters'>
+			<Row className='filters tasks-list-filters'>
 				<Col xs={12} md={5}>
 					<Input name='title' value={filters.title} 
 						placeholder='Title' onChange={this.setFilter} />

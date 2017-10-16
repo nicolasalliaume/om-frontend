@@ -10,7 +10,6 @@ export default class TagsInput extends Component {
 				value : value.map(o => this.removeExtraText(o.value)) // send back an array of tags
 			}
 		}
-		console.log(event);
 		this.props.onChange(event);
 	}
 

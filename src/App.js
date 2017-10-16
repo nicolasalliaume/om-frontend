@@ -6,6 +6,8 @@ import moment from 'moment';
 
 import store from './store';
 
+import { setShortDateFormat } from './utils';
+
 import Login from './pages/Login';
 import Layout from './pages/Layout';
 import './utils';
@@ -14,25 +16,7 @@ localStorage.removeItem('currentUser');
 localStorage.removeItem('om-auth-token');
 
 /* momentjs config */
-moment.locale('en', {
-	relativeTime: {
-	  future: 'in %s',
-	  past: '%s',
-	  s:  '1s',
-	  ss: '%ss',
-	  m:  '1m',
-	  mm: '%dm',
-	  h:  '1h',
-	  hh: '%dh',
-	  d:  '1d',
-	  dd: '%dd',
-	  M:  '1 month',
-	  MM: '%d months',
-	  y:  '1y',
-	  yy: '%dy'
-	}
-});
-
+setShortDateFormat();
 
 export default class App extends Component {
   render() {

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Row, Col, Button } from 'reactstrap';
+import { Row, Col, Button } from 'reactstrap'
+import { Link } from 'react-router-dom';
 import Icon from './../../misc/Icon';
 import ExternalUrlLink from './../../misc/ExternalUrlLink';
 import EditObjectiveModalForm from './../forms/EditObjectiveModalForm';
@@ -8,6 +9,7 @@ import AttachmentsModal from './../../misc/AttachmentsModal';
 import ObjectiveWorkEntriesModal from './../../work_entries/modals/ObjectiveWorkEntriesModal';
 import { confirmAlert } from './../../misc/ConfirmDialog';
 import Strings from '../../../strings/dialogs';
+import { encodeProjectName } from '../../../utils';
 import { 
 	scratchObjective,
 	unscratchObjective,
@@ -106,7 +108,13 @@ class ObjectivesListItem extends Component {
 
 					<Col xs={11}>
 						<h4 className='objective-title'>
-							{ taskBased && <b>{related_task.project.name}</b> }
+							{ taskBased && 
+								<b>
+									<Link to={`/project/${encodeProjectName(related_task.project.name)}`}>
+										{related_task.project.name}
+									</Link>
+								</b> 
+							}
 							{ taskBased && ':  ' }
 							{objective.title}
 						</h4>

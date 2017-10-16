@@ -12,7 +12,7 @@ import {
 	INVALIDATE_USERS_CACHE
 } from './types';
 import superagent from 'superagent';
-import { Endpoints, EndpointAuth } from './endpoints';
+import { Endpoints, EndpointAuth, testForErrorReturned } from './endpoints';
 import { addMessage, addError } from './messages';
 
 function requestUserAuth() {
@@ -30,6 +30,7 @@ export function authUserWithAuthToken(authToken) {
 			.post(Endpoints.AUTH_USER_LINK())
 			.send({ authToken })
 			.then(response => response.body)
+			.then(testForErrorReturned)
 			.then(body => dispatch(receiveUserAuth(body)))
 			// error handling
 			.catch(error => dispatch(addError(error.message, 'Authorize user')))
@@ -51,6 +52,7 @@ function fetchUsersList() {
 			.get(Endpoints.GET_USERS_LIST())
 			.set(...EndpointAuth())
 			.then(response => response.body)
+			.then(testForErrorReturned)
 			.then(body => dispatch(receiveUsersList(body)))
 			// error handling
 			.catch(error => dispatch(addError(error.message, 'Fetch users list')))
@@ -87,6 +89,7 @@ export function deleteUser(userId) {
 			.delete(Endpoints.DELETE_USER(userId))
 			.set(...EndpointAuth())
 			.then(response => response.body)
+			.then(testForErrorReturned)
 			.then(body => dispatch(receiveDeleteUser(body)))
 			.then(() => dispatch(addMessage(user.full_name, 'User deleted')))
 			.then(() => dispatch(invalidateUsersCache()))
@@ -121,6 +124,7 @@ export function updateUser(userId, update) {
 			.set(...EndpointAuth())
 			.send(update)
 			.then(response => response.body)
+			.then(testForErrorReturned)
 			.then(body => dispatch(receiveUpdateUser(body)))
 			.then(() => dispatch(addMessage(update.full_name, messageTitle)))
 			.then(() => dispatch(invalidateUsersCache()))
@@ -145,6 +149,7 @@ export function createUser(user) {
 			.set(...EndpointAuth())
 			.send(user)
 			.then(response => response.body)
+			.then(testForErrorReturned)
 			.then(body => { dispatch(receiveCreateUser(body)); return body; })
 			.then(body => dispatch(addMessage(body.full_name, 'User created')))
 			.then(() => dispatch(invalidateUsersCache()))

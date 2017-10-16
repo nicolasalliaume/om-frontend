@@ -13,7 +13,7 @@ import {
 } from './types';
 
 import superagent from 'superagent';
-import { Endpoints, EndpointAuth } from './endpoints';
+import { Endpoints, EndpointAuth, testForErrorReturned } from './endpoints';
 import { invalidateObjectivesList } from './objectives';
 import { invalidateLatestActivity } from './activity';
 import { addMessage, addError } from './messages';
@@ -42,6 +42,7 @@ export function updateTask(taskId, update) {
 			.set(...EndpointAuth())
 			.send(update)
 			.then(response => response.body)
+			.then(testForErrorReturned)
 			.then(body => dispatch(receiveUpdateTask(body)))
 			.then(() => dispatch(invalidateTasksList()))
 			.then(() => dispatch(invalidateObjectivesList())) // may have changed
@@ -70,6 +71,7 @@ export function deleteTask(taskId) {
 			.delete(Endpoints.DELETE_TASK(taskId))
 			.set(...EndpointAuth())
 			.then((response) => response.body)
+			.then(testForErrorReturned)
 			.then(body => dispatch(receiveDeleteTask(body)))
 			.then(() => dispatch(invalidateTasksList()))
 			.then(() => dispatch(invalidateObjectivesList())) // may have changed
@@ -105,6 +107,7 @@ export function fetchTasksListPageIfNeeded(page = 1) {
 				.get(Endpoints.GET_TASKS_LIST_PAGE(page, filters))
 				.set(...EndpointAuth())
 				.then((response) => response.body)
+				.then(testForErrorReturned)
 				.then((tasksListPage) => dispatch(receiveTasksListPage(tasksListPage)))
 				// error handling
 				.catch(error => dispatch(addError(error.message, 'Fetch tasks')))
@@ -132,6 +135,7 @@ export function createTask(task) {
 			.set(...EndpointAuth())
 			.send(task)
 			.then(response => response.body)
+			.then(testForErrorReturned)
 			.then(doc => { dispatch(receiveCreateTask(doc)); return doc; })
 			.then(doc => dispatch(addMessage(doc.title, 'Task created')))
 			.then(() => dispatch(invalidateTasksList()))

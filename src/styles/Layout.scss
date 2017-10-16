@@ -15,7 +15,8 @@ body {
   * { word-wrap: normal !important; }
 }
 
-h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6,
+h1 a, h2 a, h3 a, h4 a, h5 a, h6 a, .h1 a, .h2 a, .h3 a, .h4 a, .h5 a, .h6 a {
   text-transform: uppercase;
   font-weight: 200;
   letter-spacing: 1pt;
@@ -404,7 +405,7 @@ select {
       border-bottom: none;
     }
 
-    h4 {
+    h4, h4 a {
       font-size: $font-size;
       text-align: left;
       text-transform: none;

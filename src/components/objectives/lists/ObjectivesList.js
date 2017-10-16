@@ -47,8 +47,9 @@ export default class ObjectivesList extends Component {
 		return (
 			<div className='list-empty'>
 				<p className='empty-message-text'>
-					<Icon fa-frown-o />
-					You have no objectives for today
+					<Icon fa-frown-o />{' '}
+					You have no objectives for{' '}
+					{level === 'day' ? 'today' : level === 'month' ? 'this month' : 'this year'}
 				</p>
 				<Row className='empty-message-options'>
 					<Col xs={3}></Col>

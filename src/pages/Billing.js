@@ -5,6 +5,7 @@ import ProjectsBillingStatusList from '../components/billing/projects_status/Pro
 import LatestInvoicesList from '../components/billing/invoices/LatestInvoicesList';
 import UnpaidInvoicesCard from '../components/billing/invoices/UnpaidInvoicesCard';
 import OverworkCard from '../components/billing/projects_status/OverworkCard';
+import ProjectsBillingStatusCard from '../components/billing/projects_status/ProjectsBillingStatusCard';
 import MonthlyInvoicesMissing from '../components/billing/invoices/MonthlyInvoicesMissing';
 import BillingOpportunities from '../components/billing/opportunities/BillingOpportunities';
 import CreateInvoiceFloatingButton from '../components/billing/misc/CreateInvoiceFloatingButton';
@@ -17,7 +18,6 @@ class Billing extends Component {
 		this.props.fetchProjectsListIfNeeded();
 	}
 	componentWillReceiveProps(props) {
-		console.log(props);
 		this.props.fetchProjectsListIfNeeded();
 	}
 	getFilteredProjectId() {
@@ -37,13 +37,7 @@ class Billing extends Component {
 			<div className='billing'>
 				<Row>
 					<Col lg={4} xs={12}>
-						<Card className='projects-status list list--large'>
-							<CardBlock className='card-body'>
-								<CardTitle>Projects <b>status</b></CardTitle>
-								<ProjectsBillingStatusList 
-									filter={this.getFilteredProjectId()} />
-							</CardBlock>
-						</Card>
+					<ProjectsBillingStatusCard project={this.getFilteredProjectId()} />
 					</Col>
 					<Col lg={4} xs={12}>
 						<Card className='latest-invoices list list--large'>

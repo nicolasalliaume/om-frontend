@@ -16,6 +16,7 @@ export const Endpoints = {
 	UPDATE_OBJECTIVE 			: (objectiveId) => `${BASE_URL}/objectives/${objectiveId}`,
 	DELETE_OBJECTIVE			: (objectiveId) => `${BASE_URL}/objectives/${objectiveId}`,
 	GET_OBJECTIVE_WORK_ENTRIES 	: (objectiveId) => `${BASE_URL}/objectives/${objectiveId}/work-entries`,
+	QUERY_OBJECTIVES			: (query) => `${BASE_URL}/objectives/query?${encode(query)}`,
 
 	/** task endopoins */
 	GET_TASKS_LIST_PAGE 		: (page, filters) => `${BASE_URL}/tasks/${page}?${toQueryString(filters)}`,
@@ -58,6 +59,30 @@ export const EndpointAuth = () => {
 export const EndpointAuthQuerystring = () => {
 	return '?authtoken=' + localStorage.getItem('om-auth-token');
 }
+
+export function testForErrorReturned(body) {
+	if (!!body.error) {
+		throw new Error(body.error);
+	}
+	return body;
+}
+
+
+function encode(obj, key) {
+	// final step
+	if (typeof obj !== 'object') {
+		return `${key}=${obj}`;
+	}
+	// recursive step
+	return Object.keys(obj)
+		// encode each child prop
+		.map(k => {
+			const _key = !!key ? key + '[' + k + ']' : k;
+			return encode(obj[k], _key)
+		})
+		.join('&')
+}
+
 
 function toQueryString(obj) {
 	// skip empty or null fields

@@ -28,3 +28,9 @@
 	color: $white;
 	&:hover { background-color: darken($accent-color, 10%) }
 }
+
+.modal .form-group span {
+	font-style: italic;
+    font-size: 0.8em;
+    color: #bbb;
+}

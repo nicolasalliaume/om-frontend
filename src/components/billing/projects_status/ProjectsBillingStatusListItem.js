@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Row, Col } from 'reactstrap';
 import HoursBars from './HoursBars';
+import { Link } from 'react-router-dom';
+import { encodeProjectName } from '../../../utils';
 
 export default class ProjectsBillingStatusListItem extends Component {
 	render() {
@@ -12,7 +14,9 @@ export default class ProjectsBillingStatusListItem extends Component {
 		return (
 			<li className={`projects-list-item row ${className}`}>
 				<Col xs={12}>
-					<h4>{project.name}</h4>
+					<h4>
+						<Link to={`/project/${encodeProjectName(project.name)}`}>{project.name}</Link>
+					</h4>
 				</Col>
 				<Col xs={12}>
 					<HoursBars config={bars}/>

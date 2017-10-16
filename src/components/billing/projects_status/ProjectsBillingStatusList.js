@@ -24,8 +24,9 @@ class ProjectsBillingStatusList extends Component {
 	}
 }
 
-const mapStateToProps = state => { return {
-	projects: state.billingView.projectsBilling.projects || []
+const mapStateToProps = (state, props) => { return {
+	projects: state.billingView.projectsBilling.projects || [],
+	...props
 }}
 
 const mapDispatchToProps = dispatch => { return {

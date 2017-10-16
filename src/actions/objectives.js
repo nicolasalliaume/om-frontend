@@ -12,7 +12,9 @@ import {
 	RECEIVE_OBJECTIVES_SUMMARY,
 	INVALIDATE_OBJECTIVES_SUMMARY,
 	REQUEST_OBJECTIVE_WORK_ENTRIES,
-	RECEIVE_OBJECTIVE_WORK_ENTRIES
+	RECEIVE_OBJECTIVE_WORK_ENTRIES,
+	REQUEST_QUERY_OBJECTIVES,
+	RECEIVE_QUERY_OBJECTIVES
 } from './types';
 
 import { invalidateLatestActivity } from './activity';
@@ -20,7 +22,8 @@ import { invalidateTasksList } from './tasks';
 import { addMessage, addError } from './messages';
 import superagent from 'superagent';
 import moment from 'moment';
-import { Endpoints, EndpointAuth } from './endpoints';
+import { Endpoints, EndpointAuth, testForErrorReturned } from './endpoints';
+const deepAssign = require('object-assign-deep');
 
 
 export function invalidateObjectivesSummary() {
@@ -43,6 +46,7 @@ function fetchObjectivesSummaryForDate(date) {
 			.get(Endpoints.GET_OBJECTIVES_SUMMARY(year, month, day))
 			.set(...EndpointAuth())
 			.then(response => response.body)
+			.then(testForErrorReturned)
 			.then(body => dispatch(receiveObjectivesSummary(body)))
 			// error handling
 			.catch(error => dispatch(addError(error.message, 'Objectives summary')));
@@ -86,6 +90,7 @@ export function updateObjective(objectiveId, update) {
 			.set(...EndpointAuth())
 			.send(update)
 			.then(response => response.body)
+			.then(testForErrorReturned)
 			.then(body => dispatch(receiveUpdateObjective(body, objectiveId)))
 			.then(() => dispatch(invalidateObjectivesList()))
 			.then(() => dispatch(invalidateLatestActivity()))
@@ -115,6 +120,7 @@ export function deleteObjective(objectiveId) {
 			.delete(Endpoints.DELETE_OBJECTIVE(objectiveId))
 			.set(...EndpointAuth())
 			.then(response => response.body)
+			.then(testForErrorReturned)
 			.then(body => dispatch(receiveDeleteObjective(objectiveId)))
 			.then(() => dispatch(invalidateObjectivesList()))
 			.then(() => dispatch(invalidateObjectivesSummary()))
@@ -151,9 +157,10 @@ export function createObjective(objective, invalidateTasks = false) {
 			.then((response) => {
 				return response.body;
 			})
-			.then((doc) => { dispatch(invalidateObjectivesList()); return doc; })
-			.then((doc) => { dispatch(receiveAddObjective(doc)); return doc; })
-			.then((doc) => dispatch(addMessage(doc.title, 'Objective added')))
+			.then(testForErrorReturned)
+			.then(doc => { dispatch(invalidateObjectivesList()); return doc; })
+			.then(doc => { dispatch(receiveAddObjective(doc)); return doc; })
+			.then(doc => dispatch(addMessage(doc.title, 'Objective added')))
 			.then(() => dispatch(invalidateObjectivesList()))
 			.then(() => dispatch(invalidateLatestActivity()))
 			.then(() => dispatch(invalidateObjectivesSummary()))
@@ -200,6 +207,7 @@ function fetchObjectivesForDate(date) {
     		.then((response) => {
     			return response.body;
     		})
+    		.then(testForErrorReturned)
     		.then((body) => dispatch(receiveObjectivesForDate(date, body)))
     		// error handling
 			.catch(error => dispatch(addError(error.message, 'Fetch objectives')));
@@ -287,9 +295,61 @@ export function fetchObjectiveWorkEntries(objectiveId) {
 		superagent
 			.get(Endpoints.GET_OBJECTIVE_WORK_ENTRIES(objectiveId))
 			.set(...EndpointAuth())
-			.then(response => response.body.entries)
+			.then(response => response.body)
+			.then(testForErrorReturned)
+			.then(body => body.entries)
 			.then(entries => dispatch(receiveObjectiveWorkEntries(objectiveId, entries)))
 			// error handling
 			.catch(error => dispatch(addError(error.message, 'Fetch work entries')));
+	}
+}
+
+function requestQueryObjectives(collection) {
+	return { type: REQUEST_QUERY_OBJECTIVES, payload: { collection } }
+}
+
+function receiveQueryObjectives(objectives, collection) {
+	return { type: RECEIVE_QUERY_OBJECTIVES, payload: { collection, objectives } }
+}
+
+export function fetchActiveObjectivesForProject(projectId, filters = {}) {
+	return function(dispatch) {
+		dispatch(requestQueryObjectives('active'));
+		const query = deepAssign({
+			related_task: { project: projectId },
+			scratched: false,
+			progress: {$lt: 1},
+			deleted: false
+		}, filters);
+		superagent
+			.get(Endpoints.QUERY_OBJECTIVES(query))
+			.set(...EndpointAuth())
+			.then(response => response.body)
+			.then(testForErrorReturned)
+			.then(body => dispatch(receiveQueryObjectives(body.objectives, 'active')))
+			// error handling
+			.catch(error => dispatch(addError(error.message, 'Query objectives')))
+	}
+}
+
+export function fetchObjectivesArchiveForProject(projectId, filters = {}) {
+	return function(dispatch) {
+		dispatch(requestQueryObjectives('archived'));
+		const query = deepAssign({
+			related_task: { project: projectId },
+			$or: [
+				{ scratched: true },
+				{ progress: 1 },
+				{ deleted: true }
+			]
+		}, filters);
+		superagent
+			.get(Endpoints.QUERY_OBJECTIVES(query))
+			.set(...EndpointAuth())
+			.then(response => response.body)
+			.then(testForErrorReturned)
+			.then(body => dispatch(receiveQueryObjectives(body.objectives, 'archived')))
+			// error handling
+			.catch(error => dispatch(addError(error.message, 'Query objectives')))
 	}
 }

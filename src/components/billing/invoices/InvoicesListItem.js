@@ -8,6 +8,8 @@ import { connect } from 'react-redux';
 import Strings from '../../../strings/dialogs';
 import { confirmAlert } from './../../misc/ConfirmDialog';
 import { Endpoints, EndpointAuthQuerystring } from '../../../actions/endpoints';
+import { Link } from 'react-router-dom';
+import { encodeProjectName } from '../../../utils';
 
 class InvoicesListItem extends Component {
 	constructor() {
@@ -47,7 +49,9 @@ class InvoicesListItem extends Component {
 				<Card>
 					<CardBlock className='card-body row'>
 						<Col xs={8}>
-							<h4>{project.name}</h4>
+							<Link to={`/project/${encodeProjectName(project.name)}`}>
+								<h4>{project.name}</h4>
+							</Link>
 						</Col>
 						<Col xs={4} className='text-right list-item-options'>
 							<Button color='secondary' onClick={this.toggleEditModal}>

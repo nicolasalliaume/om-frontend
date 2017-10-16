@@ -1,5 +1,5 @@
 import superagent from 'superagent';
-import { Endpoints, EndpointAuth } from './endpoints';
+import { Endpoints, EndpointAuth, testForErrorReturned } from './endpoints';
 import { addError } from './messages';
 import { 
 	REQUEST_LATEST_ACTIVITY_LIST_PAGE,
@@ -23,6 +23,7 @@ function fetchLatestActivityPage(page) {
 			.get(Endpoints.GET_LATEST_ACTIVITY_PAGE(page))
 			.set(...EndpointAuth())
 			.then(response => response.body)
+			.then(testForErrorReturned)
 			.then(body => dispatch(receiveLatestActivityPage(body)))
 			// error handling
 			.catch(error => dispatch(addError(error.message, 'Latest activity')));

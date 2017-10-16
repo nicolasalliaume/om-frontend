@@ -9,8 +9,14 @@ import Tasks from './Tasks';
 import Integrations from './Integrations';
 import Billing from './Billing';
 import Admin from './Admin';
+import ProjectDashboard from './ProjectDashboard';
 
 import Store from '../store';
+
+import { fetchProjectsListIfNeeded } from '../actions/projects';
+
+/* load needed resources */
+Store.dispatch(fetchProjectsListIfNeeded());
 
 export default class Layout extends Component {
 	isAdminUser() {
@@ -58,6 +64,7 @@ export default class Layout extends Component {
 					<Switch>
 						<Route exact path='/' component={Dashboard} />
 						<Route path='/tasks' component={Tasks} />
+						<Route path='/project/:projectName' component={ProjectDashboard} />
 						<Route path='/integrations' component={Integrations} />
 						<Route path='/billing/:projectFilter?' component={Billing} />
 						<Route path='/admin' component={Admin} />

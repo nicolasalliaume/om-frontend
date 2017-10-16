@@ -60,6 +60,16 @@ class EditProjectModalForm extends Component {
 							</Col>
 						</FormGroup>
 						<FormGroup row>
+							<Label for='company_name' sm={2}>Company name</Label>
+							<Col sm={10} className='align-self-center'>
+								<Input type="text" name="company_name" id="company_name" 
+									onChange={this.onChange}
+									value={project.company_name} />
+							</Col>
+							<Col sm={2}></Col>
+							<Col sm={10}><span>This company name will be use for invoices</span></Col>
+						</FormGroup>
+						<FormGroup row>
 							<Label for='hours_sold' sm={2}>Hours sold</Label>
 							<Col sm={3} className='align-self-center'>
 								<Input type="number" name="hours_sold" id="hours_sold" 

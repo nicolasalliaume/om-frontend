@@ -18,6 +18,21 @@
 
 /** end images misc */
 
+/** filter inputs */
+
+.filters {
+    margin-bottom: 10pt;
+    
+    input, select {
+      border: none;
+      border-bottom: 1px solid $light-color;
+      padding: 0 0 2pt 0;
+      // line-height: 16pt;
+      height: calc(2.25rem + 2px);
+    }
+  }
+
+/** end filter inputs */
 
 /** floating button */
 

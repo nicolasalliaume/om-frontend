@@ -1,5 +1,5 @@
 import superagent from 'superagent';
-import { Endpoints, EndpointAuth } from './endpoints';
+import { Endpoints, EndpointAuth, testForErrorReturned } from './endpoints';
 import { addError, addMessage } from './messages';
 import { invalidateLatestActivity } from './activity';
 import { 
@@ -33,7 +33,9 @@ function fetchIntegrations() {
 		superagent
 			.get(Endpoints.GET_INTEGRATIONS())
 			.set(...EndpointAuth())
-			.then(response => response.body.integrations)
+			.then(response => response.body)
+			.then(testForErrorReturned)
+			.then(body => body.integrations)
 			.then(integrations => dispatch(receiveGetIntegrations(integrations)))
 			// error handling
 			.catch(error => dispatch(addError(error.message, 'Fetch integrations')));
@@ -71,6 +73,7 @@ export function createIntegration(integration) {
 			.set(...EndpointAuth())
 			.send(integration)
 			.then(response => response.body)
+			.then(testForErrorReturned)
 			.then(body => dispatch(receiveCreateIntegration(body)))
 			.then(() => dispatch(invalidateIntegrationsList()))
 			.then(() => dispatch(invalidateLatestActivity()))
@@ -97,6 +100,7 @@ export function updateIntegration(integrationId, update) {
 			.set(...EndpointAuth())
 			.send(update)
 			.then(response => response.body)
+			.then(testForErrorReturned)
 			.then(body => dispatch(receiveUpdateIntegration(body)))
 			.then(() => dispatch(invalidateIntegrationsList()))
 			.then(() => dispatch(invalidateLatestActivity()))
@@ -122,6 +126,7 @@ export function deleteIntegration(integrationId) {
 			.delete(Endpoints.DELETE_INTEGRATION(integrationId))
 			.set(...EndpointAuth())
 			.then(response => response.body)
+			.then(testForErrorReturned)
 			.then(body => dispatch(receiveDeleteIntegration(integrationId)))
 			.then(() => dispatch(invalidateIntegrationsList()))
 			.then(() => dispatch(invalidateLatestActivity()))

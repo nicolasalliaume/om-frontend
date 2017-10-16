@@ -16,10 +16,12 @@ import {
 	RECEIVE_UPDATE_PROJECT,
 	REQUEST_DELETE_PROJECT,
 	RECEIVE_DELETE_PROJECT,
-	INVALIDATE_PROJECTS_CACHE
+	INVALIDATE_PROJECTS_CACHE,
+	PROJECT_DASHBOARD_SET_VISIBLE_PROJECT,
+	INVALIDATE_PROJECT_DASHBOARD
 } from './types';
 import superagent from 'superagent';
-import { Endpoints, EndpointAuth } from './endpoints';
+import { Endpoints, EndpointAuth, testForErrorReturned } from './endpoints';
 import { addMessage, addError } from './messages';
 
 function requestProjectsList() {
@@ -37,6 +39,7 @@ function fetchProjectsList() {
 			.get(Endpoints.GET_PROJECTS_LIST())
 			.set(...EndpointAuth())
 			.then(response => response.body)
+			.then(testForErrorReturned)
 			.then(body => dispatch(receiveProjectsList(body)))
 			// error handling
 			.catch(error => dispatch(addError(error.message, 'Projects list')));
@@ -73,6 +76,7 @@ export function addProject(project) {
 			.set(...EndpointAuth())
 			.send(project)
 			.then(response => response.body)
+			.then(testForErrorReturned)
 			.then(body => dispatch(receiveAddProject(body)))
 			.then(() => dispatch(invalidateProjectsCache()))
 			.then(() => dispatch(invalidateProjectsBilling()))
@@ -98,6 +102,7 @@ export function deleteProject(projectId) {
 			.delete(Endpoints.DELETE_PROJECT(projectId))
 			.set(...EndpointAuth())
 			.then(response => response.body)
+			.then(testForErrorReturned)
 			.then(body => dispatch(receiveDeleteProject(projectId, body)))
 			.then(() => dispatch(invalidateProjectsCache()))
 			.then(() => dispatch(invalidateProjectsBilling()))
@@ -124,6 +129,7 @@ export function updateProject(projectId, update) {
 			.set(...EndpointAuth())
 			.send(update)
 			.then(response => response.body)
+			.then(testForErrorReturned)
 			.then(body => dispatch(receiveUpdateProject(body)))
 			.then(() => dispatch(invalidateProjectsCache()))
 			.then(() => dispatch(invalidateProjectsBilling()))
@@ -157,6 +163,7 @@ function fetchProjectsBilling() {
 			.get(Endpoints.GET_PROJECTS_BILLING())
 			.set(...EndpointAuth())
 			.then(response => response.body)
+			.then(testForErrorReturned)
 			.then(body => dispatch(receiveProjectsBilling(body)))
 			// error handling
 			.catch(error => dispatch(addError(error.message, 'Projects billing')));
@@ -195,6 +202,7 @@ export function addInvoiceToProject(projectId, invoice) {
 			.set(...EndpointAuth())
 			.send(invoice)
 			.then(response => response.body)
+			.then(testForErrorReturned)
 			.then(body => dispatch(receiveAddInvoice(body)))
 			.then(() => dispatch(invalidateProjectsBilling()))
 			.then(() => dispatch(addMessage(`Invoice added for project "${project.name}"`, 'Invoice added')))
@@ -219,6 +227,7 @@ export function updateInvoice(projectId, invoice) {
 			.set(...EndpointAuth())
 			.send(invoice)
 			.then(response => response.body)
+			.then(testForErrorReturned)
 			.then(body => dispatch(receiveUpdateInvoice(body)))
 			.then(() => dispatch(invalidateProjectsBilling()))
 			.then(() => dispatch(addMessage(invoice.description, 'Invoice updated')))
@@ -250,6 +259,7 @@ export function deleteInvoice(projectId, invoiceId) {
 			.delete(Endpoints.DELETE_INVOICE(projectId, invoiceId))
 			.set(...EndpointAuth())
 			.then(response => response.body)
+			.then(testForErrorReturned)
 			.then(body => dispatch(receiveDeleteInvoice(projectId, invoiceId, body)))
 			.then(() => dispatch(invalidateProjectsBilling()))
 			.then(() => dispatch(addMessage('Invoice deleted for project ' + project.name, 'Invoice deleted')))
@@ -257,3 +267,15 @@ export function deleteInvoice(projectId, invoiceId) {
 			.catch(error => dispatch(addError(error.message, 'Delete invoice')));
 	}
 }
+
+function invalidateProjectDashboard() {
+	return { type: INVALIDATE_PROJECT_DASHBOARD }
+}
+
+export function setProjectDashboardVisibleProject(projectId) {
+	return function(dispatch) {
+		dispatch(invalidateProjectDashboard());
+		dispatch({ type: PROJECT_DASHBOARD_SET_VISIBLE_PROJECT, payload: projectId });
+	}
+}
+
