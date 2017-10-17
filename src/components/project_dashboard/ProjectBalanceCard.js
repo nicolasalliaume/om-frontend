@@ -16,6 +16,7 @@ export default class ProjectBalanceCard extends Component {
 
 		const income = this.getIncome(project.invoices);
 		const outcome = this.getOutcome();
+		const executed = Math.ceil(project.executed_hours_total);
 
 		return (
 			<Card className='project-balance text-center'>
@@ -24,11 +25,21 @@ export default class ProjectBalanceCard extends Component {
 					<Row>
 						<Col xs={6}>
 							<h6>Income</h6>
-							<span class='balance-amount income'>{income}</span>
+							<span className='balance-amount income'>{income}</span>
 						</Col>
 						<Col xs={6}>
 							<h6>Outcome</h6>
-							<span class='balance-amount outcome'>{outcome}</span>
+							<span className='balance-amount outcome'>{outcome}</span>
+						</Col>
+					</Row>
+					<Row>
+						<Col xs={6}>
+							<h6>Hours</h6>
+							<span className='balance-hours income'>{executed}</span>
+						</Col>
+						<Col xs={6}>
+							<h6>$/HR</h6>
+							<span className='balance-amount outcome'>{project.hourly_rate}</span>
 						</Col>
 					</Row>
 				</CardBlock>
