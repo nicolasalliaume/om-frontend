@@ -3,22 +3,27 @@ import { Row, Col, Card, CardBlock, CardTitle } from 'reactstrap';
 import ProjectsBillingStatusCard from '../components/billing/projects_status/ProjectsBillingStatusCard'
 import { getProjectIdFromEncodedName } from '../utils';
 import { connect } from 'react-redux';
-import ObjectivesDisplayList from '../components/objectives/lists/ObjectivesDisplayList';
+import InvoicesDisplayList from '../components/project_dashboard/InvoicesDisplayList';
+import ObjectivesDisplayList from '../components/project_dashboard/ObjectivesDisplayList';
+import ProjectBalanceCard from '../components/project_dashboard/ProjectBalanceCard';
 import { 
 	fetchProjectsListIfNeeded, 
-	setProjectDashboardVisibleProject
+	setProjectDashboardVisibleProject,
+	fetchBillingForProject
 } from '../actions/projects';
 import { 
 	fetchActiveObjectivesForProject, 
 	fetchObjectivesArchiveForProject
 } from '../actions/objectives';
 
+import './../styles/Billing.css';
 import './../styles/ProjectDashboard.css';
 
 class ProjectDashboard extends Component {
 	componentWillMount() {
 		const projectId = this.getProjectId(this.props);
 		this.props.setProjectDashboardVisibleProject(projectId);
+		this.props.fetchBillingForProject(projectId);
 	}
 
 	setupDashboard(props) {
@@ -42,7 +47,13 @@ class ProjectDashboard extends Component {
 		const projectId = this.getProjectId(this.props);
 		if (!projectId) return <div>Project not found</div>;
 
-		const { archived, active } = this.props.projectDashboard.objectives;
+		const { projectDashboard } = this.props;
+
+		const { archived, active } = projectDashboard.objectives;
+
+		const project = projectDashboard.billing.project;
+		const invoices = (project || {}).invoices || [];
+		invoices.sort((a, b) => new Date(b.invoicing_date) - new Date(a.invoicing_date));
 
 		return (
 			<div className='project-dashboard'>
@@ -50,6 +61,8 @@ class ProjectDashboard extends Component {
 					<Col lg={4} xs={12}>
 						<ProjectsBillingStatusCard project={projectId}
 							title={'Project <b>status</b>'} />
+						<ProjectBalanceCard project={project} />
+						<InvoicesDisplayList invoices={invoices} />
 					</Col>
 					<Col lg={4} xs={12}>
 						<ObjectivesDisplayList
@@ -76,6 +89,7 @@ const mapStateToProps = state => { return {
 
 const mapDispatchToProps = dispatch => { return {
 	setProjectDashboardVisibleProject : (projectId) => dispatch(setProjectDashboardVisibleProject(projectId)),
+	fetchBillingForProject : (projectId) => dispatch(fetchBillingForProject(projectId)),
 	fetchActiveObjectivesForProject : (projectId, filters) => dispatch(fetchActiveObjectivesForProject(projectId, filters)),
 	fetchObjectivesArchiveForProject : (projectId, filters) => dispatch(fetchObjectivesArchiveForProject(projectId, filters))
 }}

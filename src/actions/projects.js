@@ -18,7 +18,9 @@ import {
 	RECEIVE_DELETE_PROJECT,
 	INVALIDATE_PROJECTS_CACHE,
 	PROJECT_DASHBOARD_SET_VISIBLE_PROJECT,
-	INVALIDATE_PROJECT_DASHBOARD
+	INVALIDATE_PROJECT_DASHBOARD,
+	REQUEST_BILLING_FOR_PROJECT,
+	RECEIVE_BILLING_FOR_PROJECT
 } from './types';
 import superagent from 'superagent';
 import { Endpoints, EndpointAuth, testForErrorReturned } from './endpoints';
@@ -279,3 +281,24 @@ export function setProjectDashboardVisibleProject(projectId) {
 	}
 }
 
+function requestBillingForProject(projectId) {
+	return { type: REQUEST_BILLING_FOR_PROJECT }
+}
+
+function receiveBillingForProject(project) {
+	return { type: RECEIVE_BILLING_FOR_PROJECT, payload: project }
+}
+
+export function fetchBillingForProject(projectId) {
+	return function(dispatch) {
+		dispatch(requestBillingForProject(projectId));
+		superagent
+			.get(Endpoints.GET_BILLING_FOR_PROJECT(projectId))
+			.set(...EndpointAuth())
+			.then(response => response.body)
+			.then(testForErrorReturned)
+			.then(body => dispatch(receiveBillingForProject(body)))
+			// error handling
+			.catch(error => dispatch(addError(error.message, 'Get project billing')));
+	}
+}

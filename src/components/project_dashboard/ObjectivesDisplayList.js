@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
 import { Col, Card, CardBlock, CardTitle } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import ObjectivesListItem from './ObjectivesListItem';
-import EditObjectiveModalForm from './../forms/EditObjectiveModalForm';
-import Icon from '../../misc/Icon';
-import Tag from '../../misc/Tag';
+import Icon from '../misc/Icon';
+import Tag from '../misc/Tag';
 import ObjectivesDisplayListFilterBar from './ObjectivesDisplayListFilterBar';
-import { getNewObjectiveTemplate } from '../../../utils';
 
 export default class ObjectivesDisplayList extends Component {
 	componentDidMount() {

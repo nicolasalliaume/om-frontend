@@ -19,4 +19,17 @@
 			margin-top: 5pt;
 		}
 	}
+
+	.project-balance {
+		h6 {
+			color: #bbb;
+		}
+		span {
+			font-size: 2.2em;
+			&:before {
+				content: '$ ';
+				font-size: 0.5em;
+			}
+		}
+	}
 }

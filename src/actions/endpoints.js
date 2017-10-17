@@ -37,6 +37,7 @@ export const Endpoints = {
 	/** project endpoints */
 	GET_PROJECTS_LIST			: () => `${BASE_URL}/projects`,
 	GET_PROJECTS_BILLING		: () => `${BASE_URL}/projects/billing`,
+	GET_BILLING_FOR_PROJECT		: (projectId) => `${BASE_URL}/projects/${projectId}/billing`,
 	ADD_PROJECT					: () => `${BASE_URL}/projects/add`,
 	DELETE_PROJECT				: (projectId) => `${BASE_URL}/projects/${projectId}`,
 	UPDATE_PROJECT				: (projectId) => `${BASE_URL}/projects/${projectId}`,
