@@ -23,9 +23,7 @@ export default class ObjectivesDisplayList extends Component {
 			<Card className={`list objectives display`}>
 				<CardBlock className='card-body'>
 					<CardTitle dangerouslySetInnerHTML={{__html: title}} />
-					{ !dataSource.empty() && 
-						<ObjectivesDisplayListFilterBar submit={this.submitFilters} />
-					}
+					<ObjectivesDisplayListFilterBar submit={this.submitFilters} />
 					{ !dataSource.empty() && 
 						<ul className={`objectives-list`}>
 							{ dataSource.map((o) => this.renderObjective(o)) }
