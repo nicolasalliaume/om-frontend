@@ -4,7 +4,9 @@ import {
 	PROJECT_DASHBOARD_SET_VISIBLE_PROJECT,
 	INVALIDATE_PROJECT_DASHBOARD,
 	REQUEST_BILLING_FOR_PROJECT,
-	RECEIVE_BILLING_FOR_PROJECT
+	RECEIVE_BILLING_FOR_PROJECT,
+	REQUEST_PROJECT_WORK_ENTRIES,
+	RECEIVE_PROJECT_WORK_ENTRIES
 } from './../../actions/types';
 
 import update from 'immutability-helper';
@@ -14,7 +16,8 @@ export function projectDashboardView(state, action) {
 	if (state === undefined) return {
 		visibleProject 	: null, 
 		objectives 		: objectives(),
-		billing 		: billing()
+		billing 		: billing(),
+		workEntries		: workEntries()
 	}
 
 	switch (action.type) {
@@ -29,6 +32,10 @@ export function projectDashboardView(state, action) {
 		case RECEIVE_BILLING_FOR_PROJECT:
 		case REQUEST_BILLING_FOR_PROJECT:
 			return update(state, {billing: {$set: billing(state.billing, action)}})
+
+		case REQUEST_PROJECT_WORK_ENTRIES:
+		case RECEIVE_PROJECT_WORK_ENTRIES:
+			return update(state, {workEntries: {$set: workEntries(state.workEntries, action)}})
 
 		default:
 			return state;
@@ -95,6 +102,29 @@ function objectives(state, action) {
 			})
 
 		default: 
+			return state;
+	}
+}
+
+function workEntries(state, action) {
+	if (state === undefined) return {
+		isFetching 		: false,
+		didInvalidate 	: true,
+		entries 		: []
+	}
+
+	switch (action.type) {
+		case REQUEST_PROJECT_WORK_ENTRIES:
+			return update(state, {isFetching: {$set: true}})
+
+		case RECEIVE_PROJECT_WORK_ENTRIES:
+			return update(state, {
+				didInvalidate: {$set: false},
+				isFetching: {$set: false},
+				entries: {$set: action.payload}
+			})
+
+		default:
 			return state;
 	}
 }

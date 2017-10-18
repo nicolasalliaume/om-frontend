@@ -6,10 +6,12 @@ import { connect } from 'react-redux';
 import InvoicesDisplayList from '../components/project_dashboard/InvoicesDisplayList';
 import ObjectivesDisplayList from '../components/project_dashboard/ObjectivesDisplayList';
 import ProjectBalanceCard from '../components/project_dashboard/ProjectBalanceCard';
+import ProjectWorkEntriesCard from '../components/project_dashboard/ProjectWorkEntriesCard';
 import { 
 	fetchProjectsListIfNeeded, 
 	setProjectDashboardVisibleProject,
-	fetchBillingForProject
+	fetchBillingForProject,
+	fetchWorkEntriesForProject
 } from '../actions/projects';
 import { 
 	fetchActiveObjectivesForProject, 
@@ -24,18 +26,7 @@ class ProjectDashboard extends Component {
 		const projectId = this.getProjectId(this.props);
 		this.props.setProjectDashboardVisibleProject(projectId);
 		this.props.fetchBillingForProject(projectId);
-	}
-
-	setupDashboard(props) {
-		const { archived, active } = props.projectDashboard.objectives;
-		const projectId = this.getProjectId(props);
-
-		if (archived.didInvalidate && !archived.isFetching) {
-			props.fetchObjectivesArchiveForProject(projectId);
-		}
-		if (active.didInvalidate && !active.isFetching) {
-			props.fetchActiveObjectivesForProject(projectId);
-		}
+		this.props.fetchWorkEntriesForProject(projectId);
 	}
 
 	getProjectId = (props) => {
@@ -48,8 +39,8 @@ class ProjectDashboard extends Component {
 		if (!projectId) return <div>Project not found</div>;
 
 		const { projectDashboard } = this.props;
-
 		const { archived, active } = projectDashboard.objectives;
+		const { workEntries } = projectDashboard;
 
 		const project = projectDashboard.billing.project;
 		const invoices = (project || {}).invoices || [];
@@ -65,12 +56,13 @@ class ProjectDashboard extends Component {
 						<InvoicesDisplayList invoices={invoices} />
 					</Col>
 					<Col lg={4} xs={12}>
+						<ProjectWorkEntriesCard project={projectId} workEntries={workEntries} />
+					</Col>
+					<Col lg={4} xs={12}>
 						<ObjectivesDisplayList
 							fetch={filters => this.props.fetchActiveObjectivesForProject(projectId, filters)}
 							dataSource={active.list}
 							title={'<b>Active</b> objectives'} />
-					</Col>
-					<Col lg={4} xs={12}>
 						<ObjectivesDisplayList
 							fetch={filters => this.props.fetchObjectivesArchiveForProject(projectId, filters)}
 							dataSource={archived.list}
@@ -91,7 +83,8 @@ const mapDispatchToProps = dispatch => { return {
 	setProjectDashboardVisibleProject : (projectId) => dispatch(setProjectDashboardVisibleProject(projectId)),
 	fetchBillingForProject : (projectId) => dispatch(fetchBillingForProject(projectId)),
 	fetchActiveObjectivesForProject : (projectId, filters) => dispatch(fetchActiveObjectivesForProject(projectId, filters)),
-	fetchObjectivesArchiveForProject : (projectId, filters) => dispatch(fetchObjectivesArchiveForProject(projectId, filters))
+	fetchObjectivesArchiveForProject : (projectId, filters) => dispatch(fetchObjectivesArchiveForProject(projectId, filters)),
+	fetchWorkEntriesForProject : (projectId) => dispatch(fetchWorkEntriesForProject(projectId))
 }}
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectDashboard)

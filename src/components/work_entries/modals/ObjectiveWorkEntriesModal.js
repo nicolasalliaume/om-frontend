@@ -6,7 +6,7 @@ import {
 	ModalHeader, 
 	ModalBody
 } from 'reactstrap';
-import WorkEntriesList from '../view/WorkEntriesList';
+import WorkEntriesGridList from '../view/WorkEntriesGridList';
 
 class ObjectiveWorkEntriesModal extends Component {
 	componentWillReceiveProps(props) {
@@ -21,7 +21,7 @@ class ObjectiveWorkEntriesModal extends Component {
 			<Modal isOpen={show} toggle={toggle} className='work-entries'>
 				<ModalHeader toggle={toggle}>Objective's <b>work entries</b></ModalHeader>
 				<ModalBody>
-					<WorkEntriesList entries={entries || []} />
+					<WorkEntriesGridList entries={entries || []} />
 				</ModalBody>
 			</Modal>
 		)

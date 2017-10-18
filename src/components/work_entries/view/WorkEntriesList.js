@@ -6,7 +6,7 @@ export default class WorkEntriesList extends Component {
 	render() {
 		const { entries } = this.props;
 		return (
-			<ul>
+			<ul className='list'>
 				{ entries.map(e => (
 					<WorkEntriesListItem key={e._id} entry={e} />)
 				)}

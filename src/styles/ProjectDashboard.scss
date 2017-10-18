@@ -20,6 +20,30 @@
 		}
 	}
 
+	.project-work-entries {
+		.card-body {
+			padding-bottom: 0;
+		}
+
+		li {
+			padding-top: 10pt;
+		}
+
+		.description {
+			margin: 5pt 0 10pt;
+		}
+		footer {
+			font-size: 0.85em;
+			.time {
+				font-weight: 800;
+			}
+			.ago {
+				font-style: italic;
+				color: #bbb;
+			}
+		}
+	}
+
 	.project-balance {
 		h6 {
 			color: #bbb;
