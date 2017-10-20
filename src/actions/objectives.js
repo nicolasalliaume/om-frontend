@@ -14,7 +14,10 @@ import {
 	REQUEST_OBJECTIVE_WORK_ENTRIES,
 	RECEIVE_OBJECTIVE_WORK_ENTRIES,
 	REQUEST_QUERY_OBJECTIVES,
-	RECEIVE_QUERY_OBJECTIVES
+	RECEIVE_QUERY_OBJECTIVES,
+	REQUEST_ADD_OBJECTIVE_WORK_ENTRY,
+	RECEIVE_ADD_OBJECTIVE_WORK_ENTRY,
+	INVALIDATE_OBJECTIVE_WORK_ENTRIES
 } from './types';
 
 import { invalidateLatestActivity } from './activity';
@@ -149,7 +152,6 @@ export function createObjectiveFromTask(task) {
 export function createObjective(objective, invalidateTasks = false) {
 	return function(dispatch) {
 		dispatch(requestCreateObjective(objective));
-
 		return superagent
 			.post(Endpoints.CREATE_OBJECTIVE())
 			.set(...EndpointAuth())
@@ -352,4 +354,35 @@ export function fetchObjectivesArchiveForProject(projectId, filters = {}) {
 			// error handling
 			.catch(error => dispatch(addError(error.message, 'Query objectives')))
 	}
+}
+
+function requestCreateObjectiveWorkEntry() {
+	return { type: REQUEST_ADD_OBJECTIVE_WORK_ENTRY }
+}
+
+function receiveCreateObjectiveWorkEntry(body) {
+	return { type: RECEIVE_ADD_OBJECTIVE_WORK_ENTRY, payload: body }
+}
+
+export function createObjectiveWorkEntry(objectiveId, entry) {
+	return function(dispatch, getState) {
+		const objective = findObjectiveById(objectiveId, 
+			getState().dashboardView.objectivesList.objectivesByLevel);
+		dispatch(requestCreateObjectiveWorkEntry());
+		return superagent
+			.post(Endpoints.CREATE_OBJECTIVE_WORK_ENTRY(objectiveId))
+			.set(...EndpointAuth())
+			.send(entry)
+			.then(response => response.body)
+			.then(testForErrorReturned)
+			.then(doc => dispatch(receiveCreateObjectiveWorkEntry(doc)))
+			.then(() => dispatch(invalidateObjectiveWorkEntries(objectiveId)))
+			.then(() => dispatch(addMessage(objective.title, 'Work entry added to objective')))
+			// error handling
+			.catch(error => dispatch(addError(error.message, 'Add work entry')))
+	}
+}
+
+export function invalidateObjectiveWorkEntries(objectiveId) {
+	return { type: INVALIDATE_OBJECTIVE_WORK_ENTRIES, payload: objectiveId }
 }

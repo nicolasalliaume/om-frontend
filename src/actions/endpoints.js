@@ -16,6 +16,7 @@ export const Endpoints = {
 	UPDATE_OBJECTIVE 				: (objectiveId) => `${BASE_URL}/objectives/${objectiveId}`,
 	DELETE_OBJECTIVE				: (objectiveId) => `${BASE_URL}/objectives/${objectiveId}`,
 	GET_OBJECTIVE_WORK_ENTRIES 		: (objectiveId) => `${BASE_URL}/objectives/${objectiveId}/work-entries`,
+	CREATE_OBJECTIVE_WORK_ENTRY		: (objectiveId) => `${BASE_URL}/objectives/${objectiveId}/work-entries/add`,
 	QUERY_OBJECTIVES				: (query) => `${BASE_URL}/objectives/query?${encode(query)}`,
 
 	/** task endopoins */

@@ -182,8 +182,10 @@ class ObjectivesListItem extends Component {
 				<EditObjectiveModalForm edit show={this.state.editModal} 
 					toggle={this.toggleEditModal} objective={objective} />
 
-				<ObjectiveWorkEntriesModal show={this.state.workEntriesModal}
-					toggle={this.toggleWorkEntriesModal} objective={objective} />
+				{ this.state.workEntriesModal && 
+					<ObjectiveWorkEntriesModal show={this.state.workEntriesModal}
+						toggle={this.toggleWorkEntriesModal} objective={objective} />
+				}
 
 				{ hasDescription && 
 					<DescriptionModal show={this.state.descriptionModal} 
