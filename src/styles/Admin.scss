@@ -29,7 +29,7 @@
 	&:hover { background-color: darken($accent-color, 10%) }
 }
 
-.modal .form-group span {
+.modal .form-group span.note {
 	font-style: italic;
     font-size: 0.8em;
     color: #bbb;

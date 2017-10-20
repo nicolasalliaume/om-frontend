@@ -67,7 +67,7 @@ class EditProjectModalForm extends Component {
 									value={project.company_name} />
 							</Col>
 							<Col sm={2}></Col>
-							<Col sm={10}><span>This company name will be use for invoices</span></Col>
+							<Col sm={10}><span className='note'>This company name will be use for invoices</span></Col>
 						</FormGroup>
 						<FormGroup row>
 							<Label for='hours_sold' sm={2}>Hours sold</Label>
