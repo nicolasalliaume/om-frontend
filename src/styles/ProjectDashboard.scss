@@ -22,7 +22,7 @@
 
 	.project-work-entries {
 		.card-body {
-			padding-bottom: 0;
+			padding-bottom: 10pt;
 		}
 
 		li {
@@ -41,6 +41,15 @@
 				font-style: italic;
 				color: #bbb;
 			}
+		}
+
+		.project-work-entries-options {
+			.btn, .btn:hover, .btn:active, .btn:focus {
+				background-color: transparent;
+				color: $dark-color;
+				box-shadow: none;
+			}
+			.btn { color: $text-color; }
 		}
 	}
 
