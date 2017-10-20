@@ -22,7 +22,8 @@ import {
 	REQUEST_BILLING_FOR_PROJECT,
 	RECEIVE_BILLING_FOR_PROJECT,
 	REQUEST_PROJECT_WORK_ENTRIES,
-	RECEIVE_PROJECT_WORK_ENTRIES
+	RECEIVE_PROJECT_WORK_ENTRIES,
+	SET_PROJECT_DASHBOARD_WORK_ENTRIES_FILTER
 } from './types';
 import superagent from 'superagent';
 import { Endpoints, EndpointAuth, testForErrorReturned } from './endpoints';
@@ -315,9 +316,10 @@ function receiveWorkEntriesForProject(workEntries) {
 
 export function fetchWorkEntriesForProject(projectId) {
 	return function(dispatch, getState) {
+		const filters = getState().projectDashboardView.workEntries.filters;
 		dispatch(requestWorkEntriesForProject(projectId))
 		superagent
-			.get(Endpoints.GET_WORK_ENTRIES_FOR_PROJECT(projectId))
+			.get(Endpoints.GET_WORK_ENTRIES_FOR_PROJECT(projectId, filters))
 			.set(...EndpointAuth())
 			.then(response => response.body)
 			.then(testForErrorReturned)
@@ -325,4 +327,8 @@ export function fetchWorkEntriesForProject(projectId) {
 			// error handling
 			.catch(error => dispatch(addError(error.message, 'Get work entries')));
 	}
+}
+
+export function setProjectDashboardWorkEntriesFilters(filters) {
+	return { type: SET_PROJECT_DASHBOARD_WORK_ENTRIES_FILTER, payload: filters}
 }

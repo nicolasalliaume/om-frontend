@@ -6,7 +6,8 @@ import {
 	REQUEST_BILLING_FOR_PROJECT,
 	RECEIVE_BILLING_FOR_PROJECT,
 	REQUEST_PROJECT_WORK_ENTRIES,
-	RECEIVE_PROJECT_WORK_ENTRIES
+	RECEIVE_PROJECT_WORK_ENTRIES,
+	SET_PROJECT_DASHBOARD_WORK_ENTRIES_FILTER
 } from './../../actions/types';
 
 import update from 'immutability-helper';
@@ -23,8 +24,14 @@ export function projectDashboardView(state, action) {
 	switch (action.type) {
 		case REQUEST_QUERY_OBJECTIVES:
 		case RECEIVE_QUERY_OBJECTIVES:
-		case INVALIDATE_PROJECT_DASHBOARD:
 			return update(state, {objectives: {$set: objectives(state.objectives, action)}})
+
+		case INVALIDATE_PROJECT_DASHBOARD:
+			return update(state, {
+				objectives: {$set: objectives(state.objectives, action)},
+				workEntries: {$set: workEntries(state.workEntries, action)},
+				billing: {$set: billing(state.billing, action)}
+			})
 		
 		case PROJECT_DASHBOARD_SET_VISIBLE_PROJECT:
 			return update(state, {visibleProject: {$set: action.payload}})
@@ -35,6 +42,7 @@ export function projectDashboardView(state, action) {
 
 		case REQUEST_PROJECT_WORK_ENTRIES:
 		case RECEIVE_PROJECT_WORK_ENTRIES:
+		case SET_PROJECT_DASHBOARD_WORK_ENTRIES_FILTER:
 			return update(state, {workEntries: {$set: workEntries(state.workEntries, action)}})
 
 		default:
@@ -60,6 +68,12 @@ function billing(state, action) {
 				project: {$set: action.payload}
 			})
 		}
+
+		case INVALIDATE_PROJECT_DASHBOARD:
+			return update(state, {
+				didInvalidate: {$set: true},
+				project: {$set: null}
+			})
 
 		default:
 			return state;
@@ -97,8 +111,14 @@ function objectives(state, action) {
 
 		case INVALIDATE_PROJECT_DASHBOARD:
 			return update(state, { 
-				archived: {didInvalidate: {$set: true}},
-				active: {didInvalidate: {$set: true}}
+				archived: {
+					didInvalidate: {$set: true},
+					list: {$set: []}
+				},
+				active: {
+					didInvalidate: {$set: true},
+					list: {$set: []}
+				}
 			})
 
 		default: 
@@ -110,7 +130,8 @@ function workEntries(state, action) {
 	if (state === undefined) return {
 		isFetching 		: false,
 		didInvalidate 	: true,
-		entries 		: []
+		entries 		: [],
+		filters 		: {}
 	}
 
 	switch (action.type) {
@@ -122,6 +143,19 @@ function workEntries(state, action) {
 				didInvalidate: {$set: false},
 				isFetching: {$set: false},
 				entries: {$set: action.payload}
+			})
+
+		case SET_PROJECT_DASHBOARD_WORK_ENTRIES_FILTER:
+			return update(state, {
+				didInvalidate: {$set: true},
+				filters: {$set: action.payload}
+			})
+
+		case INVALIDATE_PROJECT_DASHBOARD:
+			return update(state, {
+				didInvalidate: {$set: false},
+				entries: {$set: []},
+				filters: {$set: {}}
 			})
 
 		default:
