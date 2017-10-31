@@ -41,7 +41,7 @@ export default class ProjectsBillingStatusListItem extends Component {
 				class : 'green',
 				start : 0,
 				width : 100,
-				label : Math.ceil(total)
+				label : Math.round(total)
 			}]
 		}
 
@@ -50,7 +50,7 @@ export default class ProjectsBillingStatusListItem extends Component {
 				class : isOverworked ? 'red' : 'grey',
 				start : (isOverworked ? sold / executed : 0) * 100,
 				width : (isOverworked ? overwork / executed : 1) * 100,
-				label : Math.ceil(total)
+				label : Math.round(total)
 			},{
 				class : 'green',
 				start : 0,
@@ -60,7 +60,7 @@ export default class ProjectsBillingStatusListItem extends Component {
 				class : 'blue',
 				start : 0,
 				width : (isOverworked ? sold / executed : executed / sold) * 100,
-				label : Math.ceil(isOverworked ? sold : executed)
+				label : Math.round(isOverworked ? sold : executed)
 			}
 		]
 	}
