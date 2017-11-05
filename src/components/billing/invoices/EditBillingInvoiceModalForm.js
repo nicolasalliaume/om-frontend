@@ -19,7 +19,7 @@ import moment from 'moment';
 import { numToWords } from '../../../utils';
 import { addInvoiceToProject, updateInvoice } from '../../../actions/projects';
 
-class EditInvoiceModalForm extends Component {
+class EditBillingInvoiceModalForm extends Component {
 	constructor() {
 		super();
 		this.state = { 
@@ -68,7 +68,7 @@ class EditInvoiceModalForm extends Component {
 
 		return (
 			<Modal isOpen={this.props.show} toggle={toggle} className={this.props.className}>
-				<ModalHeader toggle={toggle}>{op} <b>invoice</b></ModalHeader>
+				<ModalHeader toggle={toggle}>{op} <b>billing invoice</b></ModalHeader>
 				<ModalBody>
 					<Form className='edit-objective-form' onSubmit={e => e.preventDefault() && false}>
 						<FormGroup row>
@@ -159,4 +159,4 @@ const mapDispatchToProps = dispatch => { return {
 	updateInvoice : (pid, invoice) => dispatch(updateInvoice(pid, invoice))
 }}
 
-export default connect(null, mapDispatchToProps)(EditInvoiceModalForm);
+export default connect(null, mapDispatchToProps)(EditBillingInvoiceModalForm);

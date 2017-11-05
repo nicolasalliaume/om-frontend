@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Icon from './../../misc/Icon';
-import EditInvoiceModalForm from '../invoices/EditInvoiceModalForm';
+import EditBillingInvoiceModalForm from '../invoices/EditBillingInvoiceModalForm';
 import FloatingButton from './../../misc/FloatingButton';
 import { getNewInvoiceTemplate } from './../../../utils';
 
@@ -16,7 +16,7 @@ export default class CreateInvoiceFloatingButton extends Component {
 		return (
 			<FloatingButton color='accent' onClick={this.toggle}>
 				<Icon fa-plus />
-				<EditInvoiceModalForm show={this.state.modal}
+				<EditBillingInvoiceModalForm show={this.state.modal}
 					toggle={this.toggle} invoice={getNewInvoiceTemplate()} />
 			</FloatingButton>
 		)

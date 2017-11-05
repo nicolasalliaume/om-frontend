@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Col, Card, CardBlock, Button } from 'reactstrap';
 import moment from 'moment';
 import Icon from '../../misc/Icon';
-import EditInvoiceModalForm from './EditInvoiceModalForm';
+import EditBillingInvoiceModalForm from './EditBillingInvoiceModalForm';
 import { deleteInvoice } from '../../../actions/projects';
 import { connect } from 'react-redux';
 import Strings from '../../../strings/dialogs';
@@ -79,7 +79,7 @@ class InvoicesListItem extends Component {
 						</Col>
 					</CardBlock>
 				</Card>
-				<EditInvoiceModalForm edit show={this.state.editModal} 
+				<EditBillingInvoiceModalForm edit show={this.state.editModal} 
 					toggle={this.toggleEditModal} invoice={this.props.invoice} />
 			</li>
 		)

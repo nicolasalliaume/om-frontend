@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { Row, Col, Card, CardBlock, CardTitle } from 'reactstrap';
+import { Row, Col } from 'reactstrap';
 import { connect } from 'react-redux';
 import ProjectsBillingStatusList from '../components/billing/projects_status/ProjectsBillingStatusList';
-import LatestInvoicesList from '../components/billing/invoices/LatestInvoicesList';
 import UnpaidInvoicesCard from '../components/billing/invoices/UnpaidInvoicesCard';
 import OverworkCard from '../components/billing/projects_status/OverworkCard';
 import ProjectsBillingStatusCard from '../components/billing/projects_status/ProjectsBillingStatusCard';
@@ -10,42 +9,20 @@ import MonthlyInvoicesMissing from '../components/billing/invoices/MonthlyInvoic
 import BillingOpportunities from '../components/billing/opportunities/BillingOpportunities';
 import CreateInvoiceFloatingButton from '../components/billing/misc/CreateInvoiceFloatingButton';
 import { fetchProjectsListIfNeeded } from '../actions/projects';
+import LatestBillingCard from '../components/billing/invoices/LatestBillingCard';
 
 import './../styles/Billing.css';
 
-class Billing extends Component {
-	componentWillMount() {
-		this.props.fetchProjectsListIfNeeded();
-	}
-	componentWillReceiveProps(props) {
-		this.props.fetchProjectsListIfNeeded();
-	}
-	getFilteredProjectId() {
-		const { match, projectsById } = this.props;
-		if (!projectsById || !match.params) return null;
-		const { projectFilter } = match.params;
-		if (!projectFilter) return null;
-
-		const filter = projectFilter.replace(/-/g, ' ').toLowerCase();
-		const matches = Object.values(projectsById)
-			.filter(p => p.name.toLowerCase() === filter)
-		if (matches.length === 0) return null;
-		return matches[0]._id;
-	}
+export default class Billing extends Component {
 	render() {
 		return (
 			<div className='billing'>
 				<Row>
 					<Col lg={4} xs={12}>
-					<ProjectsBillingStatusCard project={this.getFilteredProjectId()} />
+					<ProjectsBillingStatusCard />
 					</Col>
 					<Col lg={4} xs={12}>
-						<Card className='latest-invoices list list--large'>
-							<CardBlock className='card-body'>
-								<CardTitle>Latest <b>invoices</b></CardTitle>
-							</CardBlock>
-						</Card>
-						<LatestInvoicesList filter={this.getFilteredProjectId()}/>
+						<LatestBillingCard />
 					</Col>
 					<Col lg={4}>
 						<Row>
@@ -69,13 +46,3 @@ class Billing extends Component {
 		)
 	}
 }
-
-const mapStateToProps = state => { return {
-	projectsById: state.cache.projects.projectsById
-}}
-
-const mapDispatchToProps = dispatch => { return {
-	fetchProjectsListIfNeeded : () => dispatch(fetchProjectsListIfNeeded())
-}}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Billing);

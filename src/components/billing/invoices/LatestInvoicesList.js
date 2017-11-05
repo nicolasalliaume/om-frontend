@@ -15,17 +15,17 @@ class LatestInvoicesList extends Component {
 	 * @return {Array}
 	 */
 	getLatestInvoices() {
-		const { projects, filter } = this.props;
+		const { projects } = this.props;
 		if (!projects) return [];
 
 		const invoices = projects
-			.filter(p => !filter || filter === p._id)
 			.map(p => p.invoices)
+			.map(invoices => invoices.filter(i => i.direction === 'out'))
 			.reduce((all, invoices) => all.concat(invoices), [])
 			.sort((a, b) => {
 				return new Date(b.invoicing_date) - new Date(a.invoicing_date);
 			});
-		return invoices; //.slice(0, 10); // returning all of them for now
+		return invoices.slice(0, 5);
 	}
 	render() {
 		const invoices = this.getLatestInvoices();

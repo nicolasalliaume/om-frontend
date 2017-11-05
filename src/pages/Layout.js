@@ -66,7 +66,7 @@ export default class Layout extends Component {
 						<Route path='/tasks' component={Tasks} />
 						<Route path='/project/:projectName' component={ProjectDashboard} />
 						<Route path='/integrations' component={Integrations} />
-						<Route path='/billing/:projectFilter?' component={Billing} />
+						<Route path='/billing' component={Billing} />
 						<Route path='/admin' component={Admin} />
 					</Switch>
 				</Container>
