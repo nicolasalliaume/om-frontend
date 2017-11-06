@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Col, Card, CardBlock, CardTitle } from 'reactstrap';
 import { connect } from 'react-redux';
-import { fetchProjectsBillingIfNeeded } from '../../../actions/projects';
+import { fetchProjectsBillingIfNeeded } from '../../../actions/billing';
 
 class OverworkCard extends Component {
 	componentWillMount() {

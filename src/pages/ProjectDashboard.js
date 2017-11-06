@@ -11,10 +11,10 @@ import ProjectWorkEntriesCard from '../components/project_dashboard/ProjectWorkE
 import { 
 	fetchProjectsListIfNeeded, 
 	setProjectDashboardVisibleProject,
-	fetchBillingForProject,
 	fetchWorkEntriesForProject,
 	setProjectDashboardWorkEntriesFilters
 } from '../actions/projects';
+import { fetchBillingForProject } from '../actions/billing';
 import { 
 	fetchActiveObjectivesForProject, 
 	fetchObjectivesArchiveForProject

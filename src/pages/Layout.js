@@ -10,6 +10,7 @@ import Integrations from './Integrations';
 import Billing from './Billing';
 import Admin from './Admin';
 import ProjectDashboard from './ProjectDashboard';
+import CompanyOverview from './CompanyOverview';
 
 import Store from '../store';
 
@@ -40,6 +41,13 @@ export default class Layout extends Component {
 						</NavItem>
 						{ this.isAdminUser() && 
 							<NavItem>
+								<Link to="/overview">
+									<Icon fa-rocket/>
+								</Link>
+							</NavItem>
+						}
+						{ this.isAdminUser() && 
+							<NavItem>
 								<Link to="/billing">
 									<Icon fa-dollar/>
 								</Link>
@@ -64,6 +72,7 @@ export default class Layout extends Component {
 					<Switch>
 						<Route exact path='/' component={Dashboard} />
 						<Route path='/tasks' component={Tasks} />
+						<Route path='/overview' component={CompanyOverview} />
 						<Route path='/project/:projectName' component={ProjectDashboard} />
 						<Route path='/integrations' component={Integrations} />
 						<Route path='/billing' component={Billing} />

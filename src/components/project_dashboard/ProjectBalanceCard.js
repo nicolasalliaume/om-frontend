@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Row, Col, Card, CardBlock, CardTitle } from 'reactstrap';
+import StatusBars from '../misc/StatusBars';
 
 export default class ProjectBalanceCard extends Component {
 	render() {
@@ -9,6 +10,19 @@ export default class ProjectBalanceCard extends Component {
 		const income = project.billed_amount_total;
 		const outcome = project.expenses_amount_total;
 		const executed = Math.round(project.executed_hours_total);
+		const max = Math.max(income, outcome);
+
+		const bars = [
+			{
+				class : 'green',
+				start : 0,
+				width : income === max ? 100 : (income/max)*100
+			},{
+				class : 'blue',
+				start : 0,
+				width : outcome === max ? 100 : (outcome/max)*100
+			}
+		]
 
 		return (
 			<Card className='project-balance text-center'>
@@ -22,6 +36,11 @@ export default class ProjectBalanceCard extends Component {
 						<Col xs={6}>
 							<h6>Outcome</h6>
 							<span className='balance-amount outcome'>{outcome}</span>
+						</Col>
+					</Row>
+					<Row>
+						<Col xs={11} className='mx-auto'>
+							<StatusBars config={bars} />
 						</Col>
 					</Row>
 					<Row>

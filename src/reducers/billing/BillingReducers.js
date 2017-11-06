@@ -7,12 +7,20 @@ import {
 	RECEIVE_ADD_INVOICE,
 	INVALIDATE_PROJECTS_BILLING,
 	REQUEST_UPDATE_INVOICE,
-	RECEIVE_UPDATE_INVOICE
+	RECEIVE_UPDATE_INVOICE,
+	REQUEST_INVOICES_LIST,
+	RECEIVE_INVOICES_LIST,
+	INVALIDATE_INVOICES_LIST
 } from './../../actions/types';
 
 export function billingView(state, action) {
 	if (state === undefined) return {
-		projectsBilling : projectsBilling()
+		projectsBilling : projectsBilling(),
+		invoicesList : {
+			didInvalidate : true,
+			isFetching : false,
+			invoices : []
+		}
 	}
 
 	switch (action.type) {
@@ -26,6 +34,25 @@ export function billingView(state, action) {
 			return update(state, {
 				projectsBilling: {
 					$set: projectsBilling(state.projectsBilling, action)}
+			})
+
+		case INVALIDATE_INVOICES_LIST:
+			return update(state, {
+				invoicesList: {didInvalidate: {$set: true}}
+			})
+
+		case REQUEST_INVOICES_LIST:
+			return update(state, {
+				invoicesList: {isFetching: {$set: true}}
+			})
+
+		case RECEIVE_INVOICES_LIST:
+			return update(state, {
+				invoicesList: {
+					isFetching: {$set: false},
+					didInvalidate: {$set: false},
+					invoices: {$set: action.payload}
+				}
 			})
 		
 		default: return state;

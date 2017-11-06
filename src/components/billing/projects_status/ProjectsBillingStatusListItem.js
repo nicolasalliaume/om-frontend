@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Row, Col } from 'reactstrap';
-import HoursBars from './HoursBars';
+import StatusBars from '../../misc/StatusBars';
 import { Link } from 'react-router-dom';
 import { encodeProjectName } from '../../../utils';
 
@@ -19,7 +19,7 @@ export default class ProjectsBillingStatusListItem extends Component {
 					</h4>
 				</Col>
 				<Col xs={12}>
-					<HoursBars config={bars}/>
+					<StatusBars config={bars}/>
 				</Col>
 			</li>
 		)

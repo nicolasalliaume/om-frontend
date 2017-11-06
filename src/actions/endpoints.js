@@ -37,23 +37,26 @@ export const Endpoints = {
 
 	/** project endpoints */
 	GET_PROJECTS_LIST				: () => `${BASE_URL}/projects`,
-	GET_PROJECTS_BILLING			: () => `${BASE_URL}/projects/billing`,
-	GET_BILLING_FOR_PROJECT			: (projectId) => `${BASE_URL}/projects/${projectId}/billing`,
 	GET_WORK_ENTRIES_FOR_PROJECT	: (projectId, filters) => `${BASE_URL}/projects/${projectId}/work-entries?${encode(filters)}`,
 	ADD_PROJECT						: () => `${BASE_URL}/projects/add`,
 	DELETE_PROJECT					: (projectId) => `${BASE_URL}/projects/${projectId}`,
 	UPDATE_PROJECT					: (projectId) => `${BASE_URL}/projects/${projectId}`,
-	ADD_INVOICE						: (projectId) => `${BASE_URL}/projects/${projectId}/invoices/add-invoice`,
-	UPDATE_INVOICE					: (projectId, invoiceId) => `${BASE_URL}/projects/${projectId}/invoices/${invoiceId}`,
-	DELETE_INVOICE					: (projectId, invoiceId) => `${BASE_URL}/projects/${projectId}/invoices/${invoiceId}`,
-	RENDER_INVOICE					: (projectId, invoiceId) => `${BASE_URL}/projects/${projectId}/invoices/${invoiceId}/html?`,
 	RENDER_WORK_ENTRIES_FOR_PROJECT	: (projectId, filters) => `${BASE_URL}/projects/${projectId}/work-entries/export/html?${encode(filters)}`,
+
+	/** billing endpoints */
+	GET_INVOICES_LIST				: () => `${BASE_URL}/billing/invoices`,
+	GET_PROJECTS_BILLING			: () => `${BASE_URL}/billing/projects`,
+	GET_BILLING_FOR_PROJECT			: (projectId) => `${BASE_URL}/billing/projects/${projectId}`,
 
 	/** admin endpoints */
 	GET_INTEGRATIONS				: () => `${BASE_URL}/admin/integrations`,
 	CREATE_INTEGRATION				: () => `${BASE_URL}/admin/integrations/add`,
 	UPDATE_INTEGRATION				: (integrationId) => `${BASE_URL}/admin/integrations/${integrationId}`,
-	DELETE_INTEGRATION				: (integrationId) => `${BASE_URL}/admin/integrations/${integrationId}`
+	DELETE_INTEGRATION				: (integrationId) => `${BASE_URL}/admin/integrations/${integrationId}`,
+	ADD_INVOICE						: () => `${BASE_URL}/billing/invoices/add-invoice`,
+	UPDATE_INVOICE					: (invoiceId) => `${BASE_URL}/billing/invoices/${invoiceId}`,
+	DELETE_INVOICE					: (invoiceId) => `${BASE_URL}/billing/invoices/${invoiceId}`,
+	RENDER_INVOICE					: (invoiceId) => `${BASE_URL}/billing/invoices/${invoiceId}/html?`
 }
 
 export const EndpointAuth = () => { 

@@ -3,7 +3,7 @@ import { Col, Card, CardBlock, Button } from 'reactstrap';
 import moment from 'moment';
 import Icon from '../../misc/Icon';
 import EditInvoiceModalForm from './EditInvoiceModalForm';
-import { deleteInvoice } from '../../../actions/projects';
+import { deleteInvoice } from '../../../actions/billing';
 import { connect } from 'react-redux';
 import Strings from '../../../strings/dialogs';
 import { confirmAlert } from './../../misc/ConfirmDialog';
@@ -31,17 +31,17 @@ class InvoicesListItem extends Component {
 
 	deleteInvoice = () => {
 		const { invoice } = this.props;
-		this.props.deleteInvoice(invoice.project._id, invoice._id);
+		this.props.deleteInvoice(invoice._id);
 	}
 
 	renderInvoiceLink = () => {
 		const { invoice } = this.props;
-		return Endpoints.RENDER_INVOICE(invoice.project._id, invoice._id) + EndpointAuthQuerystring();
+		return Endpoints.RENDER_INVOICE(invoice._id) + EndpointAuthQuerystring();
 	}
 	
 	render() {
 		const { invoice } = this.props;
-		const { paid, project, billed_hours, amount, invoicing_date } = invoice;
+		const { paid, project, billed_hours, amount, invoicing_date, direction, receiver } = invoice;
 		const date = moment.utc(invoicing_date).format('MM/DD');
 		const className = paid ? 'paid' : 'unpaid';
 		return (
@@ -49,9 +49,12 @@ class InvoicesListItem extends Component {
 				<Card>
 					<CardBlock className='card-body row'>
 						<Col xs={8}>
-							<Link to={`/project/${encodeProjectName(project.name)}`}>
-								<h4>{project.name}</h4>
-							</Link>
+							{ !!project && 
+								<Link to={`/project/${encodeProjectName(project.name)}`}>
+									<h4>{project.name}</h4>
+								</Link>
+							}
+							{ direction === 'in' && !project && <h4>{receiver}</h4> }
 						</Col>
 						<Col xs={4} className='text-right list-item-options'>
 							<Button color='secondary' onClick={this.toggleEditModal}>
@@ -62,10 +65,12 @@ class InvoicesListItem extends Component {
 									<Icon fa-remove tooltip="Delete" id={`delete-${invoice._id}`}/>
 								</Button>
 							}
-							<a className='btn' color='secondary' href={this.renderInvoiceLink()} 
-									target='_blank' rel='nooption nofollow'>
-								<Icon fa-file-pdf-o tooltip="View invoice" id={`view-${invoice._id}`}/>
-							</a>
+							{ direction === 'out' && 
+								<a className='btn' color='secondary' href={this.renderInvoiceLink()} 
+										target='_blank' rel='nooption nofollow'>
+									<Icon fa-file-pdf-o tooltip="View invoice" id={`view-${invoice._id}`}/>
+								</a>
+							}
 						</Col>
 						<Col xs={12}>
 							<p>{invoice.description}</p>
@@ -87,7 +92,7 @@ class InvoicesListItem extends Component {
 }
 
 const mapDispatchToProps = dispatch => { return {
-	deleteInvoice : (projectId, invoiceId) => dispatch(deleteInvoice(projectId, invoiceId))
+	deleteInvoice : (invoiceId) => dispatch(deleteInvoice(invoiceId))
 }}
 
 export default connect(null, mapDispatchToProps)(InvoicesListItem);

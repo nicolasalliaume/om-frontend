@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-export default class HoursBars extends Component {
+export default class StatusBars extends Component {
 	render() {
 		const orderedBars = this.props.config.slice();
 		orderedBars.sort((a, b) => {
@@ -21,7 +21,7 @@ export default class HoursBars extends Component {
 			)
 		})
 		return (
-			<div className="hours-bars">{bars}</div>
+			<div className="status-bars">{bars}</div>
 		)
 	}
 }

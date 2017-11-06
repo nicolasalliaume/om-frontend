@@ -249,9 +249,9 @@
 
 /** end tag-like selector */
 
-/** project status hours bars */
+/** project status status bars */
 
-.hours-bars {
+.status-bars {
   $barHeight: 6px;
   $notWorkedColor: #e2e2e2;
   $paidColor: $paid-color;
@@ -330,4 +330,4 @@
   }
 }
 
-/** end project status hours bars */
+/** end project status status bars */

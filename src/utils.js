@@ -144,6 +144,7 @@ export function getNewInvoiceTemplate(direction = 'out') {
 		amount 			: '',
 		billed_hours	: '',
 		project 		: '',
+		receiver		: '',
 		paid 			: false,
 		created_by 		: currentUser,
 		direction

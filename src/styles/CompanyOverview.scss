@@ -1,0 +1,7 @@
+@import "animations";
+@import "variables";
+
+.overview {
+	animation: fadeIn 1s;
+	padding: $main-view-padding;
+}

@@ -1,15 +1,6 @@
 import {
 	REQUEST_PROJECTS_LIST,
 	RECEIVE_PROJECTS_LIST,
-	REQUEST_PROJECTS_BILLING,
-	RECEIVE_PROJECTS_BILLING,
-	REQUEST_ADD_INVOICE,
-	RECEIVE_ADD_INVOICE,
-	INVALIDATE_PROJECTS_BILLING,
-	REQUEST_UPDATE_INVOICE,
-	RECEIVE_UPDATE_INVOICE,
-	REQUEST_DELETE_INVOICE,
-	RECEIVE_DELETE_INVOICE,
 	REQUEST_ADD_PROJECT,
 	RECEIVE_ADD_PROJECT,
 	REQUEST_UPDATE_PROJECT,
@@ -19,8 +10,6 @@ import {
 	INVALIDATE_PROJECTS_CACHE,
 	PROJECT_DASHBOARD_SET_VISIBLE_PROJECT,
 	INVALIDATE_PROJECT_DASHBOARD,
-	REQUEST_BILLING_FOR_PROJECT,
-	RECEIVE_BILLING_FOR_PROJECT,
 	REQUEST_PROJECT_WORK_ENTRIES,
 	RECEIVE_PROJECT_WORK_ENTRIES,
 	SET_PROJECT_DASHBOARD_WORK_ENTRIES_FILTER
@@ -28,6 +17,7 @@ import {
 import superagent from 'superagent';
 import { Endpoints, EndpointAuth, testForErrorReturned } from './endpoints';
 import { addMessage, addError } from './messages';
+import { invalidateProjectsBilling } from './billing';
 
 function requestProjectsList() {
 	return { type: REQUEST_PROJECTS_LIST }
@@ -148,131 +138,6 @@ function invalidateProjectsCache() {
 	return { type: INVALIDATE_PROJECTS_CACHE }
 }
 
-function requestProjectsBilling() {
-	return { type: REQUEST_PROJECTS_BILLING }
-}
-
-function receiveProjectsBilling(projects) {
-	return { type: RECEIVE_PROJECTS_BILLING, payload: projects }
-}
-
-function shouldFetchProjectsBilling(state) {
-	if (state.isFetching) return false;
-	return state.didInvalidate;
-}
-
-function fetchProjectsBilling() {
-	return function(dispatch) {
-		dispatch(requestProjectsBilling());
-		superagent
-			.get(Endpoints.GET_PROJECTS_BILLING())
-			.set(...EndpointAuth())
-			.then(response => response.body)
-			.then(testForErrorReturned)
-			.then(body => dispatch(receiveProjectsBilling(body)))
-			// error handling
-			.catch(error => dispatch(addError(error.message, 'Projects billing')));
-	}
-}
-
-export function fetchProjectsBillingIfNeeded() {
-	return function(dispatch, getState) {
-		if (shouldFetchProjectsBilling(getState().billingView.projectsBilling)) {
-			return dispatch(fetchProjectsBilling());
-		}
-	}
-}
-
-export function invalidateProjectsBilling() {
-	return { type: INVALIDATE_PROJECTS_BILLING }
-}
-
-function requestAddInvoice(projectId) {
-	return { type: REQUEST_ADD_INVOICE, payload: projectId }
-}
-
-function receiveAddInvoice(result) {
-	return { type: RECEIVE_ADD_INVOICE, payload: result }
-}
-
-export function addInvoiceToProject(projectId, invoice) {
-	return function(dispatch, getState) {
-		// find project to show name in message
-		const project = findProjectById(projectId, 
-			getState().billingView.projectsBilling.projects);
-
-		dispatch(requestAddInvoice(projectId));
-		superagent
-			.post(Endpoints.ADD_INVOICE(projectId))
-			.set(...EndpointAuth())
-			.send(invoice)
-			.then(response => response.body)
-			.then(testForErrorReturned)
-			.then(body => dispatch(receiveAddInvoice(body)))
-			.then(() => dispatch(invalidateProjectsBilling()))
-			.then(() => dispatch(addMessage(`Invoice added for project "${project.name}"`, 'Invoice added')))
-			// error handling
-			.catch(error => dispatch(addError(error.message, 'Add invoice')));
-	}
-}
-
-function requestUpdateInvoice(projectId, invoice) {
-	return { type: REQUEST_UPDATE_INVOICE, payload: { projectId, invoice } }
-}
-
-function receiveUpdateInvoice(result) {
-	return { type: RECEIVE_UPDATE_INVOICE, payload: result }
-}
-
-export function updateInvoice(projectId, invoice) {
-	return function(dispatch, getState) {
-		dispatch(requestUpdateInvoice(projectId, invoice));
-		superagent
-			.post(Endpoints.UPDATE_INVOICE(projectId, invoice._id))
-			.set(...EndpointAuth())
-			.send(invoice)
-			.then(response => response.body)
-			.then(testForErrorReturned)
-			.then(body => dispatch(receiveUpdateInvoice(body)))
-			.then(() => dispatch(invalidateProjectsBilling()))
-			.then(() => dispatch(addMessage(invoice.description, 'Invoice updated')))
-			// error handling
-			.catch(error => dispatch(addError(error.message, 'Update invoice')));
-	}
-}
-
-function findProjectById(id, projects) {
-	return projects.filter(p => p._id === id)[0];
-}
-
-function requestDeleteInvoice(projectId, invoiceId) {
-	return { type: REQUEST_DELETE_INVOICE, payload: { projectId, invoiceId } }
-}
-
-function receiveDeleteInvoice(projectId, invoiceId, result) {
-	return { type: RECEIVE_DELETE_INVOICE, payload: { projectId, invoiceId, result } }
-}
-
-export function deleteInvoice(projectId, invoiceId) {
-	return function(dispatch, getState) {
-		// find project to show name in message
-		const project = findProjectById(projectId, 
-			getState().billingView.projectsBilling.projects);
-
-		dispatch(requestDeleteInvoice(projectId, invoiceId));
-		superagent
-			.delete(Endpoints.DELETE_INVOICE(projectId, invoiceId))
-			.set(...EndpointAuth())
-			.then(response => response.body)
-			.then(testForErrorReturned)
-			.then(body => dispatch(receiveDeleteInvoice(projectId, invoiceId, body)))
-			.then(() => dispatch(invalidateProjectsBilling()))
-			.then(() => dispatch(addMessage('Invoice deleted for project ' + project.name, 'Invoice deleted')))
-			// error handling
-			.catch(error => dispatch(addError(error.message, 'Delete invoice')));
-	}
-}
-
 function invalidateProjectDashboard() {
 	return { type: INVALIDATE_PROJECT_DASHBOARD }
 }
@@ -281,28 +146,6 @@ export function setProjectDashboardVisibleProject(projectId) {
 	return function(dispatch) {
 		dispatch(invalidateProjectDashboard());
 		dispatch({ type: PROJECT_DASHBOARD_SET_VISIBLE_PROJECT, payload: projectId });
-	}
-}
-
-function requestBillingForProject(projectId) {
-	return { type: REQUEST_BILLING_FOR_PROJECT, payload: projectId }
-}
-
-function receiveBillingForProject(project) {
-	return { type: RECEIVE_BILLING_FOR_PROJECT, payload: project }
-}
-
-export function fetchBillingForProject(projectId) {
-	return function(dispatch) {
-		dispatch(requestBillingForProject(projectId));
-		superagent
-			.get(Endpoints.GET_BILLING_FOR_PROJECT(projectId))
-			.set(...EndpointAuth())
-			.then(response => response.body)
-			.then(testForErrorReturned)
-			.then(body => dispatch(receiveBillingForProject(body)))
-			// error handling
-			.catch(error => dispatch(addError(error.message, 'Get project billing')));
 	}
 }
 

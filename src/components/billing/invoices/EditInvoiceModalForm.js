@@ -17,49 +17,78 @@ import ProjectsCombo from '../../projects/utils/ProjectsCombo';
 import update from 'immutability-helper';
 import moment from 'moment';
 import { numToWords } from '../../../utils';
-import { addInvoiceToProject, updateInvoice } from '../../../actions/projects';
+import { addInvoice, updateInvoice } from '../../../actions/billing';
 
 class EditInvoiceModalForm extends Component {
 	constructor() {
 		super();
 		this.state = { 
-			invoice : null
+			invoice: null,
+			associatedToProject: false
 		}
 	}
+	
 	componentWillMount() {
 		const { invoice } = this.props;
 
 		if (!this.props.edit) {
 			this.setState({ invoice })
-		} else {
+		} 
+		else {
 			// format values to display
 			this.setState({ invoice : update(invoice, {
 				invoicing_date: {$set: moment(invoice.invoicing_date).format('YYYY-MM-DD')},
-				project: {$set: invoice.project._id}
-			})})
+				project: {$set: invoice.project ? invoice.project._id : ''},
+				receiver: {$set: invoice.receiver ? invoice.receiver : ''}
+			})});
+
+			if (invoice.direction === 'out') {
+				this.setState({ associatedToProject: true });
+			} else {
+				this.setState({ associatedToProject: !!invoice.project })
+			}
 		}
-		
 	}
+	
 	submit = () => {
 		const { invoice } = this.state;
 		const { edit } = this.props;
 		const isNew = !edit;
 
-		if (isNew) this.props.addInvoiceToProject(invoice.project, invoice);
-		else this.props.updateInvoice(invoice.project, invoice);
+		let invoiceData = invoice;
+		if (invoiceData.project === '') {
+			invoiceData = update(invoiceData, {project:{$set: null}})
+		} else {
+			invoiceData = update(invoiceData, {receiver:{$set: null}})
+		}
+
+		if (isNew) this.props.addInvoice(invoiceData);
+		else this.props.updateInvoice(invoiceData);
 
 		this.props.toggle();
 	}
+
+	toggleAssociatedToProject = event => {
+		this.setState({ associatedToProject: event.target.value === 'y' })
+		if (event.target.value === 'n') {
+			this.setState({ invoice: update(this.state.invoice, { project: {$set: ''} }) });
+		} else {
+			this.setState({ invoice: update(this.state.invoice, { receiver: {$set: ''} }) });
+		}
+	}
+	
 	onChange = (event) => {
 		const newState = update(this.state, 
 			{invoice: {[event.target.name]: {$set: event.target.value}}});
 		this.setState(newState)
 	}
+	
 	onChangeCheckbox = (event) => {
 		this.onChange({target: {
 			name: event.target.name, 
 			value: event.target.checked}});
 	}
+	
 	render() {
 		const { invoice } = this.state;
 		const { edit, toggle } = this.props;
@@ -72,13 +101,50 @@ class EditInvoiceModalForm extends Component {
 				<ModalHeader toggle={toggle}>{op} <b>{type} invoice</b></ModalHeader>
 				<ModalBody>
 					<Form className='edit-invoice-form' onSubmit={e => e.preventDefault() && false}>
-						<FormGroup row>
-							<Label sm={2}>Project</Label>
-							<Col sm={10}>
-								<ProjectsCombo name='project' value={invoice.project} 
-									onChange={this.onChange} />
-							</Col>
-						</FormGroup>
+						{ invoice.direction === 'in' &&
+							<FormGroup row>
+								<Label sm={3}>Related to project?</Label>
+								<Col sm={2}>
+									<FormGroup check>
+										<Label check>
+											<Input type="radio" name="associatedToProject" value='y'
+												onChange={this.toggleAssociatedToProject} 
+												checked={this.state.associatedToProject} />{' '}
+											Yes
+										</Label>
+									</FormGroup>
+								</Col>
+								<Col sm={2}>
+									<FormGroup check>
+										<Label check>
+											<Input type="radio" name="associatedToProject" value='n'
+												onChange={this.toggleAssociatedToProject} 
+												checked={!this.state.associatedToProject} />{' '}
+											No
+										</Label>
+									</FormGroup>
+								</Col>
+							</FormGroup>
+						}
+						{ this.state.associatedToProject && 
+							<FormGroup row>
+								<Label sm={2}>Project</Label>
+								<Col sm={10}>
+									<ProjectsCombo name='project' value={invoice.project} 
+										onChange={this.onChange} />
+								</Col>
+							</FormGroup>
+						}
+						{ !this.state.associatedToProject && 
+							<FormGroup row>
+								<Label sm={2}>Receiver</Label>
+								<Col sm={10}>
+									<Input type='text' name='receiver' id='receiver' 
+										value={invoice.receiver} 
+										onChange={this.onChange} />
+								</Col>
+							</FormGroup>
+						}
 						<FormGroup row>
 							<Label for="invoicing_date" sm={2}>Invoicing date</Label>
 							<Col sm={10} className='align-self-center'>
@@ -158,8 +224,8 @@ class EditInvoiceModalForm extends Component {
 }
 
 const mapDispatchToProps = dispatch => { return {
-	addInvoiceToProject : (pid, invoice) => dispatch(addInvoiceToProject(pid, invoice)),
-	updateInvoice : (pid, invoice) => dispatch(updateInvoice(pid, invoice))
+	addInvoice : (invoice) => dispatch(addInvoice(invoice)),
+	updateInvoice : (invoice) => dispatch(updateInvoice(invoice))
 }}
 
 export default connect(null, mapDispatchToProps)(EditInvoiceModalForm);
