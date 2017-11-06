@@ -1,24 +1,39 @@
 import React, { Component } from 'react';
 import Icon from './../../misc/Icon';
-import EditBillingInvoiceModalForm from '../invoices/EditBillingInvoiceModalForm';
-import FloatingButton from './../../misc/FloatingButton';
+import EditInvoiceModalForm from '../invoices/EditInvoiceModalForm';
+import FloatingButtonWithOptions from './../../misc/FloatingButtonWithOptions';
 import { getNewInvoiceTemplate } from './../../../utils';
 
 export default class CreateInvoiceFloatingButton extends Component {
 	constructor() {
 		super();
-		this.state = { modal : false };
+		this.state = { 
+			billingModal : false,
+			expensesModal : false,
+			open : false
+		};
 	}
 
-	toggle = () => this.setState({ modal : !this.state.modal });
+	toggleButton = () => this.toggle('open')
+	toggleBillingInvoiceModal = () => this.toggle('billingModal')
+	toggleExpensesInvoiceModal = () => this.toggle('expensesModal')
+	toggle = modal => this.setState({ [modal] : !this.state[modal] })
 
 	render() {
+		const options = {
+			'Billing invoice': this.toggleBillingInvoiceModal,
+			'Expenses invoice': this.toggleExpensesInvoiceModal
+		}
 		return (
-			<FloatingButton color='accent' onClick={this.toggle}>
+			<FloatingButtonWithOptions color='accent' toggle={this.toggleButton} 
+				options={options} open={this.state.open}>
 				<Icon fa-plus />
-				<EditBillingInvoiceModalForm show={this.state.modal}
-					toggle={this.toggle} invoice={getNewInvoiceTemplate()} />
-			</FloatingButton>
+
+				<EditInvoiceModalForm show={this.state.billingModal}
+					toggle={this.toggleBillingInvoiceModal} invoice={getNewInvoiceTemplate('out')} />
+				<EditInvoiceModalForm show={this.state.expensesModal}
+					toggle={this.toggleExpensesInvoiceModal} invoice={getNewInvoiceTemplate('in')} />
+			</FloatingButtonWithOptions>
 		)
 	}
 }

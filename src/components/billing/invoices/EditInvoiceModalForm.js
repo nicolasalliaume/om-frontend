@@ -19,7 +19,7 @@ import moment from 'moment';
 import { numToWords } from '../../../utils';
 import { addInvoiceToProject, updateInvoice } from '../../../actions/projects';
 
-class EditBillingInvoiceModalForm extends Component {
+class EditInvoiceModalForm extends Component {
 	constructor() {
 		super();
 		this.state = { 
@@ -65,12 +65,13 @@ class EditBillingInvoiceModalForm extends Component {
 		const { edit, toggle } = this.props;
 		const isNew = !edit;
 		const op = isNew ? 'New' : 'Edit';
+		const type = invoice.direction === 'in' ? 'expenses' : 'billing';
 
 		return (
 			<Modal isOpen={this.props.show} toggle={toggle} className={this.props.className}>
-				<ModalHeader toggle={toggle}>{op} <b>billing invoice</b></ModalHeader>
+				<ModalHeader toggle={toggle}>{op} <b>{type} invoice</b></ModalHeader>
 				<ModalBody>
-					<Form className='edit-objective-form' onSubmit={e => e.preventDefault() && false}>
+					<Form className='edit-invoice-form' onSubmit={e => e.preventDefault() && false}>
 						<FormGroup row>
 							<Label sm={2}>Project</Label>
 							<Col sm={10}>
@@ -122,15 +123,17 @@ class EditBillingInvoiceModalForm extends Component {
 									value={invoice.billed_hours} />
 							</Col>
 						</FormGroup>
-						<FormGroup row>
-							<Label for="number" sm={2}>Invoice number</Label>
-							<Col sm={3} className='align-self-center'>
-								<Input type="number" className='text-right' 
-									min={1} name="number" id="number" 
-									onChange={this.onChange}
-									value={invoice.number} />
-							</Col>
-						</FormGroup>
+						{ invoice.direction === 'out' && 
+							<FormGroup row>
+								<Label for="number" sm={2}>Invoice number</Label>
+								<Col sm={3} className='align-self-center'>
+									<Input type="number" className='text-right' 
+										min={1} name="number" id="number" 
+										onChange={this.onChange}
+										value={invoice.number} />
+								</Col>
+							</FormGroup>
+						}
 						<FormGroup row>
 							<Col sm={6}>
 								<FormGroup check>
@@ -159,4 +162,4 @@ const mapDispatchToProps = dispatch => { return {
 	updateInvoice : (pid, invoice) => dispatch(updateInvoice(pid, invoice))
 }}
 
-export default connect(null, mapDispatchToProps)(EditBillingInvoiceModalForm);
+export default connect(null, mapDispatchToProps)(EditInvoiceModalForm);

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button } from 'reactstrap';
-import EditBillingInvoiceModalForm from '../invoices/EditBillingInvoiceModalForm';
+import EditInvoiceModalForm from '../invoices/EditInvoiceModalForm';
 import { getNewInvoiceTemplate } from './../../../utils';
 
 export default class CreateInvoiceCta extends Component {
@@ -17,7 +17,7 @@ export default class CreateInvoiceCta extends Component {
 		return (
 			<Button onClick={this.toggle}>
 				Create
-				<EditBillingInvoiceModalForm show={this.state.modal}
+				<EditInvoiceModalForm show={this.state.modal}
 					toggle={this.toggle} invoice={invoiceTemplate} />
 			</Button>
 		)
