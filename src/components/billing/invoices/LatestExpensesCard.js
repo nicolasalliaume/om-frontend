@@ -2,15 +2,15 @@ import React from 'react';
 import LatestInvoicesList from './LatestInvoicesList';
 import { Card, CardBlock, CardTitle } from 'reactstrap';
 
-export default function LatestBillingCard(props) {
+export default function LatestExpensesCard(props) {
 	return (
 		<div>
-			<Card className='latest-invoices income list list--large'>
+			<Card className='latest-invoices expenses list list--large'>
 				<CardBlock className='card-body'>
-					<CardTitle>Latest <b>billing</b></CardTitle>
+					<CardTitle>Latest <b>expenses</b></CardTitle>
 				</CardBlock>
 			</Card>
-			<LatestInvoicesList direction='out' />
+			<LatestInvoicesList direction='in' />
 		</div>
 	)
 }

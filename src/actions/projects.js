@@ -285,7 +285,7 @@ export function setProjectDashboardVisibleProject(projectId) {
 }
 
 function requestBillingForProject(projectId) {
-	return { type: REQUEST_BILLING_FOR_PROJECT }
+	return { type: REQUEST_BILLING_FOR_PROJECT, payload: projectId }
 }
 
 function receiveBillingForProject(project) {

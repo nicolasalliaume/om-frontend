@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Row, Col, Card, CardBlock, CardTitle } from 'reactstrap';
+import { Row, Col } from 'reactstrap';
 import ProjectsBillingStatusCard from '../components/billing/projects_status/ProjectsBillingStatusCard'
 import { getProjectIdFromEncodedName } from '../utils';
 import { connect } from 'react-redux';
-import InvoicesDisplayList from '../components/project_dashboard/InvoicesDisplayList';
+import BillingInvoicesDisplayCard from '../components/project_dashboard/BillingInvoicesDisplayCard';
+import ExpensesInvoicesDisplayCard from '../components/project_dashboard/ExpensesInvoicesDisplayCard';
 import ObjectivesDisplayList from '../components/project_dashboard/ObjectivesDisplayList';
 import ProjectBalanceCard from '../components/project_dashboard/ProjectBalanceCard';
 import ProjectWorkEntriesCard from '../components/project_dashboard/ProjectWorkEntriesCard';
@@ -25,6 +26,9 @@ import './../styles/ProjectDashboard.css';
 class ProjectDashboard extends Component {
 	componentWillMount() {
 		const projectId = this.getProjectId(this.props);
+
+		console.log(projectId);
+
 		this.props.setProjectDashboardVisibleProject(projectId);
 		this.props.fetchBillingForProject(projectId);
 		this.props.fetchWorkEntriesForProject(projectId);
@@ -51,8 +55,13 @@ class ProjectDashboard extends Component {
 		const { workEntries } = projectDashboard;
 
 		const project = projectDashboard.billing.project;
+
 		const invoices = (project || {}).invoices || [];
-		invoices.sort((a, b) => new Date(b.invoicing_date) - new Date(a.invoicing_date));
+		const billingInvoices = invoices.filter(i => i.direction === 'out');
+		const expensesInvoices = invoices.filter(i => i.direction === 'in');
+		// sorting
+		billingInvoices.sort((a, b) => new Date(b.invoicing_date) - new Date(a.invoicing_date));
+		expensesInvoices.sort((a, b) => new Date(b.invoicing_date) - new Date(a.invoicing_date));
 
 		return (
 			<div className='project-dashboard'>
@@ -61,7 +70,8 @@ class ProjectDashboard extends Component {
 						<ProjectsBillingStatusCard project={projectId}
 							title={'Project <b>status</b>'} />
 						<ProjectBalanceCard project={project} />
-						<InvoicesDisplayList invoices={invoices} />
+						<BillingInvoicesDisplayCard invoices={billingInvoices} />
+						<ExpensesInvoicesDisplayCard invoices={expensesInvoices} />
 					</Col>
 					<Col lg={4} xs={12}>
 						<ProjectWorkEntriesCard project={projectId} workEntries={workEntries}

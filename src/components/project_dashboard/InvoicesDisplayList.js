@@ -6,20 +6,13 @@ import moment from 'moment';
 export default class InvoicesDisplayList extends Component {
 	render() {
 		const { invoices } = this.props;
+		if (invoices.empty()) 
+			return <p className='text-center'>No invoices to show</p>;
+
 		return (
-			<Card className={`list invoices-list display`}>
-				<CardBlock className='card-body'>
-					<CardTitle>Invoices</CardTitle>
-					{ !invoices.empty() && 
-						<ul className={`invoices-list`}>
-							{ invoices.map((i) => this.renderInvoice(i)) }
-						</ul>
-					}
-					{ invoices.empty() && 
-						<p className='text-center'>No invoices to show</p>
-					}
-				</CardBlock>
-			</Card>
+			<ul className={`invoices-list`}>
+				{ invoices.map((i) => this.renderInvoice(i)) }
+			</ul>
 		)
 	}
 

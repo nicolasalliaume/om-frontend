@@ -15,12 +15,12 @@ class LatestInvoicesList extends Component {
 	 * @return {Array}
 	 */
 	getLatestInvoices() {
-		const { projects } = this.props;
+		const { projects, direction } = this.props;
 		if (!projects) return [];
 
 		const invoices = projects
 			.map(p => p.invoices)
-			.map(invoices => invoices.filter(i => i.direction === 'out'))
+			.map(invoices => invoices.filter(i => i.direction === direction))
 			.reduce((all, invoices) => all.concat(invoices), [])
 			.sort((a, b) => {
 				return new Date(b.invoicing_date) - new Date(a.invoicing_date);
@@ -33,8 +33,9 @@ class LatestInvoicesList extends Component {
 	}
 }
 
-const mapStateToProps = state => { return {
-	projects: state.billingView.projectsBilling.projects
+const mapStateToProps = (state, props) => { return {
+	projects: state.billingView.projectsBilling.projects,
+	...props
 }}
 
 const mapDispatchToProps = dispatch => { return {

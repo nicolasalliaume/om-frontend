@@ -2,21 +2,13 @@ import React, { Component } from 'react';
 import { Row, Col, Card, CardBlock, CardTitle } from 'reactstrap';
 
 export default class ProjectBalanceCard extends Component {
-	getIncome(invoices) {
-		return invoices.reduce((total, i) => total + i.amount, 0);
-	}
-
-	getOutcome() {
-		return '--';
-	}
-
 	render() {
 		const { project } = this.props;
 		if (!project) return <div/>;
 
-		const income = this.getIncome(project.invoices);
-		const outcome = this.getOutcome();
-		const executed = Math.ceil(project.executed_hours_total);
+		const income = project.billed_amount_total;
+		const outcome = project.expenses_amount_total;
+		const executed = Math.round(project.executed_hours_total);
 
 		return (
 			<Card className='project-balance text-center'>

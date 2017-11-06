@@ -9,8 +9,14 @@
 		position: relative;
 	}
 
+	.latest-invoices {
+		&.expenses {
+			margin-top: 20pt;
+		}
+	}
+
 	.invoices-list {
-		margin-top: 15pt;
+		margin-top: 7pt;
 
 		h4 {
 			text-align: left;
@@ -73,83 +79,4 @@
 .money-text {
 	font-size: 0.9em;
 	font-style: italic;
-}
-
-.hours-bars {
-	$barHeight: 6px;
-	$notWorkedColor: #e2e2e2;
-	$paidColor: $paid-color;
-	$notPaidColor: #54cde0;
-	$overworkedBackgroundColor: $unpaid-color;
-	$nearlimitBackgroundColor: #ffdf80;
-	$overworkedColor: $unpaid-color;
-
-	height: $barHeight;
-	width: 100%;
-	position: relative;
-	margin-bottom: 40px;
-	margin-top: 10px;
-
-	.bar {
-		height: $barHeight;
-		display: inline-block;
-		position: absolute;
-		top: 0;
-		left: 0;
-	}
-	.bar.grey {
-		background-color: $notWorkedColor !important;
-	}
-	.bar.green{
-		background: $paidColor;
-	}
-	.bar.blue{
-		background: $notPaidColor;
-	}
-	.bar.red{
-		background: $overworkedColor;
-	}
-	.content {
-		float: right;
-		margin-top: 10px;
-	}
-	.bar {
-		.content { 
-			opacity: 0;
-			transition: opacity 0.3s;
-			font-size: 0.9em;
-			padding: 1px 5px;
-			border-radius: 3px;
-			font-weight: bold;
-			background-color: #fff;
-			color: #999;
-		}
-		&:first-child .content { opacity: 1 }
-		&:hover .content { opacity: 1 }
-	}
-
-	.bar.grey .content, .overworked .bar.blue .content {
-		font-weight: bold;
-	}
-	.bar.red .content {
-		background-color: #ededed;
-		color: red;
-	}
-	.overworked {
-		.bar.blue .content {
-			position: relative;
-
-			&:before {
-				content: " ";
-				height: 16px;
-				width: 2px;
-				background-color: $overworkedColor;
-				display: block;
-				position: absolute;
-				top: -18px;
-				right: 0;
-				z-index: 300;
-			}
-		}
-	}
 }

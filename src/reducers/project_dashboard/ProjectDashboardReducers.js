@@ -153,7 +153,7 @@ function workEntries(state, action) {
 
 		case INVALIDATE_PROJECT_DASHBOARD:
 			return update(state, {
-				didInvalidate: {$set: false},
+				didInvalidate: {$set: true},
 				entries: {$set: []},
 				filters: {$set: {}}
 			})

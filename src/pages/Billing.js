@@ -10,6 +10,7 @@ import BillingOpportunities from '../components/billing/opportunities/BillingOpp
 import CreateInvoiceFloatingButton from '../components/billing/misc/CreateInvoiceFloatingButton';
 import { fetchProjectsListIfNeeded } from '../actions/projects';
 import LatestBillingCard from '../components/billing/invoices/LatestBillingCard';
+import LatestExpensesCard from '../components/billing/invoices/LatestExpensesCard';
 
 import './../styles/Billing.css';
 
@@ -19,10 +20,11 @@ export default class Billing extends Component {
 			<div className='billing'>
 				<Row>
 					<Col lg={4} xs={12}>
-					<ProjectsBillingStatusCard />
+						<ProjectsBillingStatusCard />
 					</Col>
 					<Col lg={4} xs={12}>
 						<LatestBillingCard />
+						<LatestExpensesCard />
 					</Col>
 					<Col lg={4}>
 						<Row>
