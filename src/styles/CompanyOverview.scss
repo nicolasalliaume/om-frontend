@@ -4,24 +4,25 @@
 .overview {
 	animation: fadeIn 1s;
 	padding: $main-view-padding;
-}
 
-.monthly-objective-card,
-.monthly-avg-card {
-	.card-title {
-		font-size: 1.3rem;
+	.row + .row {
+		margin-top: 15pt;
+	}
+
+	.monthly-objective-card,
+	.monthly-avg-card {
+		.card-title {
+			font-size: 1.3rem;
+		}
+	}
+
+	.monthly-objective-card {
+		margin-top: 15pt;
+	}
+
+	.overview-billing-cards .amount {
+		font-size: 3.0em;
+	    font-weight: 400;
 	}
 }
 
-.monthly-objective-card {
-	margin-top: 15pt;
-}
-
-.overview-billing-cards .amount {
-	font-size: 3.0em;
-    font-weight: 400;
-}
-
-.row + .row {
-	margin-top: 15pt;
-}

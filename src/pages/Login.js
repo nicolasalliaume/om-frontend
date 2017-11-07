@@ -80,7 +80,7 @@ class Login extends Component {
 								<p>I'm sorry my friend, but I really need to know who you are to show you your own stuff!</p>
 								<p>But let me help you out.</p>
 								<p>Check that the link is correct. Should look somethin' like this:<br/></p>
-								<pre>/login/bunch-of-characters/weird-shit:some-other-weird-shit</pre>
+								<pre>/login/bunch-of-characters/weird-stuff:some-other-weird-stuff</pre>
 								<p>
 									If you're missing some of that or the link is correct but not working,
 									&nbsp;<a href='mailto:nicolas@on-lab.com' target='_blank' rel="noopener noreferrer">
