@@ -25,16 +25,6 @@ export default class MixedBarsLineChart extends Component {
 					pointHoverBorderColor: '#17a2b8',
 					yAxisID: 'y-axis-2'
 				}, this.props.line),
-				Object.assign({
-					type: 'bar',
-					label: 'Sales',
-					fill: false,
-					backgroundColor: '#52ffc9',
-					borderColor: '#52ffc9',
-					hoverBackgroundColor: '#52ffc9',
-					hoverBorderColor: '#52ffc9',
-					yAxisID: 'y-axis-1'
-				}, this.props.bars),
 				{
 					label: 'Average',
 					type:'line',
@@ -47,7 +37,17 @@ export default class MixedBarsLineChart extends Component {
 					pointHoverBorderColor: '#ffd761',
 					yAxisID: 'y-axis-2',
 					data: avgData
-				}
+				},
+				Object.assign({
+					type: 'bar',
+					label: 'Sales',
+					fill: false,
+					backgroundColor: '#52ffc9',
+					borderColor: '#52ffc9',
+					hoverBackgroundColor: '#52ffc9',
+					hoverBorderColor: '#52ffc9',
+					yAxisID: 'y-axis-1'
+				}, this.props.bars)
 			]
 		}
 	}

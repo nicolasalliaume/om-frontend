@@ -6,14 +6,18 @@
 	padding: $main-view-padding;
 }
 
-.monthly-objective-card {
+.monthly-objective-card,
+.monthly-avg-card {
 	.card-title {
 		font-size: 1.3rem;
 	}
 }
 
-.year-objective-card .amount, 
-.year-actual-card .amount {
+.monthly-objective-card {
+	margin-top: 15pt;
+}
+
+.overview-billing-cards .amount {
 	font-size: 3.0em;
     font-weight: 400;
 }

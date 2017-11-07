@@ -3,15 +3,13 @@ import { Row, Col } from 'reactstrap';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import OverviewCharts from '../components/overview/charts/OverviewCharts';
-import YearObjectiveCard from '../components/overview/cards/YearObjectiveCard';
-import MonthlyObjectiveCard from '../components/overview/cards/MonthlyObjectiveCard';
-import BillingOverviewCard from '../components/overview/cards/BillingOverviewCard';
+import BillingOverviewCards from '../components/overview/cards/BillingOverviewCards';
 import { fetchInvoicesListIfNeeded } from '../actions/billing';
 
 import './../styles/CompanyOverview.css';
 
 
-const MONTHLY_INCOME_OBJECTIVE = 14000;
+const MONTHLY_INCOME_OBJECTIVE = 15000;
 
 class CompanyOverview extends Component {
 	
@@ -25,6 +23,8 @@ class CompanyOverview extends Component {
 
 	render() {
 		const invoices = this.getInvoicesForVisiblePeriod();
+		const start = this.getPeriodStart();
+		const end = this.getPeriodEnd();
 
 		return (
 			<div className='overview'>
@@ -32,29 +32,14 @@ class CompanyOverview extends Component {
 					<Col lg={9} xs={12}>
 						<OverviewCharts invoices={invoices} 
 							objective={MONTHLY_INCOME_OBJECTIVE}
-							start={this.getPeriodStart()} 
-							end={this.getPeriodEnd()} />
+							start={start} 
+							end={end} />
 					</Col>
 					<Col lg={3} xs={6}>
-						<BillingOverviewCard 
-							className='year-objective-card'
-							amount={MONTHLY_INCOME_OBJECTIVE*12} 
-							title={'<b>Year</b> objective'} />
-
-						<BillingOverviewCard 
-							className='year-actual-card'
-							amount={this.getTotalYearBilling(invoices)} 
-							title={'<b>Year</b> actual'} />
-
-						<BillingOverviewCard 
-							className='monthly-objective-card'
-							amount={MONTHLY_INCOME_OBJECTIVE} 
-							title={'<b>Monthly</b> objective'} />
-
-						<BillingOverviewCard 
-							className='monthly-actual-card'
-							amount={this.getAvgMonthlyBilling(invoices)} 
-							title={'<b>Monthly</b> actual'} />
+						<BillingOverviewCards invoices={invoices}
+							objective={MONTHLY_INCOME_OBJECTIVE}
+							start={start}
+							end={end} />
 					</Col>
 				</Row>
 			</div>
@@ -63,16 +48,6 @@ class CompanyOverview extends Component {
 
 	getPeriodStart = () => moment().startOf('year')
 	getPeriodEnd = () => this.getPeriodStart().clone().add(11, 'month').endOf('month')
-
-	getTotalYearBilling = (invoices) => (
-		invoices.reduce((a,i) => a + i.amount, 0))
-
-	getAvgMonthlyBilling = (invoices) => {
-		const total = this.getTotalYearBilling(invoices);
-		const diff = moment().startOf('month').diff(this.getPeriodStart(), 'months', true);
-		console.log(diff);
-		return total/diff;
-	}
 
 	/**
 	 * Returns the invoices that are gonna be used for the overview
