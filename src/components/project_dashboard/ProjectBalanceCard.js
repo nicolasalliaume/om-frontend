@@ -31,11 +31,11 @@ export default class ProjectBalanceCard extends Component {
 					<Row>
 						<Col xs={6}>
 							<h6>Income</h6>
-							<span className='balance-amount income'>{income}</span>
+							<span className='money income'>{income}</span>
 						</Col>
 						<Col xs={6}>
 							<h6>Outcome</h6>
-							<span className='balance-amount outcome'>{outcome}</span>
+							<span className='money outcome'>{outcome}</span>
 						</Col>
 					</Row>
 					<Row>
@@ -50,7 +50,7 @@ export default class ProjectBalanceCard extends Component {
 						</Col>
 						<Col xs={6}>
 							<h6>$/HR</h6>
-							<span className='balance-amount outcome'>{project.hourly_rate}</span>
+							<span className='money outcome'>{project.hourly_rate}</span>
 						</Col>
 					</Row>
 				</CardBlock>

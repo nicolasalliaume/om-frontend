@@ -32,7 +32,7 @@ class EditInvoiceModalForm extends Component {
 		const { invoice } = this.props;
 
 		if (!this.props.edit) {
-			this.setState({ invoice })
+			this.setState({ invoice, associatedToProject: invoice.direction === 'out' })
 		} 
 		else {
 			// format values to display

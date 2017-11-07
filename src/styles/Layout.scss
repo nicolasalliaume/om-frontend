@@ -52,6 +52,11 @@ pre {
   font-size: 11pt;
 }
 
+.money:before {
+  content: '$ ';
+  font-size: 0.5em;
+}
+
 p {
   font-size: $p-font-size;
   font-weight: $p-font-weight;
@@ -274,6 +279,14 @@ select {
 @media (min-width: 820px) {
   .modal-dialog.html {
     max-width: 800px;
+  }
+}
+
+.modal-header {
+  button.close {
+    position: absolute;
+    right: 20pt;
+    top: 14pt;
   }
 }
 

@@ -5,3 +5,15 @@
 	animation: fadeIn 1s;
 	padding: $main-view-padding;
 }
+
+.monthly-objective-card {
+	.card-title {
+		font-size: 1.3rem;
+	}
+}
+
+.year-objective-card .amount, 
+.year-actual-card .amount {
+	font-size: 3.0em;
+    font-weight: 400;
+}
