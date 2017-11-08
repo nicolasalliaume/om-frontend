@@ -31,7 +31,7 @@ export default class App extends Component {
 	)
   }
 
-  renderLayoutIfUserLoggedIn() {
-  	return store.getState().currentUser !== null ? <Layout /> : <Redirect to="/login" />
+  renderLayoutIfUserLoggedIn(props) {
+  	return store.getState().currentUser !== null ? <Layout location={props.location} /> : <Redirect to="/login" />
   }
 }

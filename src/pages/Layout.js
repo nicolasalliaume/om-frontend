@@ -24,8 +24,10 @@ export default class Layout extends Component {
 		return ['nico','fer','rafa'].includes(Store.getState().currentUser.user.username);
 	}
 	render() {
+		console.log(this.props);
+		const { pathname } = this.props.location;
 		return (
-			<div className='layout'>
+			<div className={`layout ${pathname.replace(/\//g, '-').substring(1)}`}>
 				<Navbar className='flex-column justify-content-start'>
 					<NavbarBrand>OM</NavbarBrand>
 					<Nav navbar className='text-center'>
