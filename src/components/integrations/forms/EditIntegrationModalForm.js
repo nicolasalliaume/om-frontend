@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';	
-import update from 'immutability-helper';
 import { updateIntegration, createIntegration, deleteIntegration } from '../../../actions/integrations';
 import { confirmAlert } from './../../misc/ConfirmDialog';
 import Strings from '../../../strings/dialogs';

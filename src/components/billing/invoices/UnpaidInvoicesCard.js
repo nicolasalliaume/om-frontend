@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Col, Card, CardBlock, CardTitle } from 'reactstrap';
+import { Card, CardBlock, CardTitle } from 'reactstrap';
 import { connect } from 'react-redux';
 import { fetchProjectsBillingIfNeeded } from '../../../actions/billing';
 

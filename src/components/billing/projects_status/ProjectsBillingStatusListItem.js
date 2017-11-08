@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col } from 'reactstrap';
+import { Col } from 'reactstrap';
 import StatusBars from '../../misc/StatusBars';
 import { Link } from 'react-router-dom';
 import { encodeProjectName } from '../../../utils';
@@ -28,7 +28,6 @@ export default class ProjectsBillingStatusListItem extends Component {
 	getBarsConfig() {
 		const { project } = this.props;
 		const isOverworked = this.isOverworked();
-		const isNearLimit = this.isNearLimit();
 		const sold = project.hours_sold;
 		const billed = this.getHoursBilled();
 		const executed = this.getHoursExecuted();

@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import { Col, Card, CardBlock, CardTitle } from 'reactstrap';
-import { Link } from 'react-router-dom';
-import Icon from '../misc/Icon';
 import Tag from '../misc/Tag';
 import ObjectivesDisplayListFilterBar from './ObjectivesDisplayListFilterBar';
 
@@ -43,7 +41,6 @@ export default class ObjectivesDisplayList extends Component {
 			progress, 
 			scratched, 
 			completed_by, 
-			scratched_by, 
 			deleted_by 
 		} = o;
 		const completed = progress === 1;

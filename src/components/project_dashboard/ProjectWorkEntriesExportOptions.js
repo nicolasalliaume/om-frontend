@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import {
 	Row,
-	Col ,
-	Button,
-	Link
+	Col
 } from 'reactstrap';
 import ExternalUrllLink from '../misc/ExternalUrlLink';
 import Icon from '../misc/Icon';

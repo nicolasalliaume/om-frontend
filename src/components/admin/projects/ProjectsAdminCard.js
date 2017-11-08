@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Card, CardBlock, Button, CardTitle } from 'reactstrap';
+import { Card, CardBlock, CardTitle } from 'reactstrap';
 import { connect } from 'react-redux';
 import { fetchProjectsListIfNeeded } from './../../../actions/projects';
 import ProjectsAdminCardListItem from './ProjectsAdminCardListItem';
@@ -20,7 +20,6 @@ class ProjectsAdminCard extends Component {
 			})
 	}
 	render() {
-		const { projectsById } = this.props.projectsCache;
 		return (
 			<Card className='projects list'>
 				<CardBlock className='card-body'>

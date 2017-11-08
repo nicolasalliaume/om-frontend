@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';	
 import { 
 	fetchObjectiveWorkEntries, 
-	createObjectiveWorkEntry,
-	invalidateObjectiveWorkEntries
+	createObjectiveWorkEntry
 } from '../../../actions/objectives';
 import { 
 	Modal, 

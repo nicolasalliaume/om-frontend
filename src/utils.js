@@ -23,7 +23,6 @@ Array.prototype.empty = function() {
 /* numbers to words */
 const arr = x => Array.from(x);
 const num = x => Number(x) || 0;
-const str = x => String(x);
 const isEmpty = xs => xs.length === 0;
 const take = n => xs => xs.slice(0,n);
 const drop = n => xs => xs.slice(n);

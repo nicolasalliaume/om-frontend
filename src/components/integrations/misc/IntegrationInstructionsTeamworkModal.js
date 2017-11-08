@@ -15,7 +15,7 @@ export default class IntegrationInstructionsTeamworkModal extends Component {
 				<hr/>
 				<p>
 					To setup this integrations, log into your Teamwork account and&nbsp;
-					<a href='https://developer.teamwork.com/settingupwebhooks' target='_blank' rel='nooptions nofollow'>create a webhook</a>&nbsp;
+					<a href='https://developer.teamwork.com/settingupwebhooks' target='_blank' rel='noopener noreferrer'>create a webhook</a>&nbsp;
 					with the following information
 				</p>
 				<p><b>Webhook event:</b> TASK.CREATED</p>

@@ -9,7 +9,6 @@ import ObjectivesDisplayList from '../components/project_dashboard/ObjectivesDis
 import ProjectBalanceCard from '../components/project_dashboard/ProjectBalanceCard';
 import ProjectWorkEntriesCard from '../components/project_dashboard/ProjectWorkEntriesCard';
 import { 
-	fetchProjectsListIfNeeded, 
 	setProjectDashboardVisibleProject,
 	fetchWorkEntriesForProject,
 	setProjectDashboardWorkEntriesFilters

@@ -4,7 +4,6 @@ import {
 	Row,
 	Col 
 } from 'reactstrap';
-import { connect } from 'react-redux';
 import update from 'immutability-helper';
 
 const SECONDS_BEFORE_SUBMIT = 1;

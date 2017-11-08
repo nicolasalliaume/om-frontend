@@ -11,7 +11,7 @@ export default class IntegrationInstructionsTrelloModal extends Component {
 				<hr/>
 				<p>
 					To setup this integrations, log into your IFTTT account and&nbsp;
-					<a href='https://ifttt.com/create' target='_blank' rel='nooptions nofollow'>create an applet</a> 
+					<a href='https://ifttt.com/create' target='_blank' rel='noopener noreferrer'>create an applet</a> 
 					&nbsp;with the following information:
 				</p>
 				<p><b>Trigger:</b> Trello : Card added to board</p>

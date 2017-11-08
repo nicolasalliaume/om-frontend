@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
-import update from 'immutability-helper';
 import { 
 	Col,
 	FormGroup,
-	Label,
-	Input,
-	Row
+	Input
 } from 'reactstrap';
 
 export default class KeyValueForm extends Component {

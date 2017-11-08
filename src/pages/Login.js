@@ -31,7 +31,7 @@ class Login extends Component {
 	getAuthTokenFromCookie() {
 		if (this.hasLogInCookie()) {
 			const cookie = Cookies.get(REMEMBER_ME_COOKIE);
-			const [ userId, authToken ] = cookie.split("|");
+			const authToken = cookie.split("|")[1];
 			return authToken;
 		}
 		return undefined;

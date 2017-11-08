@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Col, Card, CardBlock, CardTitle } from 'reactstrap';
+import { Col } from 'reactstrap';
 import Icon from '../misc/Icon';
 import moment from 'moment';
 
@@ -17,7 +17,7 @@ export default class InvoicesDisplayList extends Component {
 	}
 
 	renderInvoice(invoice) {
-		const { _id, description, paid, project, billed_hours, amount, invoicing_date } = invoice;
+		const { _id, description, paid, billed_hours, amount, invoicing_date } = invoice;
 		const date = moment.utc(invoicing_date).format('MM/DD');
 		const className = paid ? 'paid' : 'unpaid';
 		return (

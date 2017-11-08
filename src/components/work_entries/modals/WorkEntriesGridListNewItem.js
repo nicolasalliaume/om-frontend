@@ -24,8 +24,8 @@ class WorkEntriesGridListNewItem extends Component {
 		let [hours, minutes] = this.state.time.split(':');
 		if (!hours) return console.error('Missing time');
 
-		hours = parseInt(hours);
-		if (minutes) hours += parseInt(minutes) / 60;
+		hours = parseInt(hours, 10);
+		if (minutes) hours += parseInt(minutes, 10) / 60;
 
 		this.props.submit(hours);
 	}

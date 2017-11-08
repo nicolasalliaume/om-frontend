@@ -1,11 +1,6 @@
 import React, { Component } from 'react';
 import moment from 'moment';
-import Icon from '../../misc/Icon';
-import {
-	Row,
-	Col,
-	Button
-} from 'reactstrap';
+import { Col } from 'reactstrap';
 
 export default class WorkEntriesListItem extends Component {
 	render() {

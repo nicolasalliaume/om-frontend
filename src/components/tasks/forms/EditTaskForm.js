@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import update from 'immutability-helper';
-import { connect } from 'react-redux';
 import { 
 	Col, 
 	Form, 
@@ -10,7 +9,6 @@ import {
 } from 'reactstrap';
 import TagsInput from './../../misc/TagsInput';
 import ProjectsCombo from './../../projects/utils/ProjectsCombo';
-import { fetchProjectsListIfNeeded } from './../../../actions/projects';
 
 export default class EditTaskForm extends Component {
 	taskPropChanged = (event) => {

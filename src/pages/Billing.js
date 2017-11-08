@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 import { Row, Col } from 'reactstrap';
-import { connect } from 'react-redux';
-import ProjectsBillingStatusList from '../components/billing/projects_status/ProjectsBillingStatusList';
 import UnpaidInvoicesCard from '../components/billing/invoices/UnpaidInvoicesCard';
 import OverworkCard from '../components/billing/projects_status/OverworkCard';
 import ProjectsBillingStatusCard from '../components/billing/projects_status/ProjectsBillingStatusCard';
 import MonthlyInvoicesMissing from '../components/billing/invoices/MonthlyInvoicesMissing';
 import BillingOpportunities from '../components/billing/opportunities/BillingOpportunities';
 import CreateInvoiceFloatingButton from '../components/billing/misc/CreateInvoiceFloatingButton';
-import { fetchProjectsListIfNeeded } from '../actions/projects';
 import LatestBillingCard from '../components/billing/invoices/LatestBillingCard';
 import LatestExpensesCard from '../components/billing/invoices/LatestExpensesCard';
 

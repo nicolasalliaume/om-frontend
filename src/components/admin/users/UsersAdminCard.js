@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Card, CardBlock, CardTitle, Button } from 'reactstrap';
+import { Card, CardBlock, CardTitle } from 'reactstrap';
 import { connect } from 'react-redux';
 import { fetchUsersListIfNeeded } from './../../../actions/users';
 import UsersAdminCardListItem from './UsersAdminCardListItem';
@@ -20,7 +20,6 @@ class UsersAdminCard extends Component {
 			})
 	}
 	render() {
-		const { usersById } = this.props.usersCache;
 		return (
 			<Card className='users list'>
 				<CardBlock className='card-body'>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Card, CardBlock, CardTitle } from 'reactstrap';
+import { Card, CardBlock, CardTitle } from 'reactstrap';
 import WorkEntriesList from '../work_entries/view/WorkEntriesList';
 import ProjectWorkEntriesCardFilters from './ProjectWorkEntriesCardFilters';
 import ProjectWorkEntriesExportOptions from './ProjectWorkEntriesExportOptions';

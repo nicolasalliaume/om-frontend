@@ -19,7 +19,7 @@ export default class TagsInput extends Component {
 
 	mapValues = (values) => values.map(v => { return {label: v, value: v} })
 
-	removeExtraText = (text) => text.replace("Create option \"", '').replace('\"', '').trim()
+	removeExtraText = (text) => text.replace("Create option \"", '').replace('"', '').trim()
 	
 	render() {
 		const { className, value, ...props } = this.props;

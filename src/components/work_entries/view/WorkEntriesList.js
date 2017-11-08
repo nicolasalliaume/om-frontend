@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import WorkEntriesListItem from './WorkEntriesListItem';
 
 export default class WorkEntriesList extends Component {

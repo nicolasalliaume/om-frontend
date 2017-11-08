@@ -4,7 +4,6 @@ import {
 	Row,
 	Col 
 } from 'reactstrap';
-import { connect } from 'react-redux';
 import update from 'immutability-helper';
 import UsersCombo from '../users/utils/UsersCombo';
 
@@ -34,7 +33,7 @@ export default class ProjectWorkEntriesCardFilters extends Component {
 		clearInterval(this.submitTimer);
 	}
 	render() {
-		const { title, user, dateFrom, dateTo } = this.state;
+		const { user, dateFrom, dateTo } = this.state;
 		return (
 			<Row className='filters objectives-display-filters'>
 				<Col xs={6}>

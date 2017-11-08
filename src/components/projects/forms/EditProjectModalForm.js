@@ -10,8 +10,7 @@ import {
 	FormGroup,
 	Label,
 	Col,
-	Input,
-	InputGroup
+	Input
 } from 'reactstrap';
 import update from 'immutability-helper';
 import { updateProject, addProject } from '../../../actions/projects';
