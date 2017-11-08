@@ -62,6 +62,8 @@ class EditInvoiceModalForm extends Component {
 			invoiceData = update(invoiceData, {receiver:{$set: null}})
 		}
 
+		invoiceData = update(invoiceData, {created_by: {$set: invoiceData.created_by._id}});
+
 		if (isNew) this.props.addInvoice(invoiceData);
 		else this.props.updateInvoice(invoiceData);
 
@@ -87,6 +89,12 @@ class EditInvoiceModalForm extends Component {
 		this.onChange({target: {
 			name: event.target.name, 
 			value: event.target.checked}});
+	}
+
+	onChangeFile = (event) => {
+		this.setState({ invoice: update(this.state.invoice, {
+			attachment: {$set: event.target.files[0]}
+		}) })
 	}
 	
 	render() {
@@ -197,6 +205,16 @@ class EditInvoiceModalForm extends Component {
 										min={1} name="number" id="number" 
 										onChange={this.onChange}
 										value={invoice.number} />
+								</Col>
+							</FormGroup>
+						}
+						{ invoice.direction === 'in' && 
+							<FormGroup row>
+								<Label for="attachment" sm={2}>Attachment</Label>
+								<Col sm={10} className='align-self-center'>
+									<Input type="file"
+										name="attachment" id="attachment" 
+										onChange={this.onChangeFile} />
 								</Col>
 							</FormGroup>
 						}

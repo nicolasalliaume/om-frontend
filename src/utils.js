@@ -146,6 +146,7 @@ export function getNewInvoiceTemplate(direction = 'out') {
 		receiver		: '',
 		paid 			: false,
 		created_by 		: currentUser,
+		attachment 		: null,
 		direction
 	}
 }
@@ -168,6 +169,12 @@ export function getNewUserTemplate() {
 export function getUrlForAttachmentFile(url) {
 	const base = process.env.NODE_ENV === 'production' 
 					? 'https://om-integrations.herokuapp.com' : 'http://localhost:3001';
+	return base + url;
+}
+
+export function getUrlForInvoiceAttachment(url) {
+	const base = process.env.NODE_ENV === 'production' 
+					? 'https://om-services.herokuapp.com/attachments/' : 'http://localhost:3000/attachments/';
 	return base + url;
 }
 

@@ -26,6 +26,20 @@
 
 		.invoices-list-item {
 			padding-top: 5pt;
+
+			.attachment-col {
+				margin-top: -10pt;
+				margin-bottom: 10pt;
+			}
+
+			.open-attachment {
+				font-size: 0.9em;
+				text-decoration: none !important;
+				color: $text-color;
+
+				i { margin-right: 3pt }
+			}
+
 			.card-body {
 				padding: 1.24rem;
 			}

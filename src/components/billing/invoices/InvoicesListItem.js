@@ -9,7 +9,8 @@ import Strings from '../../../strings/dialogs';
 import { confirmAlert } from './../../misc/ConfirmDialog';
 import { Endpoints, EndpointAuthQuerystring } from '../../../actions/endpoints';
 import { Link } from 'react-router-dom';
-import { encodeProjectName } from '../../../utils';
+import { encodeProjectName, getUrlForInvoiceAttachment } from '../../../utils';
+import ExternalUrlLink from '../../misc/ExternalUrlLink';
 
 class InvoicesListItem extends Component {
 	constructor() {
@@ -75,11 +76,20 @@ class InvoicesListItem extends Component {
 						<Col xs={12}>
 							<p>{invoice.description}</p>
 						</Col>
+						{ invoice.attachment && 
+							<Col xs={12} className='attachment-col'>
+								<a href={getUrlForInvoiceAttachment(invoice.attachment)} target='_blank'
+									rel='noopener nofollow' className='open-attachment'>
+									<Icon fa-paperclip />
+									See attachment
+								</a>
+							</Col>
+						}
 						<Col xs={12}>
 							<footer className='row'>
 								<Col xs={4} className='date'><Icon fa-calendar-o />{date}</Col>
 								<Col xs={4} className='hours'><Icon fa-clock-o />{billed_hours} Hrs</Col>
-								<Col xs={4} className='money'><Icon fa-dollar />{amount}</Col>
+								<Col xs={4} className='amount'><Icon fa-dollar />{amount}</Col>
 							</footer>
 						</Col>
 					</CardBlock>

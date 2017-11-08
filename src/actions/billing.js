@@ -37,10 +37,21 @@ function receiveAddInvoice(result) {
 export function addInvoice(invoice) {
 	return function(dispatch, getState) {
 		dispatch(requestAddInvoice());
-		superagent
+		
+		const request = superagent
 			.post(Endpoints.ADD_INVOICE())
 			.set(...EndpointAuth())
-			.send(invoice)
+			// .send(invoice)
+			
+		Object.keys(invoice).filter(k => k!=='attachment' && !!invoice[k]).forEach(k => {
+			request.field(k, invoice[k])
+		})
+
+		if (invoice.attachment) {
+			request.attach('attachment', invoice.attachment);
+		}
+		
+		request	
 			.then(response => response.body)
 			.then(testForErrorReturned)
 			.then(body => dispatch(receiveAddInvoice(body)))
