@@ -38,20 +38,7 @@ export function addInvoice(invoice) {
 	return function(dispatch, getState) {
 		dispatch(requestAddInvoice());
 		
-		const request = superagent
-			.post(Endpoints.ADD_INVOICE())
-			.set(...EndpointAuth())
-			// .send(invoice)
-			
-		Object.keys(invoice).filter(k => k!=='attachment' && !!invoice[k]).forEach(k => {
-			request.field(k, invoice[k])
-		})
-
-		if (invoice.attachment) {
-			request.attach('attachment', invoice.attachment);
-		}
-		
-		request	
+		getMultipartRequestForInvoice(Endpoints.ADD_INVOICE(), invoice)
 			.then(response => response.body)
 			.then(testForErrorReturned)
 			.then(body => dispatch(receiveAddInvoice(body)))
@@ -61,6 +48,23 @@ export function addInvoice(invoice) {
 			// error handling
 			.catch(error => dispatch(addError(error.message, 'Add invoice')));
 	}
+}
+
+function getMultipartRequestForInvoice(url, invoice) {
+	const request = superagent
+		.post(url)
+		.set(...EndpointAuth());
+
+	// send as mutipart/form-data to include attachment
+	Object.keys(invoice).filter(k => k!=='attachment' && !!invoice[k]).forEach(k => {
+		request.field(k, invoice[k])
+	})
+	// if attachment present, add
+	if (invoice.attachment) {
+		request.attach('attachment', invoice.attachment);
+	}
+
+	return request;
 }
 
 function requestUpdateInvoice(invoice) {
@@ -74,10 +78,8 @@ function receiveUpdateInvoice(result) {
 export function updateInvoice(invoice) {
 	return function(dispatch) {
 		dispatch(requestUpdateInvoice(invoice));
-		superagent
-			.post(Endpoints.UPDATE_INVOICE(invoice._id))
-			.set(...EndpointAuth())
-			.send(invoice)
+
+		getMultipartRequestForInvoice(Endpoints.UPDATE_INVOICE(invoice._id), invoice)
 			.then(response => response.body)
 			.then(testForErrorReturned)
 			.then(body => dispatch(receiveUpdateInvoice(body)))
