@@ -20,12 +20,12 @@ export default class BillingOverviewCards extends Component {
 					title={'<b>Year</b> actual'} />
 
 				<BillingOverviewCard 
-					className='monthly-objective-card'
+					className='monthly-objective-card smaller-title'
 					amount={objective} 
 					title={'<b>Monthly</b> objective'} />
 
 				<BillingOverviewCard 
-					className='monthly-avg-card'
+					className='monthly-avg-card smaller-title'
 					amount={this.getAvgMonthlyBilling(billingInvoices)} 
 					title={'<b>Monthly</b> avg'} />
 			</div>
