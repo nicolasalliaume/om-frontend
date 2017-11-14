@@ -20,6 +20,12 @@ class BillingOpportunities extends Component {
 			return p.executed_hours_total > p.billed_hours_total;
 		})
 	}
+
+	getBillingOpportunities() {
+		return this.getProjectsWithUnpaidWork()
+			.map(p => [p, Math.round((p.executed_hours_total - p.billed_hours_total) * p.hourly_rate)])
+			.filter(([p, profit]) => profit > 0)
+	}
 	
 	getInvoiceTemplate(project, amount) {
 		return {
@@ -36,8 +42,7 @@ class BillingOpportunities extends Component {
 				<CardBlock className='card-body'>
 					<CardTitle>Billing <b>opportunities</b></CardTitle>
 					<ul>
-						{ this.getProjectsWithUnpaidWork().map(p => {
-							const profit = Math.round((p.executed_hours_total - p.billed_hours_total) * p.hourly_rate);
+						{ this.getBillingOpportunities().map(([p, profit]) => {
 							return (
 								<li key={p._id} className='row'>
 									<Col xs={6}><b>{p.name}</b></Col>
