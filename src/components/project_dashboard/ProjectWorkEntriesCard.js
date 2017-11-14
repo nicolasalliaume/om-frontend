@@ -17,15 +17,23 @@ export default class ProjectWorkEntriesCard extends Component {
 					<ProjectWorkEntriesCardFilters submit={this.props.applyWorkEntryFilters} />
 					<WorkEntriesList entries={workEntries.entries} />
 					<hr />
-					<ProjectWorkEntriesExportOptions htmlLink={this.getExportHtmlLink()} />
+					<ProjectWorkEntriesExportOptions 
+						detailedLink={this.getExportHtmlDetailedLink()}
+						clientLink={this.getExportHtmlClientLink()} />
 				</CardBlock>
 			</Card>
 		)
 	}
 
-	getExportHtmlLink() {
+	getExportHtmlDetailedLink() {
 		const { project, workEntries } = this.props;
 		return Endpoints.RENDER_WORK_ENTRIES_FOR_PROJECT(project, workEntries.filters) 
+					+ EndpointAuthQuerystring();
+	}
+
+	getExportHtmlClientLink() {
+		const { project, workEntries } = this.props;
+		return Endpoints.RENDER_PROJECT_STATUS_FOR_CLIENT(project, workEntries.filters) 
 					+ EndpointAuthQuerystring();
 	}
 }

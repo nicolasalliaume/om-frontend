@@ -41,7 +41,8 @@ export const Endpoints = {
 	ADD_PROJECT						: () => `${BASE_URL}/projects/add`,
 	DELETE_PROJECT					: (projectId) => `${BASE_URL}/projects/${projectId}`,
 	UPDATE_PROJECT					: (projectId) => `${BASE_URL}/projects/${projectId}`,
-	RENDER_WORK_ENTRIES_FOR_PROJECT	: (projectId, filters) => `${BASE_URL}/projects/${projectId}/work-entries/export/html?${encode(filters)}`,
+	RENDER_WORK_ENTRIES_FOR_PROJECT	: (projectId, filters) => `${BASE_URL}/projects/${projectId}/work-entries/export/detailed/html?${encode(filters)}`,
+	RENDER_PROJECT_STATUS_FOR_CLIENT: (projectId, filters) => `${BASE_URL}/projects/${projectId}/work-entries/export/client/html?${encode(filters)}`,
 
 	/** billing endpoints */
 	GET_INVOICES_LIST				: () => `${BASE_URL}/billing/invoices`,
