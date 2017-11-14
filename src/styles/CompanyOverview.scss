@@ -5,9 +5,10 @@
 	background-image: url(https://i.pinimg.com/originals/6e/52/42/6e5242aab82fdb8822649c916a2ed714.gif);
 }
 
-.overview {
+.overview #main {
 	animation: fadeIn 1s;
 	padding: $main-view-padding;
+	font-size: 1.1vw;
 
 	.row + .row {
 		margin-top: 15pt;
@@ -19,13 +20,37 @@
 		}
 	}
 
-	.monthly-objective-card {
-		margin-top: 15pt;
+	.overview-billing-cards.year-month > .row > div:nth-child(2) {
+		margin-bottom: 15pt;
 	}
 
-	.overview-billing-cards .amount {
-		font-size: 3.0em;
-	    font-weight: 400;
+	@media (max-width: $md-end) {
+		font-size: 2.2vw;
+
+		.overview-billing-cards.year-month > .row > div:first-child {
+			margin-bottom: 15pt;
+		}
+		.year-overview-chart {
+			margin-top: 15pt;
+		}
+		.year-income-vs-expenses-chart > div:first-child {
+			margin-bottom: 15pt;
+		}
+	}
+
+	.overview-billing-cards.year-month .card {
+		height: 100%;
+	}
+
+	.overview-billing-cards {
+		.amount {
+			font-size: 3.0em;
+		    font-weight: 400;
+		}
+	}
+
+	.year-income-vs-expenses-chart .overview-billing-cards .amount {
+		font-size: 2.3em;
 	}
 }
 

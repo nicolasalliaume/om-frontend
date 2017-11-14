@@ -26,7 +26,7 @@ export default class OverviewCharts extends Component {
 					</Col>
 				</Row>
 				<Row className='year-income-vs-expenses-chart'>
-					<Col xs={6}>
+					<Col xs={12} lg={6}>
 						<Card>
 							<CardBlock className='card-body'>
 								<CardTitle>Year <b>Expenses vs. Billing</b></CardTitle>
@@ -37,13 +37,13 @@ export default class OverviewCharts extends Component {
 							</CardBlock>
 						</Card>
 					</Col>
-					<Col xs={3} className='overview-billing-cards'>
+					<Col xs={6} lg={3} className='overview-billing-cards'>
 						<BillingOverviewCard 
 							className='year-expenses-card smaller-title'
 							amount={this.getYearExpenses(expensesInvoices)} 
 							title={'Year <b>expenses</b>'} />
 					</Col>
-					<Col xs={3} className='overview-billing-cards'>
+					<Col xs={6} lg={3} className='overview-billing-cards'>
 						<BillingOverviewCard 
 							className='year-margin-card smaller-title'
 							amount={this.getYearMargin(invoices)} 

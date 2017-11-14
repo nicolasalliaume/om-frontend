@@ -29,13 +29,13 @@ class CompanyOverview extends Component {
 		return (
 			<div className='overview'>
 				<Row>
-					<Col lg={9} xs={12}>
+					<Col lg={9} xs={12} className='order-sm-2 order-lg-1'>
 						<OverviewCharts invoices={invoices} 
 							objective={MONTHLY_INCOME_OBJECTIVE}
 							start={start} 
 							end={end} />
 					</Col>
-					<Col lg={3} xs={6}>
+					<Col lg={3} xs={12} className='order-sm-1 order-lg-2'>
 						<BillingOverviewCards invoices={invoices}
 							objective={MONTHLY_INCOME_OBJECTIVE}
 							start={start}
