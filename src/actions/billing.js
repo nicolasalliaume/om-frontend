@@ -56,7 +56,9 @@ function getMultipartRequestForInvoice(url, invoice) {
 		.set(...EndpointAuth());
 
 	// send as mutipart/form-data to include attachment
-	Object.keys(invoice).filter(k => k!=='attachment' && !!invoice[k]).forEach(k => {
+	Object.keys(invoice).filter(k => k !== 'attachment' 
+		&& invoice[k] !== undefined && invoice[k] !== null).forEach(k => {
+		console.log(k, invoice[k]);
 		request.field(k, invoice[k])
 	})
 	// if attachment present, add

@@ -7,7 +7,7 @@ export default function InvoicesList(props) {
 		<div className='list list--large invoices-list'>
 			<ul>
 				{ invoices.map((invoice, idx) => {
-					return <InvoicesListItem key={idx} invoice={invoice} />
+					return <InvoicesListItem key={invoice._id} invoice={invoice} />
 				})}
 			</ul>
 		</div>
