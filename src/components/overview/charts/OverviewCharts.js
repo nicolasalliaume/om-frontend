@@ -47,7 +47,7 @@ export default class OverviewCharts extends Component {
 						<BillingOverviewCard 
 							className='year-margin-card smaller-title'
 							amount={this.getYearMargin(invoices)} 
-							title={'Year <b>margin</b>'} />
+							title={'Year <b>profit</b>'} />
 					</Col>
 				</Row>
 			</div>
