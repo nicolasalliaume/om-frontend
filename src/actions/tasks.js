@@ -14,7 +14,7 @@ import {
 
 import superagent from 'superagent';
 import { Endpoints, EndpointAuth, testForErrorReturned } from './endpoints';
-import { invalidateObjectivesList } from './objectives';
+import { invalidateObjectivesList, createObjectiveFromTask } from './objectives';
 import { invalidateLatestActivity } from './activity';
 import { addMessage, addError } from './messages';
 
@@ -127,23 +127,40 @@ function receiveCreateTask(response) {
 	return { type: RECEIVE_ADD_TASK, payload: response }
 }
 
-export function createTask(task) {
+export function createTask(task, createObjective) {
 	return function(dispatch) {
 		dispatch(requestCreateTask());
-		return superagent
+
+		const taskPromise = superagent
 			.post(Endpoints.ADD_TASK())
 			.set(...EndpointAuth())
 			.send(task)
 			.then(response => response.body)
 			.then(testForErrorReturned)
-			.then(doc => { dispatch(receiveCreateTask(doc)); return doc; })
+			.then(doc => { 
+				dispatch(receiveCreateTask(doc)); 
+				return doc; 
+			})
+
+		if (createObjective) {
+			taskPromise
+				.then(doc => dispatch(createObjectiveFromTask(doc)))
+		}
+
+		taskPromise
 			.then(doc => dispatch(addMessage(doc.title, 'Task created')))
 			.then(() => dispatch(invalidateTasksList()))
 			.then(() => dispatch(invalidateLatestActivity()))
 			.then(() => dispatch(moveToPage(1)))
 			// error handling
 			.catch(error => dispatch(addError(error.message, 'Create task')))
+
+		return taskPromise;
 	}
+}
+
+export function createTaskAndObjective(task) {
+	return createTask(task, true);
 }
 
 export function invalidateTasksList() {
