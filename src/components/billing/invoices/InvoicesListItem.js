@@ -10,7 +10,6 @@ import { confirmAlert } from './../../misc/ConfirmDialog';
 import { Endpoints, EndpointAuthQuerystring } from '../../../actions/endpoints';
 import { Link } from 'react-router-dom';
 import { encodeProjectName, getUrlForInvoiceAttachment } from '../../../utils';
-import ExternalUrlLink from '../../misc/ExternalUrlLink';
 
 class InvoicesListItem extends Component {
 	constructor() {

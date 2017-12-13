@@ -16,13 +16,16 @@ import Store from '../store';
 
 import { fetchProjectsListIfNeeded } from '../actions/projects';
 
-/* load needed resources */
-Store.dispatch(fetchProjectsListIfNeeded());
-
 export default class Layout extends Component {
+	componentDidMount() {
+		/* load needed resources */
+		Store.dispatch(fetchProjectsListIfNeeded());
+	}
+
 	isAdminUser() {
 		return ['nico','fer','rafa'].includes(Store.getState().currentUser.user.username);
 	}
+	
 	render() {
 		console.log(this.props);
 		const { pathname } = this.props.location;
