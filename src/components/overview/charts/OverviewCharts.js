@@ -6,7 +6,7 @@ import BillingOverviewCard from  '../cards/BillingOverviewCard';
 
 export default class OverviewCharts extends Component {
 	render() {
-		const { invoices } = this.props;
+		const { invoices, start, end, objective } = this.props;
 		const billingInvoices = invoices.filter(i => i.direction === 'out');
 		const expensesInvoices = invoices.filter(i => i.direction === 'in');
 
@@ -18,9 +18,9 @@ export default class OverviewCharts extends Component {
 							<CardBlock className='card-body'>
 								<CardTitle><b>Year billing</b> overview</CardTitle>
 								<IncomeVsObjectiveChart invoices={billingInvoices}
-									objective={this.props.objective}
-									start={this.props.start}
-									end={this.props.end} />
+									objective={objective}
+									start={start}
+									end={end} />
 							</CardBlock>
 						</Card>
 					</Col>
@@ -31,9 +31,9 @@ export default class OverviewCharts extends Component {
 							<CardBlock className='card-body'>
 								<CardTitle>Year <b>Expenses vs. Billing</b></CardTitle>
 								<IncomeVsExpensesChart invoices={invoices}
-									objective={this.props.objective}
-									start={this.props.start}
-									end={this.props.end} />
+									objective={objective}
+									start={start}
+									end={end} />
 							</CardBlock>
 						</Card>
 					</Col>

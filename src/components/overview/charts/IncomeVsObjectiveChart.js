@@ -38,10 +38,16 @@ export default class IncomeVsObjectiveChart extends Component {
 	}
 
 	getAverage() {
+		const { end } = this.props;
 		const invoices = this.props.invoices;
 		const total = invoices.reduce((s,i) => s + i.amount, 0);
-		const now = moment().format('MMM');
-		const monthsOfData = this.getMonthsLabels().indexOf(now) + 1;
+		// determine last month of data. if we're looking at
+		// this year, then we'll use the current month. otherwise
+		// use last month of the visible year
+		const now = moment();
+		const lastMonth = end > now ? now : end;
+		const month = lastMonth.format('MMM');
+		const monthsOfData = this.getMonthsLabels().indexOf(month) + 1;
 		return total / monthsOfData;
 	}
 
