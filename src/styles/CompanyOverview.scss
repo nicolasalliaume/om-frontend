@@ -10,6 +10,14 @@
 	padding: $main-view-padding;
 	font-size: 1.1vw;
 
+	.floating-visible-year {
+		position: absolute;
+		top: 14px;
+		left: 30px;
+		width: 60px;
+		z-index: 999;
+	}
+
 	.row + .row {
 		margin-top: 15pt;
 	}
