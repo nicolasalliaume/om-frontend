@@ -6,6 +6,7 @@ import { tasksView } from './tasks/TasksReducers';
 import { cache } from './cache/CacheReducers';
 import { work_entries } from './work_entries/WorkEntriesReducer';
 import { integrations } from './admin/IntegrationsReducer';
+import { alarms } from './admin/AlarmsReducer';
 import { billingView } from './billing/BillingReducers';
 import { projectDashboardView } from './project_dashboard/ProjectDashboardReducers';
 import { companyOverview } from './company_overview/CompanyOverviewReducer';
@@ -18,6 +19,7 @@ const AppReducer = combineReducers({
 	messages,
 	work_entries,
 	integrations,
+	alarms,
 	billingView,
 	projectDashboardView,
 	companyOverview

@@ -23,7 +23,7 @@ export default class IntegrationCard extends Component {
 						<div className='integration-service text-center'>
 							<span>{service}</span>
 						</div>
-						<div className='integration-author'>{integration.created_by.full_name}</div>
+						<div className='author'>{integration.created_by.full_name}</div>
 						<div className='text-center'>
 							<Button className='view-details' onClick={this.toggleModal}>
 								View details
@@ -34,7 +34,7 @@ export default class IntegrationCard extends Component {
 								</Button>
 							}
 						</div>
-						<div className='integration-id text-center'>ID: {integration._id}</div>
+						<div className='id text-center'>ID: {integration._id}</div>
 					</CardBlock>
 				</Card>
 				

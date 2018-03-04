@@ -164,6 +164,22 @@ export function getNewUserTemplate() {
 	}
 }
 
+export function getNewAlarmTemplate() {
+	const currentUser = Store.getState().currentUser.user;
+	return {
+		name: 'New alarm',
+		created_by: currentUser,
+		enabled: true,
+		measure: '',
+		user_filter: '',
+		project_filter: '',
+		date_filter: '',
+		state_filter: '',
+		condition_op: '>',
+		condition_value: 0,
+	}
+}
+
 /** attachments */
 
 export function getUrlForAttachmentFile(url) {

@@ -7,6 +7,7 @@ import Icon from '../components/misc/Icon';
 import Dashboard from './Dashboard';
 import Tasks from './Tasks';
 import Integrations from './Integrations';
+import Alarms from './Alarms';
 import Billing from './Billing';
 import Admin from './Admin';
 import ProjectDashboard from './ProjectDashboard';
@@ -15,11 +16,13 @@ import CompanyOverview from './CompanyOverview';
 import Store from '../store';
 
 import { fetchProjectsListIfNeeded } from '../actions/projects';
+import { fetchUsersListIfNeeded } from '../actions/users';
 
 export default class Layout extends Component {
 	componentDidMount() {
 		/* load needed resources */
 		Store.dispatch(fetchProjectsListIfNeeded());
+		Store.dispatch(fetchUsersListIfNeeded());
 	}
 
 	isAdminUser() {
@@ -27,7 +30,6 @@ export default class Layout extends Component {
 	}
 	
 	render() {
-		console.log(this.props);
 		const { pathname } = this.props.location;
 		return (
 			<div className={`layout ${pathname.replace(/\//g, '-').substring(1)}`}>
@@ -63,6 +65,11 @@ export default class Layout extends Component {
 								<Icon fa-cogs/>
 							</Link>
 						</NavItem>
+						<NavItem>
+							<Link to="/alarms">
+								<Icon fa-bell/>
+							</Link>
+						</NavItem>
 						{ this.isAdminUser() && 
 							<NavItem>
 								<Link to="/admin">
@@ -80,6 +87,7 @@ export default class Layout extends Component {
 						<Route path='/overview' component={CompanyOverview} />
 						<Route path='/project/:projectName' component={ProjectDashboard} />
 						<Route path='/integrations' component={Integrations} />
+						<Route path='/alarms' component={Alarms} />
 						<Route path='/billing' component={Billing} />
 						<Route path='/admin' component={Admin} />
 					</Switch>

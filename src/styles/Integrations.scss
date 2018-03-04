@@ -5,6 +5,21 @@ $teamwork-color: #65d656;
 $slack-color: #E19424;
 $email-color: #27bcb0;
 
+@mixin theme-card($mainColor, $fontColor) {
+	background-color: $mainColor;
+	& * { color: $fontColor !important; }
+
+	button {
+		background: transparent !important;
+		border: 1px solid $fontColor !important;
+	}
+
+	.integration-service span {
+		background: $fontColor;
+		color: $mainColor !important;
+	}
+}
+
 #main > .integrations {
 	animation: fadeIn 1s;
 	padding: $main-view-padding;
@@ -25,6 +40,12 @@ $email-color: #27bcb0;
 			margin-bottom: 10pt;
 		}
 
+		.author {
+			text-align: center;
+			font-size: 0.8em;
+			margin-top: 10px;
+		}
+
 		.integration-service span {
 			padding: 3pt 8pt;
 			background: $accent-color;
@@ -34,7 +55,7 @@ $email-color: #27bcb0;
 		}
 
 		button {
-			margin: 20pt 0 10pt;
+			margin: 10pt 0 10pt;
 
 			&.view-details {
 				margin-right: 10pt;
@@ -44,23 +65,8 @@ $email-color: #27bcb0;
 			}
 		}
 
-		.integration-id {
+		.id {
 			font-size: 0.4em;
-		}
-
-		@mixin theme-card($mainColor, $fontColor) {
-			background-color: $mainColor;
-			& * { color: $fontColor !important; }
-
-			button {
-				background: transparent !important;
-				border: 1px solid $fontColor !important;
-			}
-
-			.integration-service span {
-				background: $fontColor;
-				color: $mainColor !important;
-			}
 		}
 
 		&.trello {

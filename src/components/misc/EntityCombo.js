@@ -20,7 +20,7 @@ export default class EntityCombo extends Component {
 		const disabled = items.length === 0;
 		return (
 			<Input type="select" 
-				value={value} 
+				value={value || ''} 
 				disabled={disabled} 
 				onChange={this.selectItem}>
 				

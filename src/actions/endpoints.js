@@ -57,7 +57,11 @@ export const Endpoints = {
 	ADD_INVOICE						: () => `${BASE_URL}/billing/invoices/add-invoice`,
 	UPDATE_INVOICE					: (invoiceId) => `${BASE_URL}/billing/invoices/${invoiceId}`,
 	DELETE_INVOICE					: (invoiceId) => `${BASE_URL}/billing/invoices/${invoiceId}`,
-	RENDER_INVOICE					: (invoiceId) => `${BASE_URL}/billing/invoices/${invoiceId}/html?`
+	RENDER_INVOICE					: (invoiceId) => `${BASE_URL}/billing/invoices/${invoiceId}/html?`,
+	GET_ALARMS						: () => `${BASE_URL}/admin/alarms`,
+	CREATE_ALARM					: () => `${BASE_URL}/admin/alarms/add`,
+	UPDATE_ALARM					: (alarmId) => `${BASE_URL}/admin/alarms/${alarmId}`,
+	DELETE_ALARM					: (alarmId) => `${BASE_URL}/admin/alarms/${alarmId}`,
 }
 
 export const EndpointAuth = () => { 

@@ -31,4 +31,8 @@ export default {
 						+ 'able to recover it.<br/><br/>This will affect the billed amount for the '
 						+ 'project this invoice belongs to.',
 
+	DELETE_ALARM 	   : 'This will <b>permanently delete</b> the alarm.<br/><br/>'
+						+ 'Instead, if you just want to prevent the alarm from going off without deleting it, '
+						+ 'you can <b>disable</b> it from the editing form by clicking in <i>View Details</i>.',
+
 }
