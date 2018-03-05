@@ -25,9 +25,6 @@ import './../styles/ProjectDashboard.css';
 class ProjectDashboard extends Component {
 	componentWillMount() {
 		const projectId = this.getProjectId(this.props);
-
-		console.log(projectId);
-
 		this.props.setProjectDashboardVisibleProject(projectId);
 		this.props.fetchBillingForProject(projectId);
 		this.props.fetchWorkEntriesForProject(projectId);

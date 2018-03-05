@@ -26,7 +26,6 @@ class EditAlarmModalForm extends Component {
 		const { alarm } = this.state;
 
 		if (this.props.edit) {
-			console.log('here', alarm);
 			this.props.updateAlarm(alarm._id, alarm);
 		} else {
 			this.props.createAlarm(alarm);

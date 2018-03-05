@@ -11,7 +11,6 @@ export function companyOverview(state, action) {
 
 	switch (action.type) {
 		case OVERVIEW_SET_VISIBLE_DATE:
-			console.log("SETTING NEW DATE", action);
 			return update(state, { visibleYear: {$set: action.payload} })
 
 		default: return state;
