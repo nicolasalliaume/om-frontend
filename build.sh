@@ -1,7 +1,5 @@
 echo "==> [STEP] Setting Heroku account to personal.."
 heroku accounts:set personal
-echo "==> [STEP] Building project.."
-npm run build
 echo "==> [STEP] Commiting new changes.."
 git add . 
 git commit -m "Building and pushing to heroku"
