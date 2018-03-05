@@ -31,12 +31,13 @@
   "scripts": {
     "start-js": "react-scripts start",
     "start": "npm-run-all -p watch-css start-js",
+    "dev": "NODE_ENV=development PORT=3100 npm run start",
     "build": "npm run build-css && react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "build-css": "node-sass-chokidar src/ -o src/",
     "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
-    "clean": "rm -rf static && mkdir static",
+    "clean": "rm -rf ./build && mkdir ./build",
     "heroku-postbuild": "npm run clean && npm run build"
   },
   "devDependencies": {

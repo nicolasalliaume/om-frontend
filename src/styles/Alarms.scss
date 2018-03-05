@@ -24,6 +24,11 @@ $disabled-color: #ccc;
 			@extend .id;
 		}
 
+		h4 {
+			max-width: 80%;
+			margin: 0 auto;
+		}
+
 		.quick-options {
 			position: absolute;
 			top: 10px;
@@ -40,7 +45,6 @@ $disabled-color: #ccc;
 		}
 	}
 
-	
 }
 
 .alarm-edit-modal {
