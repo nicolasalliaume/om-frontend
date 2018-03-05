@@ -35,7 +35,9 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "build-css": "node-sass-chokidar src/ -o src/",
-    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive"
+    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
+    "clean": "rm -rf static && mkdir static",
+    "heroku-postbuild": "npm run clean && npm run build"
   },
   "devDependencies": {
     "redux-devtools": "^3.4.0",
