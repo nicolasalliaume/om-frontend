@@ -26,7 +26,7 @@ import { addMessage, addError } from './messages';
 import superagent from 'superagent';
 import moment from 'moment';
 import { Endpoints, EndpointAuth, testForErrorReturned } from './endpoints';
-const deepAssign = require('object-assign-deep');
+const deepAssign = require('deep-assign');
 
 
 export function invalidateObjectivesSummary() {

@@ -5,6 +5,7 @@
   "dependencies": {
     "bootstrap": "^4.0.0",
     "chart.js": "^2.7.2",
+    "deep-assign": "^2.0.0",
     "font-awesome": "^4.7.0",
     "history": "^4.7.2",
     "immutability-helper": "^2.6.6",
@@ -12,7 +13,6 @@
     "moment": "^2.21.0",
     "node-sass-chokidar": "0.0.3",
     "npm-run-all": "^4.1.2",
-    "object-assign-deep": "^0.3.1",
     "react": "^15.6.1",
     "react-addons-css-transition-group": "^15.6.0",
     "react-chartjs-2": "^2.7.0",
