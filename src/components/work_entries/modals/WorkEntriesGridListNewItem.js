@@ -36,10 +36,10 @@ class WorkEntriesGridListNewItem extends Component {
 					<Col xs={2}>
 						<span className='date'>{moment.utc().format('MM/DD')}</span>
 					</Col>
-					<Col xs={2}>
+					<Col xs={3}>
 						<span className='ago'>Just now</span>
 					</Col>
-					<Col xs={5}>
+					<Col xs={4}>
 						<span className='user'>{this.props.currentUser.user.full_name}</span>
 					</Col>
 					<Col xs={3}>
