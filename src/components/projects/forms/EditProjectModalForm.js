@@ -13,7 +13,6 @@ import {
 	Input
 } from 'reactstrap';
 import update from 'immutability-helper';
-import { Endpoints } from '../../../actions/endpoints';
 import { updateProject, addProject } from '../../../actions/projects';
 
 class EditProjectModalForm extends Component {
@@ -136,12 +135,14 @@ class EditProjectModalForm extends Component {
 								<FormGroup row>
 									<Label for='featured_image' sm={2}>Featured image</Label>
 									<Col sm={6} className='align-self-center'>
-										<Input type="file" name="featured_image" id="featured_image" 
-											onChange={this.onChangeImage} />
+										{/*<Input type="file" name="featured_image" id="featured_image" 
+											onChange={this.onChangeImage} />*/}
+										<Input type="text" name="featured_image" id="featured_image" 
+											onChange={this.onChange} value={project.featured_image} />
 									</Col>
 									<Col sm={4} className='align-self-center'>
 										<div className='image-preview' style={{
-											background: `url(${Endpoints.BASE_URL}/${project.featured_image})`
+											background: `url("${project.featured_image}")`
 										}}></div>
 									</Col>
 								</FormGroup>
