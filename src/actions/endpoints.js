@@ -9,6 +9,8 @@ if (process.env.NODE_ENV !== 'production') {
 
 export const Endpoints = {
 
+	BASE_URL: process.env.NODE_ENV !== 'production' ? 'http://localhost:3000' : 'https://om-services.herokuapp.com',
+
 	/** objective endpoins */
 	GET_DATE_OBJECTIVES 			: (year, month, day) => `${BASE_URL}/objectives/${year}/${month}/${day}/all`,
 	GET_OBJECTIVES_SUMMARY 			: (year, month, day) => `${BASE_URL}/objectives/${year}/${month}/${day}/summary`,

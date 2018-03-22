@@ -66,10 +66,7 @@ function receiveAddProject(payload) {
 export function addProject(project) {
 	return function(dispatch) {
 		dispatch(requestAddProject(project));
-		superagent
-			.post(Endpoints.ADD_PROJECT())
-			.set(...EndpointAuth())
-			.send(project)
+		getMultipartRequestForProject(Endpoints.ADD_PROJECT(), project)
 			.then(response => response.body)
 			.then(testForErrorReturned)
 			.then(body => dispatch(receiveAddProject(body)))
@@ -119,10 +116,8 @@ export function updateProject(projectId, update) {
 	return function(dispatch, getState) {
 		const project = getState().cache.projects.projectsById[projectId];
 		dispatch(requestUpdateProject(projectId, update));
-		superagent
-			.post(Endpoints.UPDATE_PROJECT(projectId))
-			.set(...EndpointAuth())
-			.send(update)
+
+		getMultipartRequestForProject(Endpoints.UPDATE_PROJECT(projectId), update)
 			.then(response => response.body)
 			.then(testForErrorReturned)
 			.then(body => dispatch(receiveUpdateProject(body)))
@@ -174,4 +169,22 @@ export function fetchWorkEntriesForProject(projectId) {
 
 export function setProjectDashboardWorkEntriesFilters(filters) {
 	return { type: SET_PROJECT_DASHBOARD_WORK_ENTRIES_FILTER, payload: filters}
+}
+
+function getMultipartRequestForProject(url, project) {
+	const request = superagent
+		.post(url)
+		.set(...EndpointAuth());
+
+	// send as mutipart/form-data to include images
+	Object.keys(project).filter(k => k !== 'featured_image' 
+		&& project[k] !== undefined && project[k] !== null).forEach(k => {
+		request.field(k, project[k])
+	})
+	// if attachment present, add
+	if (project.featured_image) {
+		request.attach('featured_image', project.featured_image);
+	}
+
+	return request;
 }

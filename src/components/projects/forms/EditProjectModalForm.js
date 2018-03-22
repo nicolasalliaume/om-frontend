@@ -13,6 +13,7 @@ import {
 	Input
 } from 'reactstrap';
 import update from 'immutability-helper';
+import { Endpoints } from '../../../actions/endpoints';
 import { updateProject, addProject } from '../../../actions/projects';
 
 class EditProjectModalForm extends Component {
@@ -34,10 +35,20 @@ class EditProjectModalForm extends Component {
 
 		this.props.toggle();
 	}
-	onChange = (event) => {
+	onChange = event => {
+		console.log(event.target.name, event.target.value);
 		const newState = update(this.state, 
 			{project: {[event.target.name]: {$set: event.target.value}}});
 		this.setState(newState)
+	}
+	onChangeCheckbox = event => {
+		this.setState(update(this.state, 
+			{project: {[event.target.name]: {$set: event.target.checked}}}));
+	}
+	onChangeImage = event => {
+		console.log(event.target);
+		this.setState(update(this.state, 
+			{project: {[event.target.name]: {$set: event.target.files[0]}}}));
 	}
 	render() {
 		const { project } = this.state;
@@ -92,6 +103,69 @@ class EditProjectModalForm extends Component {
 									value={project.hourly_rate} />
 							</Col>
 						</FormGroup>
+						<hr/>
+						<FormGroup row>
+							<Col sm={6}>
+								<FormGroup check>
+									<Label check>
+										<Input type="checkbox" name="featured" id="featured" 
+											onChange={this.onChangeCheckbox} checked={project.featured}/>{' '}
+										Feature project
+									</Label>
+								</FormGroup>
+							</Col>
+						</FormGroup>
+						{ project.featured && 
+							<div>
+								<FormGroup row>
+									<Label for='description' sm={2}>Description</Label>
+									<Col sm={10} className='align-self-center'>
+										<Input type="text" name="description" id="description" 
+											onChange={this.onChange}
+											value={project.description} />
+									</Col>
+								</FormGroup>
+								<FormGroup row>
+									<Label for='description_es' sm={2}>Description (ESP)</Label>
+									<Col sm={10} className='align-self-center'>
+										<Input type="text" name="description_es" id="description_es" 
+											onChange={this.onChange}
+											value={project.description_es} />
+									</Col>
+								</FormGroup>
+								<FormGroup row>
+									<Label for='featured_image' sm={2}>Featured image</Label>
+									<Col sm={6} className='align-self-center'>
+										<Input type="file" name="featured_image" id="featured_image" 
+											onChange={this.onChangeImage} />
+									</Col>
+									<Col sm={4} className='align-self-center'>
+										<div className='image-preview' style={{
+											background: `url(${Endpoints.BASE_URL}/${project.featured_image})`
+										}}></div>
+									</Col>
+								</FormGroup>
+								<FormGroup row>
+									<Label for='external_link' sm={2}>External Link</Label>
+									<Col sm={10} className='align-self-center'>
+										<Input type="text" name="external_link" id="external_link" 
+											onChange={this.onChange}
+											value={project.external_link} />
+									</Col>
+								</FormGroup>
+								<FormGroup row>
+									<Label for="type" sm={2}>Project type</Label>
+									<Col sm={10}>
+										<Input id='type' name='type' type="select" value={project.type || ''} onChange={this.onChange}>
+											<option value=''>Select...</option>
+											<option value='web'>Web development</option>
+											<option value='mobile'>Mobile App</option>
+											<option value='shopify'>Shopify</option>
+										</Input>
+									</Col>
+								</FormGroup>
+							</div>
+						}
 					</Form>
 				</ModalBody>
 				<ModalFooter>
