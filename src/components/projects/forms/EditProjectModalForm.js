@@ -120,7 +120,7 @@ class EditProjectModalForm extends Component {
 								<FormGroup row>
 									<Label for='description' sm={2}>Description</Label>
 									<Col sm={10} className='align-self-center'>
-										<Input type="text" name="description" id="description" 
+										<Input type="textarea" name="description" id="description" 
 											onChange={this.onChange}
 											value={project.description} />
 									</Col>
@@ -128,7 +128,7 @@ class EditProjectModalForm extends Component {
 								<FormGroup row>
 									<Label for='description_es' sm={2}>Description (ESP)</Label>
 									<Col sm={10} className='align-self-center'>
-										<Input type="text" name="description_es" id="description_es" 
+										<Input type="textarea" name="description_es" id="description_es" 
 											onChange={this.onChange}
 											value={project.description_es} />
 									</Col>
