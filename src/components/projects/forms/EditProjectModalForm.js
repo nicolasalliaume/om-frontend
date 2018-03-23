@@ -35,7 +35,6 @@ class EditProjectModalForm extends Component {
 		this.props.toggle();
 	}
 	onChange = event => {
-		console.log(event.target.name, event.target.value);
 		const newState = update(this.state, 
 			{project: {[event.target.name]: {$set: event.target.value}}});
 		this.setState(newState)
@@ -43,11 +42,6 @@ class EditProjectModalForm extends Component {
 	onChangeCheckbox = event => {
 		this.setState(update(this.state, 
 			{project: {[event.target.name]: {$set: event.target.checked}}}));
-	}
-	onChangeImage = event => {
-		console.log(event.target);
-		this.setState(update(this.state, 
-			{project: {[event.target.name]: {$set: event.target.files[0]}}}));
 	}
 	render() {
 		const { project } = this.state;
@@ -135,8 +129,6 @@ class EditProjectModalForm extends Component {
 								<FormGroup row>
 									<Label for='featured_image' sm={2} className='align-self-center'>Featured image</Label>
 									<Col sm={6} className='align-self-center'>
-										{/*<Input type="file" name="featured_image" id="featured_image" 
-											onChange={this.onChangeImage} />*/}
 										<Input type="text" name="featured_image" id="featured_image" 
 											onChange={this.onChange} value={project.featured_image} />
 									</Col>
