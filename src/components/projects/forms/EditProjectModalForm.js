@@ -56,7 +56,7 @@ class EditProjectModalForm extends Component {
 		const op = isNew ? 'New' : 'Edit';
 
 		return (
-			<Modal isOpen={this.props.show} toggle={toggle} className={this.props.className}>
+			<Modal isOpen={this.props.show} toggle={toggle} className={`edit-project ${this.props.className}`}>
 				<ModalHeader toggle={toggle}>{op} <b>project</b></ModalHeader>
 				<ModalBody>
 					<Form className='edit-project-form' onSubmit={e => e.preventDefault() && false}>
@@ -133,7 +133,7 @@ class EditProjectModalForm extends Component {
 									</Col>
 								</FormGroup>
 								<FormGroup row>
-									<Label for='featured_image' sm={2}>Featured image</Label>
+									<Label for='featured_image' sm={2} className='align-self-center'>Featured image</Label>
 									<Col sm={6} className='align-self-center'>
 										{/*<Input type="file" name="featured_image" id="featured_image" 
 											onChange={this.onChangeImage} />*/}
@@ -141,8 +141,8 @@ class EditProjectModalForm extends Component {
 											onChange={this.onChange} value={project.featured_image} />
 									</Col>
 									<Col sm={4} className='align-self-center'>
-										<div className='image-preview' style={{
-											background: `url("${project.featured_image}")`
+										<div className='img-preview' style={{
+											backgroundImage: `url("${project.featured_image}")`
 										}}></div>
 									</Col>
 								</FormGroup>
