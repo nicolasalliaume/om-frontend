@@ -41,6 +41,7 @@ export default class ObjectivesDisplayList extends Component {
 			progress, 
 			scratched, 
 			completed_by, 
+			scratched_by,
 			deleted_by 
 		} = o;
 		const completed = progress === 1;
@@ -57,7 +58,7 @@ export default class ObjectivesDisplayList extends Component {
 					</div>
 					<div className='status'>
 						{ completed && `Completed by ${completed_by.full_name}` }
-						{ scratched && `Scratched by ${completed_by.full_name}` }
+						{ scratched && `Scratched by ${scratched_by.full_name}` }
 						{ deleted && `Deleted by ${deleted_by.full_name}` }
 					</div>
 				</Col>

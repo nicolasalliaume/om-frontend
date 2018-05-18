@@ -17,7 +17,9 @@ import {
 	RECEIVE_QUERY_OBJECTIVES,
 	REQUEST_ADD_OBJECTIVE_WORK_ENTRY,
 	RECEIVE_ADD_OBJECTIVE_WORK_ENTRY,
-	INVALIDATE_OBJECTIVE_WORK_ENTRIES
+	INVALIDATE_OBJECTIVE_WORK_ENTRIES,
+	REQUEST_SINGLE_OBJECTIVE,
+	RECEIVE_SINGLE_OBJECTIVE,
 } from './types';
 
 import { invalidateLatestActivity } from './activity';
@@ -385,4 +387,34 @@ export function createObjectiveWorkEntry(objectiveId, entry) {
 
 export function invalidateObjectiveWorkEntries(objectiveId) {
 	return { type: INVALIDATE_OBJECTIVE_WORK_ENTRIES, payload: objectiveId }
+}
+
+function requestFetchSingleObjective(objectiveId) {
+	return { type: REQUEST_SINGLE_OBJECTIVE, payload: objectiveId }
+}
+
+function receiveFetchSingleObjective(objective) {
+	return { type: RECEIVE_SINGLE_OBJECTIVE, payload: objective }
+}
+
+export function fetchSingleObjective(objectiveId) {
+	return function(dispatch, getState) {
+		const objective = findObjectiveById(objectiveId, 
+			getState().dashboardView.objectivesList.objectivesByLevel);
+		if (objective) {
+			return dispatch(receiveFetchSingleObjective(objective));
+		}
+
+		// not fetched already, go fetch it from the server
+		dispatch(requestFetchSingleObjective(objectiveId));
+		const query = { id: objectiveId };
+		return superagent
+			.get(Endpoints.QUERY_OBJECTIVES(query))
+			.set(...EndpointAuth())
+			.then(response => response.body)
+			.then(testForErrorReturned)
+			.then(objectives => dispatch(receiveFetchSingleObjective(objectives[0])))
+			// error handling
+			.catch(error => dispatch(addError(error.message, 'Fetch objective')))
+	}
 }

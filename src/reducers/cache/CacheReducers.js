@@ -4,14 +4,17 @@ import {
 	REQUEST_PROJECTS_LIST,
 	RECEIVE_PROJECTS_LIST,
 	INVALIDATE_USERS_CACHE,
-	INVALIDATE_PROJECTS_CACHE
+	INVALIDATE_PROJECTS_CACHE,
+	REQUEST_SINGLE_OBJECTIVE,
+	RECEIVE_SINGLE_OBJECTIVE,
 } from './../../actions/types';
 import update from 'immutability-helper';
 
 export function cache(state, action) {
 	if (state === undefined) return {
 		users : { usersById : {}, isFetching: false, didInvalidate: true },
-		projects : { projectsById : {}, isFetching: false, didInvalidate: true }
+		projects : { projectsById : {}, isFetching: false, didInvalidate: true },
+		modalObjective: { isFetching: false, objective: null },
 	}
 
 	switch (action.type) {
@@ -46,6 +49,12 @@ export function cache(state, action) {
 
 		case INVALIDATE_PROJECTS_CACHE:
 			return update(state, {projects: {didInvalidate: { $set: true }}})			
+
+		case REQUEST_SINGLE_OBJECTIVE:
+			return update(state, {modalObjective: {isFetching: { $set: true }, objective: { $set: null }}})
+
+		case RECEIVE_SINGLE_OBJECTIVE:
+			return update(state, {modalObjective: {isFetching: { $set: false }, objective: { $set: action.payload }}})
 
 		default:
 			return state;
