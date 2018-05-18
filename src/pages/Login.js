@@ -59,13 +59,13 @@ class Login extends Component {
 		localStorage.setItem('om-auth-token', authToken);
 		// set cookie and move on
 		this.setRememberMeCookie(currentUser._id, authToken);
-		this.moveToDashboard();
+		this.moveToApp();
 	}
 	setRememberMeCookie(userId, authToken) {
 		Cookies.set(REMEMBER_ME_COOKIE, `${userId}|${authToken}`, { expires: 30 });
 	}
-	moveToDashboard() {
-		this.props.history.push('/');
+	moveToApp() {
+		this.props.history.push(this.props.redirectTo || '/');
 	}
 	render() {
 		const { error } = this.state;
@@ -97,7 +97,8 @@ class Login extends Component {
 }
 
 const mapStateToProps = state => { return {
-	currentUser : state.currentUser
+	currentUser : state.currentUser,
+	redirectTo: state.loginMiddleware.redirectTo,
 }}
 
 const mapDispatchToProps = dispatch => { return {

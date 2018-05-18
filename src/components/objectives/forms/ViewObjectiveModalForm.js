@@ -22,10 +22,7 @@ class ViewObjectiveModalForm extends Component {
 	}
 	
 	componentWillReceiveProps(props) {
-		console.log("componentWillReceiveProps()");
-		console.log(props.objectiveId, props.modalObjective.isFetching, props.modalObjective.objective);
 		if (!props.modalObjective.objective && !props.modalObjective.isFetching) {
-			console.log("componentWillReceiveProps() fetching");
 			props.fetchSingleObjective(props.objectiveId);
 		}
 	}

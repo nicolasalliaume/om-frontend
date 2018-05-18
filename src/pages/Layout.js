@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Switch, Route, Link, withRouter } from 'react-router-dom';
 import { Container, Navbar, NavbarBrand, Nav, NavItem } from 'reactstrap';
 import MessagesBar from '../components/messages/MessagesBar';
@@ -21,7 +22,7 @@ import { fetchUsersListIfNeeded } from '../actions/users';
 
 
 class Layout extends Component {
-	componentDidMount() {
+	componentWillMount() {
 		/* load needed resources */
 		Store.dispatch(fetchProjectsListIfNeeded());
 		Store.dispatch(fetchUsersListIfNeeded());
@@ -92,32 +93,52 @@ class Layout extends Component {
 				</Navbar>
 				<Container fluid id='main'>
 					<MessagesBar />
-					<Switch>
-						<Route path='/tasks' component={Tasks} />
-						<Route path='/overview' component={CompanyOverview} />
-						<Route path='/project/:projectName' component={ProjectDashboard} />
-						<Route path='/integrations' component={Integrations} />
-						<Route path='/alarms' component={Alarms} />
-						<Route path='/billing' component={Billing} />
-						<Route path='/admin' component={Admin} />
-						<Route path='/' component={Dashboard} />
-					</Switch>
+					<LayoutRouter />
 				</Container>
 
 				{ objectiveIdToShowInModal && (
-					<ViewObjectiveModalForm 
-						show={true} 
-						objectiveId={objectiveIdToShowInModal}
-						toggle={this.closeModalObjective.bind(this)} />)
-				}
+					<OverlayedObjectiveModal 
+						objectiveId={objectiveIdToShowInModal} 
+						toggle={this.closeModalObjective.bind(this)} />) }
 			</div>
 		)
 	}
 
 	closeModalObjective() {
-		const newloc = this.props.location.pathname.replace(/\/objective\/[a-zA-Z0-9]+/, '/');
-		this.props.history.replace(newloc);
+		const newloc = this.props.location.pathname.replace(/\/objective\/[a-zA-Z0-9]+/, '');
+		this.props.history.push(newloc);
 	}
 }
+
+function isCacheLoaded(cache) {
+	const { users, projects } = cache;
+	return !users.isFetching && !users.didInvaidate && !projects.isFetching && !projects.didInvaidate;
+}
+
+const OverlayedObjectiveModal = connect(state => ({ cache: state.cache }))(function(props) {
+	return (<ViewObjectiveModalForm 
+		show={true} 
+		objectiveId={props.objectiveId}
+		toggle={props.toggle} />)
+})
+
+const LayoutRouter = withRouter(connect(state => ({ cache: state.cache }))(function(props) {
+	// Wait to load the rest of the UI until the base resources are loaded
+	if (isCacheLoaded(props.cache)) {
+		return (
+			<Switch>
+				<Route path='/tasks' component={Tasks} />
+				<Route path='/overview' component={CompanyOverview} />
+				<Route path='/project/:projectName' component={ProjectDashboard} />
+				<Route path='/integrations' component={Integrations} />
+				<Route path='/alarms' component={Alarms} />
+				<Route path='/billing' component={Billing} />
+				<Route path='/admin' component={Admin} />
+				<Route path='/' component={Dashboard} />
+			</Switch>
+		)
+	}
+	return (<span/>);
+}))
 
 export default withRouter(Layout);
