@@ -12,6 +12,7 @@ import {
 	Col,
 } from 'reactstrap';
 import Tag from '../../misc/Tag';
+import Icon from '../../misc/Icon';
 import { fetchSingleObjective, updateObjective } from '../../../actions/objectives';
 import HtmlDescription from '../../misc/HtmlDescription';
 
@@ -71,6 +72,7 @@ class ViewObjectiveModalForm extends Component {
 							{ objective.progress !== 1 && <Tag className='status active'>Active</Tag> }
 						</Label>
 					</Row>
+
 					{ hasDescription && (
 						<Row>
 							<Label sm={12}>Description:</Label>
@@ -81,12 +83,21 @@ class ViewObjectiveModalForm extends Component {
 						</Row>
 					) }
 				</ModalBody>
-				{ /* if completed, show option to re-open (un-complete) */ }
-				{ objective.progress === 1 && 
-					<ModalFooter>
-						<Button color='primary' onClick={this.reopen.bind(this)} className='bordered'>Reopen</Button>
-					</ModalFooter>
-				}
+				<ModalFooter>
+					{ !!objective.related_task && objective.related_task.external_url &&
+						<Row>
+							<Col xs={12}>
+								<a href={objective.related_task.external_url} target='_blank' 
+								  rel='nofollow noopener' className='btn btn-secondary view-original-task-link'>
+									View original task
+									<Icon fa-external-link tooltip='Open external task' id='view-original-task' />
+								</a>
+							</Col>
+						</Row>
+					}
+					{ /* if completed, show option to re-open (un-complete) */ }
+					<Button color='primary' onClick={this.reopen.bind(this)} className='bordered'>Reopen</Button>
+				</ModalFooter>
 			</Modal>
 		)
 	}
