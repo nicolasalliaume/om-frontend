@@ -34,6 +34,7 @@ $card-fg: $text-color;
 $shadow-color: #d7d7d7;
 $headline-fg: $dark-color;
 $tag-color: $accent-color;
+$tag-completed-color: $paid-color;
 
 @mixin shadow {
 	box-shadow: 0px 2px 6px 0px #d7d7d7;

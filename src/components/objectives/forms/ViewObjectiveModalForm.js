@@ -12,7 +12,7 @@ import {
 	Col,
 } from 'reactstrap';
 import Tag from '../../misc/Tag';
-import { fetchSingleObjective } from '../../../actions/objectives';
+import { fetchSingleObjective, updateObjective } from '../../../actions/objectives';
 import HtmlDescription from '../../misc/HtmlDescription';
 
 
@@ -20,11 +20,23 @@ class ViewObjectiveModalForm extends Component {
 	componentWillMount() {
 		this.props.fetchSingleObjective(this.props.objectiveId);
 	}
+	
 	componentWillReceiveProps(props) {
+		console.log(props);
 		if (!props.modalObjective.objective) {
 			this.props.fetchSingleObjective(this.props.objectiveId);
 		}
 	}
+
+	reopen() {
+		const update = { 
+			progress: 0,
+			completed_by: null,
+			completed_ts: null,	
+		}
+		this.props.updateObjective(this.props.objectiveId, update);
+	}
+
 	render() {
 		const { modalObjective, toggle, show, className } = this.props;
 		const objective = modalObjective.objective;
@@ -33,29 +45,36 @@ class ViewObjectiveModalForm extends Component {
 		const hasDescription = objective.related_task && objective.related_task.description;
 		const isHTML = hasDescription && objective.related_task.origin === 'email';
 
-		const clazz = (className || '') + ' ' + (isHTML ? 'html' : '');
+		const clazz = (className || '') + ' view-objective ' + (isHTML ? 'html' : '');
 
 		return (
 			<Modal isOpen={show} toggle={toggle} className={clazz}>
 				<ModalHeader toggle={toggle}>{objective.title}</ModalHeader>
 				<ModalBody>
 					<Row>
-						<Label sm={3}>Date</Label>
-						<Col sm={9}>
+						<Label sm={2}>Date</Label>
+						<Label sm={10}>
 							{ objective.level === 'day' && moment(objective.date).format('MM/DD/YYYY') }
 							{ objective.level === 'month' && moment(objective.date).format('MM/YYYY') }
 							{ objective.level === 'year' && moment(objective.date).format('YYYY') }
-						</Col>
+						</Label>
 					</Row>
 					<Row>
-						<Label sm={3}>Owners</Label>
-						<Col xs={9}>
+						<Label sm={2}>Owners</Label>
+						<Label sm={10}>
 							{ objective.owners.map(u => <Tag key={u.id} className='owner'>{u.full_name}</Tag>) }
-						</Col>
+						</Label>
+					</Row>
+					<Row>
+						<Label sm={2}>Status</Label>
+						<Label sm={3}>
+							{ objective.progress === 1 && <Tag className='status completed'>Completed</Tag> }
+							{ objective.progress !== 1 && <Tag className='status active'>Active</Tag> }
+						</Label>
 					</Row>
 					{ hasDescription && (
 						<Row>
-							<Col xs={12}><Label>Description:</Label></Col>
+							<Label sm={12}>Description:</Label>
 							<Col xs={12}>
 								{ isHTML && <HtmlDescription description={objective.related_task.description} /> }
 								{ !isHTML && <p>{ objective.related_task.description }</p> }
@@ -63,23 +82,25 @@ class ViewObjectiveModalForm extends Component {
 						</Row>
 					) }
 				</ModalBody>
-				{ /* <ModalFooter>
-					<Button color="secondary" onClick={this.edit.bind(this)}>Edit</Button>
-				</ModalFooter> */ }
+				{ /* if completed, show option to re-open (un-complete) */ }
+				{ objective.progress === 1 && 
+					<ModalFooter>
+						<Button color='primary' onClick={this.reopen.bind(this)} className='bordered'>Reopen</Button>
+					</ModalFooter>
+				}
 			</Modal>
 		)
-	}
-	edit() {
-
 	}
 }
 
 const mapDispatchToProps = dispatch => { return {
-    fetchSingleObjective : (oid) => dispatch(fetchSingleObjective(oid))
+    fetchSingleObjective : (oid) => dispatch(fetchSingleObjective(oid)),
+	updateObjective : (oid, update) => dispatch(updateObjective(oid, update)),
 }}
 
 const mapStateToProps = state => ({
 	modalObjective: state.cache.modalObjective,
+	cache: state.cache,
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ViewObjectiveModalForm);

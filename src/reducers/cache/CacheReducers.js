@@ -7,6 +7,7 @@ import {
 	INVALIDATE_PROJECTS_CACHE,
 	REQUEST_SINGLE_OBJECTIVE,
 	RECEIVE_SINGLE_OBJECTIVE,
+	RECEIVE_UPDATE_OBJECTIVE,
 } from './../../actions/types';
 import update from 'immutability-helper';
 
@@ -55,6 +56,13 @@ export function cache(state, action) {
 
 		case RECEIVE_SINGLE_OBJECTIVE:
 			return update(state, {modalObjective: {isFetching: { $set: false }, objective: { $set: action.payload }}})
+
+		case RECEIVE_UPDATE_OBJECTIVE:
+			// if cached objective was updated, update cache
+			if (state.modalObjective.objective && action.payload._id === state.modalObjective.objective.id) {
+				return update(state, {modalObjective: {objective: { $set: action.payload }}});
+			}
+			return state;
 
 		default:
 			return state;

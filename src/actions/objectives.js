@@ -80,7 +80,7 @@ function requestUpdateObjective(objectiveId) {
 }
 
 function receiveUpdateObjective(result, objectiveId) {
-	return { type : RECEIVE_UPDATE_OBJECTIVE, payload: result, metadata : { objectiveId } }
+	return { type : RECEIVE_UPDATE_OBJECTIVE, payload: result }
 }
 
 export function updateObjective(objectiveId, update) {
