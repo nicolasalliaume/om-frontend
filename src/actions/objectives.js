@@ -407,11 +407,11 @@ export function fetchSingleObjective(objectiveId) {
 
 		// not fetched already, go fetch it from the server
 		dispatch(requestFetchSingleObjective(objectiveId));
-		const query = { id: objectiveId };
+		const query = { _id: objectiveId };
 		return superagent
 			.get(Endpoints.QUERY_OBJECTIVES(query))
 			.set(...EndpointAuth())
-			.then(response => response.body)
+			.then(response => response.body.objectives)
 			.then(testForErrorReturned)
 			.then(objectives => dispatch(receiveFetchSingleObjective(objectives[0])))
 			// error handling

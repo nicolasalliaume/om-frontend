@@ -115,7 +115,8 @@ class Layout extends Component {
 	}
 
 	closeModalObjective() {
-		this.props.history.replace('/');
+		const newloc = this.props.location.pathname.replace(/\/objective\/[a-zA-Z0-9]+/, '/');
+		this.props.history.replace(newloc);
 	}
 }
 

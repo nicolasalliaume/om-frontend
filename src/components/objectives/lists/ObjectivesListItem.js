@@ -116,7 +116,7 @@ class ObjectivesListItem extends Component {
 								</b> 
 							}
 							{ taskBased && ':  ' }
-							{objective.title}
+							<Link to={`objective/${objective._id}`}>{objective.title}</Link>
 						</h4>
 						{ this.isMigrated() && 
 							<Tag className='migrated'>

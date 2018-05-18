@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Col, Card, CardBlock, CardTitle } from 'reactstrap';
+import { Link, withRouter } from 'react-router-dom';
 import Tag from '../misc/Tag';
 import ObjectivesDisplayListFilterBar from './ObjectivesDisplayListFilterBar';
 
-export default class ObjectivesDisplayList extends Component {
+class ObjectivesDisplayList extends Component {
 	componentDidMount() {
 		this.props.fetch();
 	}
@@ -48,7 +49,9 @@ export default class ObjectivesDisplayList extends Component {
 		return (
 			<li key={o._id} className={`objective display row`}>
 				<Col xs={12}>
-					<h4>{o.related_task.title}</h4>
+					<Link to={`${this.props.location.pathname}/objective/${o._id}`}>
+						<h4>{o.related_task.title}</h4>
+					</Link>
 					<div className='owners'>
 						{ o.owners.map(owner => 
 							<Tag key={owner._id} className='owner'>
@@ -66,3 +69,5 @@ export default class ObjectivesDisplayList extends Component {
 		)
 	}
 }
+
+export default withRouter(ObjectivesDisplayList)
