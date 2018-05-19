@@ -1,8 +1,5 @@
 @import 'Integrations.scss';
 
-$enabled-color: #65d656;
-$disabled-color: #ccc;
-
 #main > .alarms {
 	@extend .integrations;
 
@@ -10,10 +7,10 @@ $disabled-color: #ccc;
 		@extend .integration-card;
 
 		&.enabled {
-			@include theme-card($enabled-color, $white);
+			@include theme-card($alarm-enabled-color, $white);
 		}
 		&.disabled {
-			@include theme-card($disabled-color, $white);
+			@include theme-card($alarm-disabled-color, $white);
 		}
 
 		button {

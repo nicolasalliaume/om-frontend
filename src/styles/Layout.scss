@@ -25,6 +25,12 @@ h1 a, h2 a, h3 a, h4 a, h5 a, h6 a, .h1 a, .h2 a, .h3 a, .h4 a, .h5 a, .h6 a {
   line-height: 1.4rem;
 }
 
+h1 a, h2 a, h3 a, h4 a, h5 a, h6 a, .h1 a, .h2 a, .h3 a, .h4 a, .h5 a, .h6 a {
+  &:hover {
+    color: $lighter-text-color;
+  }
+}
+
 pre {
   white-space: pre-wrap;
 }
@@ -83,7 +89,9 @@ select {
   border-top: 1px solid $lighter-color;
   .page-link {
     cursor : pointer;
-    border-radius: 0 !important;
+    // border-radius: 0 !important;
+    background-color: $page-link-bg-color;
+    border: none;
   }
   .page-item {
     border-bottom: none;
@@ -334,6 +342,8 @@ select {
   }
 
   .modal-footer {
+    border-top: 1px solid $light-color;
+
     p {
       margin: 0;
       margin-right: auto;

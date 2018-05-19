@@ -20,7 +20,6 @@ $text-color: #777;
 $light-text-color: #a2a2a2;
 $lighter-text-color: #b2b2b2;
 
-// $done-color: #6faf6f;
 $done-color: $info-color;
 $paid-color: #52ffc9;
 $unpaid-color: lighten($error-color, 30%);
@@ -31,10 +30,34 @@ $sidebar-bg: $darker-color;
 $body-bg: $lighter-color;
 $card-bg: $white;
 $card-fg: $text-color;
-$shadow-color: #d7d7d7;
 $headline-fg: $dark-color;
 $tag-color: $accent-color;
 $tag-completed-color: $paid-color;
+$select-value-bg-color: $lighter-color;
+$select-value-fg-color: $text-color;
+$select-value-x-border-color: $white;
+$select-options-fg-color: #000;
+$select-options-active-fg-color: #000;
+$input-bg-color: $white;
+$active-input-bg-color: $white;
+$active-input-text-color: $text-color;
+$filter-bg-color: transparent;
+$page-link-bg-color: $white;
+$status-bar-content-bg: $white;
+$not-worked-color: #e2e2e2;
+$not-paid-color: #54cde0;
+$overworked-bg-color: $unpaid-color;
+$near-limit-color: #ffdf80;
+$overworked-fg-color: $unpaid-color;
+$alarm-enabled-color: #65d656;
+$alarm-disabled-color: #ccc;
+
+// service-specific //
+
+$trello-color:  #026AA7;
+$teamwork-color: #65d656;
+$slack-color: #E19424;
+$email-color: #27bcb0;
 
 @mixin shadow {
 	box-shadow: 0px 2px 6px 0px #d7d7d7;

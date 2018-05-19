@@ -1,10 +1,5 @@
 @import 'variables';
 
-$trello-color:  #026AA7;
-$teamwork-color: #65d656;
-$slack-color: #E19424;
-$email-color: #27bcb0;
-
 @mixin theme-card($mainColor, $fontColor) {
 	background-color: $mainColor;
 	& * { color: $fontColor !important; }

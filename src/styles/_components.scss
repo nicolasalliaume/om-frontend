@@ -1,5 +1,16 @@
 @import "variables";
 
+input[type=text], input[type=email], input[type=password], input[type=date],
+input[type=checkbox], input[type=radio], select, .form-control {
+  background-color: $input-bg-color;
+  color: $text-color;
+
+  &:focus, &:active {
+    background-color: $active-input-bg-color;
+    color: $active-input-text-color;
+  }
+}
+
 /** images misc */
 
 .circle {
@@ -24,6 +35,7 @@
     margin-bottom: 10pt;
     
     input, select {
+      background-color: $filter-bg-color;
       border: none;
       border-bottom: 1px solid $light-color;
       padding: 0 0 2pt 0;
@@ -135,9 +147,9 @@
     .Select-value {
         padding: 5px 10px 5px 2px;
         margin-top: 5px;
-        background-color: $lighter-color;
+        background-color: $select-value-bg-color;
         border-radius: 2px;
-        color: $text-color;
+        color: $select-value-fg-color;
         display: inline-block;
         font-size: 0.9em;
         line-height: 1.4;
@@ -149,7 +161,7 @@
     cursor: pointer;
     border-bottom-left-radius: 2px;
     border-top-left-radius: 2px;
-    border-right: 1px solid $white;
+    border-right: 1px solid $select-value-x-border-color;
     padding: 1px 5px 3px;
 }
 .Select--multi .Select-value-icon, .Select--multi .Select-value-label {
@@ -233,8 +245,10 @@
 .Select-menu-outer .Select-option {
     padding: 5px 10px;
     cursor: pointer;
+    color: $select-options-fg-color;
     &:hover, &:focus, &:active, &.is-focused {
         background-color: $lighter-color;
+        color: $select-options-active-fg-color;
     }
 }
 .Select-arrow {
@@ -253,13 +267,7 @@
 
 .status-bars {
   $barHeight: 6px;
-  $notWorkedColor: #e2e2e2;
-  $paidColor: $paid-color;
-  $notPaidColor: #54cde0;
-  $overworkedBackgroundColor: $unpaid-color;
-  $nearlimitBackgroundColor: #ffdf80;
-  $overworkedColor: $unpaid-color;
-
+  
   height: $barHeight;
   width: 100%;
   position: relative;
@@ -274,16 +282,16 @@
     left: 0;
   }
   .bar.grey {
-    background-color: $notWorkedColor !important;
+    background-color: $not-worked-color !important;
   }
   .bar.green{
-    background: $paidColor;
+    background: $paid-color;
   }
   .bar.blue{
-    background: $notPaidColor;
+    background: $not-paid-color;
   }
   .bar.red{
-    background: $overworkedColor;
+    background: $overworked-fg-color;
   }
   .content {
     float: right;
@@ -297,7 +305,7 @@
       padding: 1px 5px;
       border-radius: 3px;
       font-weight: bold;
-      background-color: #fff;
+      background-color: $status-bar-content-bg;
       color: #999;
     }
     &:first-child .content { opacity: 1 }
@@ -308,7 +316,7 @@
     font-weight: bold;
   }
   .bar.red .content {
-    background-color: #ededed;
+    background-color: lighten( $status-bar-content-bg, 1% );
     color: red;
   }
   .overworked {
@@ -319,7 +327,7 @@
         content: " ";
         height: 16px;
         width: 2px;
-        background-color: $overworkedColor;
+        background-color: $overworked-fg-color;
         display: block;
         position: absolute;
         top: -18px;
