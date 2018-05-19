@@ -5,6 +5,7 @@ import { Container, Navbar, NavbarBrand, Nav, NavItem } from 'reactstrap';
 import MessagesBar from '../components/messages/MessagesBar';
 import Icon from '../components/misc/Icon';
 import ViewObjectiveModalForm from '../components/objectives/forms/ViewObjectiveModalForm';
+import IntroBanner from '../components/misc/IntroBanner';
 
 import Dashboard from './Dashboard';
 import Tasks from './Tasks';
@@ -42,7 +43,6 @@ class Layout extends Component {
 	
 	render() {
 		const { pathname } = this.props.location;
-		const objectiveIdToShowInModal = this.objectiveIdToShow();
 		return (
 			<div className={`layout ${pathname.replace(/\//g, '-').substring(1)}`}>
 				<Navbar className='flex-column justify-content-start'>
@@ -96,10 +96,10 @@ class Layout extends Component {
 					<LayoutRouter />
 				</Container>
 
-				{ objectiveIdToShowInModal && (
-					<OverlayedObjectiveModal 
-						objectiveId={objectiveIdToShowInModal} 
-						toggle={this.closeModalObjective.bind(this)} />) }
+				{ this.renderObjectiveModal() }
+
+				{ this.renderIntroBanners() }
+
 			</div>
 		)
 	}
@@ -107,6 +107,21 @@ class Layout extends Component {
 	closeModalObjective() {
 		const newloc = this.props.location.pathname.replace(/\/objective\/[a-zA-Z0-9]+/, '');
 		this.props.history.push(newloc);
+	}
+
+	renderObjectiveModal() {
+		const objectiveIdToShowInModal = this.objectiveIdToShow();
+		if (objectiveIdToShowInModal) {
+			return (
+				<OverlayedObjectiveModal 
+					objectiveId={objectiveIdToShowInModal} 
+					toggle={this.closeModalObjective.bind(this)} />
+			);
+		}
+	}
+
+	renderIntroBanners() {
+		return <IntroBanner name="dark" />
 	}
 }
 
