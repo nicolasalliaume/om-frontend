@@ -50,6 +50,7 @@ export const Endpoints = {
 	GET_INVOICES_LIST				: () => `${BASE_URL}/billing/invoices`,
 	GET_PROJECTS_BILLING			: () => `${BASE_URL}/billing/projects`,
 	GET_BILLING_FOR_PROJECT			: (projectId) => `${BASE_URL}/billing/projects/${projectId}`,
+	GET_INVOICES_WITH_QUERY			: (filters) => `${BASE_URL}/billing/invoices/query?${encode(filters)}`,
 
 	/** admin endpoints */
 	GET_INTEGRATIONS				: () => `${BASE_URL}/admin/integrations`,

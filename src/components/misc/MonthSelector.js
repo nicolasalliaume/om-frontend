@@ -2,16 +2,19 @@ import React from 'react';
 import moment from 'moment';
 import { Input } from 'reactstrap';
 
-export default function YearSelector(props) {
+function withZero(i) {
+	return String(i+100).substring(1);
+}
+
+export default function MonthSelector(props) {
 	const options = [];
-	for (var i = 0; i < 3; i++) {
-		const date = moment.utc().startOf('year').add(-i, 'year');
-		options.push({ value: date.format('YYYY'), label: date.get('year') })
+	for (var i = 1; i < 12; i++) {
+		options.push({ value: withZero(i), label: withZero(i) })
 	}
 
 	return (
 		<Input type="select" 
-			className='year-selector'
+			className='month-selector'
 			value={props.value} 
 			onChange={e => props.onChange(e.target.value)}>
 			

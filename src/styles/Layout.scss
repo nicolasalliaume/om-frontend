@@ -502,6 +502,10 @@ select {
     padding: 14px 1.25rem 8px;
     margin: 0 -1.25rem;
 
+    &:first-child {
+      padding-top: 0;
+    }
+
     .list-number {
       border: 1px solid $text-color;
       border-radius: 12px;

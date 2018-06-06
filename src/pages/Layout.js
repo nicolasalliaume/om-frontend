@@ -15,6 +15,7 @@ import Billing from './Billing';
 import Admin from './Admin';
 import ProjectDashboard from './ProjectDashboard';
 import CompanyOverview from './CompanyOverview';
+import CompanyMonthOverview from './CompanyMonthOverview';
 
 import Store from '../store';
 
@@ -143,6 +144,7 @@ const LayoutRouter = withRouter(connect(state => ({ cache: state.cache }))(funct
 		return (
 			<Switch>
 				<Route path='/tasks' component={Tasks} />
+				<Route path='/overview/:year/:month' component={CompanyMonthOverview} />
 				<Route path='/overview' component={CompanyOverview} />
 				<Route path='/project/:projectName' component={ProjectDashboard} />
 				<Route path='/integrations' component={Integrations} />

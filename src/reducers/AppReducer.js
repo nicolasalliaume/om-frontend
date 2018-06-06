@@ -9,7 +9,7 @@ import { integrations } from './admin/IntegrationsReducer';
 import { alarms } from './admin/AlarmsReducer';
 import { billingView } from './billing/BillingReducers';
 import { projectDashboardView } from './project_dashboard/ProjectDashboardReducers';
-import { companyOverview } from './company_overview/CompanyOverviewReducer';
+import { companyOverview, monthlyOverview } from './company_overview/CompanyOverviewReducer';
 import { SET_AFTER_LOGIN_REDIRECTION } from '../actions/types';
 
 function loginMiddleware(state = { redirectTo: null }, action) {
@@ -31,7 +31,8 @@ const AppReducer = combineReducers({
 	alarms,
 	billingView,
 	projectDashboardView,
-	companyOverview
+	companyOverview,
+	monthlyOverview,
 })
 
 export default AppReducer;
