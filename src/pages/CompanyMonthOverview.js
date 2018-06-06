@@ -5,7 +5,7 @@ import { fetchMonthlyOverviewInvoicesIfNeeded, invalidateMonthlyOverview } from 
 import { connect } from 'react-redux';
 import YearSelector from '../components/misc/YearSelector';
 import MonthSelector from '../components/misc/MonthSelector';
-import InvoicesList from '../components/billing/invoices/InvoicesList';
+import InvoicesOverviewCard from '../components/overview/invoices/InvoicesOverviewCard';
 import IncomeVsExpensesPie from '../components/overview/charts/IncomeVsExpensesPie';
 import IncomeVsExpensesVsProfitPie from '../components/overview/charts/IncomeVsExpensesVsProfitPie';
 import SquareDiv from '../components/misc/SquareDiv';
@@ -41,7 +41,7 @@ class CompanyMonthOverview extends Component {
 				</Row>
 				<Row>
 					<Col lg={4} xs={12} className='order-sm-2 order-lg-1'>
-						<InvoicesList invoices={monthlyOverview.invoices} />
+						<InvoicesOverviewCard invoices={monthlyOverview.invoices} />
 					</Col>
 					<Col lg={3} xs={12} className='order-sm-1 order-lg-2'>
 						<SquareDiv>

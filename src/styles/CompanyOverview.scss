@@ -62,3 +62,22 @@
 	}
 }
 
+.invoices-list--overview {
+
+	.invoice.display.row {
+		margin-top: 0;
+	}
+
+	.invoice.paid.in {
+		border-left: 3px solid $overview-invoice-expense-color;
+	}
+
+	.invoice.paid.out {
+		border-left: 3px solid $overview-invoice-income-color;
+	}
+}
+
+.layout .overview .invoices-list.card .card-body {
+	padding-bottom: 0;
+}
+

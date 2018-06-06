@@ -44,7 +44,13 @@ export function fetchMonthlyOverviewInvoicesIfNeeded(year, month) {
 function getInvoiceFilterForMonth(year, month) {
 	const som = moment(`${year}-${month}-01`);
 	const eom = som.clone().endOf('month');
-	return { invoicing_date: { $lte: eom.format('YYYY-MM-DD'), $gte: som.format('YYYY-MM-DD') } };
+	return { 
+		invoicing_date: { 
+			$lte: eom.format('YYYY-MM-DD'), 
+			$gte: som.format('YYYY-MM-DD') 
+		},
+		paid: true,
+	};
 }
 
 export function invalidateMonthlyOverview() {
