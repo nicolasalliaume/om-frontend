@@ -9,6 +9,7 @@ import InvoicesOverviewCard from '../components/overview/invoices/InvoicesOvervi
 import IncomeVsExpensesPie from '../components/overview/charts/IncomeVsExpensesPie';
 import IncomeVsExpensesVsProfitPie from '../components/overview/charts/IncomeVsExpensesVsProfitPie';
 import SquareDiv from '../components/misc/SquareDiv';
+import BillingOverviewCard from '../components/overview/cards/BillingOverviewCard';
 
 class CompanyMonthOverview extends Component {
 	componentWillMount() {
@@ -40,18 +41,31 @@ class CompanyMonthOverview extends Component {
 					</Col>
 				</Row>
 				<Row>
-					<Col lg={4} xs={12} className='order-sm-2 order-lg-1'>
+					<Col lg={4} xs={12}>
 						<InvoicesOverviewCard invoices={monthlyOverview.invoices} />
 					</Col>
-					<Col lg={3} xs={12} className='order-sm-1 order-lg-2'>
-						<SquareDiv>
-							<IncomeVsExpensesPie income={income} expenses={expenses} />
-						</SquareDiv>
-					</Col>
-					<Col lg={3} xs={12} className='order-sm-1 order-lg-2'>
+					<Col lg={4} xs={12}>
 						<SquareDiv>
 							<IncomeVsExpensesVsProfitPie income={income} expenses={expenses} />
 						</SquareDiv>
+					</Col>
+					<Col lg={3} xs={6} className='offset-lg-1'>
+						<div className='overview-billing-cards'>
+							<BillingOverviewCard 
+								className='month-income-card'
+								amount={income} 
+								title={'<b>Income</b>'} />
+
+							<BillingOverviewCard 
+								className='month-expenses-card'
+								amount={expenses} 
+								title={'<b>Expenses</b>'} />
+
+							<BillingOverviewCard 
+								className='month-profit-card'
+								amount={income-expenses} 
+								title={'<b>Profit</b>'} />
+						</div>
 					</Col>
 				</Row>
 			</div>
