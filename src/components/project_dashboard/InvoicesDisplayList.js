@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { Col } from 'reactstrap';
 import Icon from '../misc/Icon';
 import moment from 'moment';
+import { withRouter } from 'react-router-dom';
 
-export default class InvoicesDisplayList extends Component {
+export default withRouter(class InvoicesDisplayList extends Component {
 	render() {
 		const { invoices } = this.props;
 		if (invoices.empty()) 
@@ -21,7 +22,7 @@ export default class InvoicesDisplayList extends Component {
 		const date = moment.utc(invoicing_date).format('MM/DD');
 		const className = paid ? 'paid' : 'unpaid';
 		return (
-			<li key={_id} className={`invoice display row ${className}`}>
+			<li key={_id} className={`invoice display row actionable ${className}`} onClick={() => this.openInvoice(invoice)}>
 				<Col xs={12}>
 					<p>{description}</p>
 				</Col>
@@ -35,4 +36,8 @@ export default class InvoicesDisplayList extends Component {
 			</li>
 		)
 	}
-}
+
+	openInvoice(invoice) {
+		this.props.history.push(`${this.props.location.pathname}/invoice/${invoice._id.toString()}`);
+	}
+})

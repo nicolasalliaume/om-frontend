@@ -16,6 +16,7 @@ import Admin from './Admin';
 import ProjectDashboard from './ProjectDashboard';
 import CompanyOverview from './CompanyOverview';
 import CompanyMonthOverview from './CompanyMonthOverview';
+import ModalContainer from './ModalContainer';
 
 import Store from '../store';
 
@@ -28,14 +29,6 @@ class Layout extends Component {
 		/* load needed resources */
 		Store.dispatch(fetchProjectsListIfNeeded());
 		Store.dispatch(fetchUsersListIfNeeded());
-	}
-
-	objectiveIdToShow() {
-		const { location } = this.props
-		const regexp = /\/objective\/([a-zA-Z0-9]+)/;
-		if ( regexp.test(location.pathname) ) {
-			return location.pathname.match(regexp)[1];
-		}
 	}
 
 	isAdminUser() {
@@ -97,28 +90,10 @@ class Layout extends Component {
 					<LayoutRouter />
 				</Container>
 
-				{ this.renderObjectiveModal() }
-
-				{ this.renderIntroBanners() }
+				<ModalContainer />
 
 			</div>
 		)
-	}
-
-	closeModalObjective() {
-		const newloc = this.props.location.pathname.replace(/\/objective\/[a-zA-Z0-9]+/, '');
-		this.props.history.push(newloc);
-	}
-
-	renderObjectiveModal() {
-		const objectiveIdToShowInModal = this.objectiveIdToShow();
-		if (objectiveIdToShowInModal) {
-			return (
-				<OverlayedObjectiveModal 
-					objectiveId={objectiveIdToShowInModal} 
-					toggle={this.closeModalObjective.bind(this)} />
-			);
-		}
 	}
 
 	renderIntroBanners() {

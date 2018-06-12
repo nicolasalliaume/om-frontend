@@ -68,7 +68,7 @@ class MonthlyInvoicesMissing extends Component {
 }
 
 const mapStateToProps = state => { return {
-	projects: (state.billingView.projectsBilling.projects || []).filter(p => p.active)
+	projects: Object.values(state.billingView.projectsBilling.projectsById).filter(p => p.active)
 }}
 
 const mapDispatchToProps = dispatch => { return {

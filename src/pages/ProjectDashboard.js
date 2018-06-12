@@ -13,7 +13,7 @@ import {
 	fetchWorkEntriesForProject,
 	setProjectDashboardWorkEntriesFilters
 } from '../actions/projects';
-import { fetchBillingForProject } from '../actions/billing';
+import { fetchProjectsBillingIfNeeded } from '../actions/billing';
 import { 
 	fetchActiveObjectivesForProject, 
 	fetchObjectivesArchiveForProject
@@ -26,13 +26,15 @@ class ProjectDashboard extends Component {
 	componentWillMount() {
 		const projectId = this.getProjectId(this.props);
 		this.props.setProjectDashboardVisibleProject(projectId);
-		this.props.fetchBillingForProject(projectId);
+		this.props.fetchProjectsBillingIfNeeded();
 		this.props.fetchWorkEntriesForProject(projectId);
 	}
 
 	componentWillReceiveProps(props) {
-		const { isFetching, didInvalidate } = props.projectDashboard.workEntries;
-		if (didInvalidate && !isFetching) {
+		props.fetchProjectsBillingIfNeeded();
+
+		const { workEntries, billing } = props.projectDashboardView;
+		if (workEntries.didInvalidate && !workEntries.isFetching) {
 			this.props.fetchWorkEntriesForProject(this.getProjectId(props));
 		}
 	}
@@ -46,11 +48,11 @@ class ProjectDashboard extends Component {
 		const projectId = this.getProjectId(this.props);
 		if (!projectId) return <div>Project not found</div>;
 
-		const { projectDashboard } = this.props;
-		const { archived, active } = projectDashboard.objectives;
-		const { workEntries } = projectDashboard;
+		const { projectDashboardView, projectsBilling } = this.props;
+		const { archived, active } = projectDashboardView.objectives;
+		const { workEntries } = projectDashboardView;
 
-		const project = projectDashboard.billing.project;
+		const project = projectsBilling.projectsById[projectId];
 
 		const invoices = (project || {}).invoices || [];
 		const billingInvoices = invoices.filter(i => i.direction === 'out');
@@ -91,12 +93,13 @@ class ProjectDashboard extends Component {
 
 const mapStateToProps = state => { return {
 	projectsById: state.cache.projects.projectsById,
-	projectDashboard: state.projectDashboardView
+	projectDashboardView: state.projectDashboardView,
+	projectsBilling: state.billingView.projectsBilling,
 }}
 
 const mapDispatchToProps = dispatch => { return {
 	setProjectDashboardVisibleProject : (projectId) => dispatch(setProjectDashboardVisibleProject(projectId)),
-	fetchBillingForProject : (projectId) => dispatch(fetchBillingForProject(projectId)),
+	fetchProjectsBillingIfNeeded : _ => dispatch(fetchProjectsBillingIfNeeded()),
 	fetchActiveObjectivesForProject : (projectId, filters) => dispatch(fetchActiveObjectivesForProject(projectId, filters)),
 	fetchObjectivesArchiveForProject : (projectId, filters) => dispatch(fetchObjectivesArchiveForProject(projectId, filters)),
 	fetchWorkEntriesForProject : (projectId) => dispatch(fetchWorkEntriesForProject(projectId)),

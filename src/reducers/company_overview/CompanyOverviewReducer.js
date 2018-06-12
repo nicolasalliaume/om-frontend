@@ -24,35 +24,3 @@ export function companyOverview(state, action) {
 		default: return state;
 	}
 }
-
-export function monthlyOverview(state, action) {
-	if (state === undefined) {
-		return {
-			isFetching: false, 
-			didInvalidate: true,
-			invoices: [],
-		}
-	}
-
-	switch (action.type) {
-		case REQUEST_MONTHLY_OVERVIEW:
-			return update(state, {
-				isFetching: {$set: true},
-			})
-
-		case RECEIVE_MONTHLY_OVERVIEW:
-			return update(state, {
-				isFetching: {$set: false},
-				didInvalidate: {$set: false},
-				invoices: {$set: action.payload}
-			})
-
-		case INVALIDATE_MONTHLY_OVERVIEW:
-		case RECEIVE_ADD_INVOICE:
-		case RECEIVE_UPDATE_INVOICE:
-		case RECEIVE_DELETE_INVOICE:
-			return update(state, { didInvalidate: {$set: true} })
-
-		default: return state;
-	}
-}

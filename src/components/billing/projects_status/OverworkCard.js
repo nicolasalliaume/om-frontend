@@ -38,7 +38,7 @@ class OverworkCard extends Component {
 }
 
 const mapStateToProps = state => { return {
-	projects: state.billingView.projectsBilling.projects
+	projects: Object.values(state.billingView.projectsBilling.projectsById),
 }}
 
 const mapDispatchToProps = dispatch => { return {

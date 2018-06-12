@@ -10,12 +10,15 @@ import {
 	RECEIVE_UPDATE_INVOICE,
 	REQUEST_INVOICES_LIST,
 	RECEIVE_INVOICES_LIST,
-	INVALIDATE_INVOICES_LIST
+	INVALIDATE_INVOICES_LIST,
+	RECEIVE_DELETE_INVOICE,
 } from './../../actions/types';
 
 export function billingView(state, action) {
 	if (state === undefined) return {
+		// projects with invoices and variables
 		projectsBilling : projectsBilling(),
+		// list of invoices, not organized
 		invoicesList : {
 			didInvalidate : true,
 			isFetching : false,
@@ -31,12 +34,16 @@ export function billingView(state, action) {
 		case RECEIVE_ADD_INVOICE:
 		case REQUEST_UPDATE_INVOICE:
 		case RECEIVE_UPDATE_INVOICE:
+		case RECEIVE_DELETE_INVOICE:
 			return update(state, {
 				projectsBilling: {
 					$set: projectsBilling(state.projectsBilling, action)}
 			})
 
 		case INVALIDATE_INVOICES_LIST:
+		case RECEIVE_ADD_INVOICE:
+		case RECEIVE_UPDATE_INVOICE:
+		case RECEIVE_DELETE_INVOICE:
 			return update(state, {
 				invoicesList: {didInvalidate: {$set: true}}
 			})

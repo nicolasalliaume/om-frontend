@@ -11,6 +11,15 @@ input[type=checkbox], input[type=radio], select, .form-control {
   }
 }
 
+/** invoices list */
+
+.invoice.actionable {
+  cursor: pointer;
+  &:hover {
+    background-color: lighten($darker-color, 3%);
+  }
+}
+
 /** message bar */
 
 .message-bar {

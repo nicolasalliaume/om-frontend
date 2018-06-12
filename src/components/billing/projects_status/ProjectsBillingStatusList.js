@@ -11,8 +11,10 @@ class ProjectsBillingStatusList extends Component {
 		this.props.fetchProjectsBillingIfNeeded();
 	}
 	render() {
-		let { projects, filter } = this.props;
-		projects = projects.filter(filter ? p => p._id === filter : p => p.active);
+		let { projectsById, filter } = this.props;
+		const projects = Object.values(projectsById)
+			.filter(filter ? p => p._id === filter : p => p.active)
+			.sort((a, b) => a.name > b.name ? 1 : (a.name < b.name ? -1 : 0))
 		
 		return (
 			<ul className='projects-list'>
@@ -25,7 +27,7 @@ class ProjectsBillingStatusList extends Component {
 }
 
 const mapStateToProps = (state, props) => { return {
-	projects: state.billingView.projectsBilling.projects || [],
+	projectsById: state.billingView.projectsBilling.projectsById,
 	...props
 }}
 

@@ -3,8 +3,6 @@ import {
 	INVALIDATE_INVOICES_LIST,
 	REQUEST_PROJECTS_BILLING,
 	RECEIVE_PROJECTS_BILLING,
-	REQUEST_BILLING_FOR_PROJECT,
-	RECEIVE_BILLING_FOR_PROJECT,
 	REQUEST_ADD_INVOICE,
 	RECEIVE_ADD_INVOICE,
 	REQUEST_UPDATE_INVOICE,
@@ -42,8 +40,6 @@ export function addInvoice(invoice) {
 			.then(response => response.body)
 			.then(testForErrorReturned)
 			.then(body => dispatch(receiveAddInvoice(body)))
-			.then(() => dispatch(invalidateProjectsBilling()))
-			.then(() => dispatch(invalidateInvoicesList()))
 			.then(() => dispatch(addMessage(`Invoice added`, 'Invoice added')))
 			// error handling
 			.catch(error => dispatch(addError(error.message, 'Add invoice')));
@@ -84,8 +80,6 @@ export function updateInvoice(invoice) {
 			.then(response => response.body)
 			.then(testForErrorReturned)
 			.then(body => dispatch(receiveUpdateInvoice(body)))
-			.then(() => dispatch(invalidateProjectsBilling()))
-			.then(() => dispatch(invalidateInvoicesList()))
 			.then(() => dispatch(addMessage(invoice.description, 'Invoice updated')))
 			// error handling
 			.catch(error => dispatch(addError(error.message, 'Update invoice')));
@@ -109,8 +103,6 @@ export function deleteInvoice(invoiceId) {
 			.then(response => response.body)
 			.then(testForErrorReturned)
 			.then(body => dispatch(receiveDeleteInvoice(invoiceId, body)))
-			.then(() => dispatch(invalidateProjectsBilling()))
-			.then(() => dispatch(invalidateInvoicesList()))
 			.then(() => dispatch(addMessage('', 'Invoice deleted')))
 			// error handling
 			.catch(error => dispatch(addError(error.message, 'Delete invoice')));
@@ -152,28 +144,6 @@ export function fetchProjectsBillingIfNeeded() {
 	}
 }
 
-function requestBillingForProject(projectId) {
-	return { type: REQUEST_BILLING_FOR_PROJECT, payload: projectId }
-}
-
-function receiveBillingForProject(project) {
-	return { type: RECEIVE_BILLING_FOR_PROJECT, payload: project }
-}
-
-export function fetchBillingForProject(projectId) {
-	return function(dispatch) {
-		dispatch(requestBillingForProject(projectId));
-		superagent
-			.get(Endpoints.GET_BILLING_FOR_PROJECT(projectId))
-			.set(...EndpointAuth())
-			.then(response => response.body)
-			.then(testForErrorReturned)
-			.then(body => dispatch(receiveBillingForProject(body)))
-			// error handling
-			.catch(error => dispatch(addError(error.message, 'Get project billing')));
-	}
-}
-
 function requestInvoicesList() {
 	return { type: REQUEST_INVOICES_LIST }
 }
@@ -200,5 +170,18 @@ export function fetchInvoicesListIfNeeded() {
 			.then(body => dispatch(receiveInvoicesList(body)))
 			// error handling
 			.catch(error => dispatch(addError(error.message, 'Get invoices list')));
+	}
+}
+
+export function syncFetchInvoiceWithId(iid, cb) {
+	return function(dispatch) {
+		superagent
+			.get(Endpoints.GET_INVOICES_WITH_QUERY({ _id: iid }))
+			.set(...EndpointAuth())
+			.then(response => response.body)
+			.then(testForErrorReturned)
+			.then(body => cb(body.invoices[0]))
+			// error handling
+			.catch(error => dispatch(addError(error.message, 'Fetch invoice sync')));
 	}
 }

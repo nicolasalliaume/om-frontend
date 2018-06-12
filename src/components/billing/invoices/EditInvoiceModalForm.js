@@ -204,7 +204,7 @@ class EditInvoiceModalForm extends Component {
 									<Input type="number" className='text-right' 
 										min={1} name="number" id="number" 
 										onChange={this.onChange}
-										value={invoice.number} />
+										value={invoice.number || ''} />
 								</Col>
 							</FormGroup>
 						}

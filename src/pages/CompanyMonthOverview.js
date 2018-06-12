@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter }  from 'react-router';
 import { Row, Col, Card, CardBlock, Label } from 'reactstrap';
-import { fetchMonthlyOverviewInvoicesIfNeeded, invalidateMonthlyOverview } from '../actions/company_overview';
 import { connect } from 'react-redux';
 import YearSelector from '../components/misc/YearSelector';
 import MonthSelector from '../components/misc/MonthSelector';
@@ -10,26 +9,27 @@ import IncomeVsExpensesPie from '../components/overview/charts/IncomeVsExpensesP
 import IncomeVsExpensesVsProfitPie from '../components/overview/charts/IncomeVsExpensesVsProfitPie';
 import SquareDiv from '../components/misc/SquareDiv';
 import BillingOverviewCard from '../components/overview/cards/BillingOverviewCard';
+import { fetchInvoicesListIfNeeded } from '../actions/billing';
+import moment from 'moment';
 
 class CompanyMonthOverview extends Component {
 	componentWillMount() {
-		const { year, month } = this.props.match.params;
-		this.fetch(year, month);
+		this.props.fetchInvoicesListIfNeeded();
 	}
 
 	componentWillReceiveProps(props) {
-		const { year, month } = props.match.params;
-		this.fetch(year, month);
+		props.fetchInvoicesListIfNeeded();
 	}
 
-	fetch(year, month) {
-		this.props.fetchMonthlyOverviewInvoicesIfNeeded(year, month);
+	getInvoices(year, month) {
+		const filter = `${year}-${month}`;
+		return this.props.invoices.filter(i => moment(i.invoicing_date).format('YYYY-MM') === filter)
 	}
 
 	render() {
 		const { month, year } = this.props.match.params;
-		const { monthlyOverview } = this.props;
-		const { income, expenses } = this.calculateIncomeAndExpenses(monthlyOverview.invoices);
+		const invoices = this.getInvoices(year, month)
+		const { income, expenses } = this.calculateIncomeAndExpenses(invoices);
 		return (
 			<div className='overview'>
 				<Row>
@@ -42,7 +42,7 @@ class CompanyMonthOverview extends Component {
 				</Row>
 				<Row>
 					<Col lg={4} xs={12}>
-						<InvoicesOverviewCard invoices={monthlyOverview.invoices} />
+						<InvoicesOverviewCard invoices={invoices} />
 					</Col>
 					<Col lg={4} xs={12}>
 						<SquareDiv>
@@ -73,12 +73,10 @@ class CompanyMonthOverview extends Component {
 	}
 
 	changeVisibleYear(year) {
-		this.props.invalidateMonthlyOverview();
 		this.props.history.push(`/overview/${year}/${this.props.match.params.month}`);
 	}
 
 	changeVisibleMonth(month) {
-		this.props.invalidateMonthlyOverview();
 		this.props.history.push(`/overview/${this.props.match.params.year}/${month}`);
 	}
 
@@ -93,12 +91,12 @@ class CompanyMonthOverview extends Component {
 }
 
 const mapStateToProps = state => ({
-	monthlyOverview: state.monthlyOverview,
+	invoices: state.billingView.invoicesList.invoices,
+	invoicesList: state.billingView.invoicesList, // needed to update when invoice is changed
 })
 
 const mapDispatchToProps = dispatch => ({
-	fetchMonthlyOverviewInvoicesIfNeeded: (y, m) => dispatch(fetchMonthlyOverviewInvoicesIfNeeded(y, m)),
-	invalidateMonthlyOverview: (y, m) => dispatch(invalidateMonthlyOverview()),
+	fetchInvoicesListIfNeeded : () => dispatch(fetchInvoicesListIfNeeded())
 })
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CompanyMonthOverview));
