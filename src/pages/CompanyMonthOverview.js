@@ -19,16 +19,29 @@ class CompanyMonthOverview extends Component {
 
 	componentWillReceiveProps(props) {
 		props.fetchInvoicesListIfNeeded();
+
+		console.log(props.invoicesList);
+
+		// const invoices = props.invoicesList.invoices
+		// 	.filter(i => moment(i.invoicing_date).format('YYYY-MM') === filter)
+		// 	.sort((a, b) => moment(b.invoicing_date) - moment(a.invoicing_date));
+
+		// console.log(( invoices[0] || {} ).amount);
 	}
 
 	getInvoices(year, month) {
 		const filter = `${year}-${month}`;
-		return this.props.invoices.filter(i => moment(i.invoicing_date).format('YYYY-MM') === filter)
+		return this.props.invoicesList.invoices
+			.filter(i => moment(i.invoicing_date).format('YYYY-MM') === filter)
+			.sort((a, b) => moment(b.invoicing_date) - moment(a.invoicing_date))
 	}
 
 	render() {
 		const { month, year } = this.props.match.params;
-		const invoices = this.getInvoices(year, month)
+		const invoices = this.getInvoices(year, month);
+
+		// console.log(( invoices[0] || {} ).amount);
+
 		const { income, expenses } = this.calculateIncomeAndExpenses(invoices);
 		return (
 			<div className='overview'>
@@ -91,8 +104,7 @@ class CompanyMonthOverview extends Component {
 }
 
 const mapStateToProps = state => ({
-	invoices: state.billingView.invoicesList.invoices,
-	invoicesList: state.billingView.invoicesList, // needed to update when invoice is changed
+	invoicesList: state.billingView.invoicesList,
 })
 
 const mapDispatchToProps = dispatch => ({

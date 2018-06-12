@@ -153,6 +153,7 @@ function receiveInvoicesList(invoices) {
 }
 
 function shouldFetchInvoicesList(state) {
+	console.log("Should: ", state.billingView.invoicesList);
 	if (state.billingView.invoicesList.isFetching) return false;
 	return state.billingView.invoicesList.didInvalidate;
 }

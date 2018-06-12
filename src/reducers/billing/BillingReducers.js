@@ -31,19 +31,22 @@ export function billingView(state, action) {
 		case RECEIVE_PROJECTS_BILLING:
 		case INVALIDATE_PROJECTS_BILLING:
 		case REQUEST_ADD_INVOICE:
-		case RECEIVE_ADD_INVOICE:
 		case REQUEST_UPDATE_INVOICE:
-		case RECEIVE_UPDATE_INVOICE:
-		case RECEIVE_DELETE_INVOICE:
 			return update(state, {
 				projectsBilling: {
 					$set: projectsBilling(state.projectsBilling, action)}
 			})
 
-		case INVALIDATE_INVOICES_LIST:
 		case RECEIVE_ADD_INVOICE:
 		case RECEIVE_UPDATE_INVOICE:
 		case RECEIVE_DELETE_INVOICE:
+			return update(state, {
+				invoicesList: {didInvalidate: {$set: true}},
+				projectsBilling: {
+					$set: projectsBilling(state.projectsBilling, action)}
+			})
+
+		case INVALIDATE_INVOICES_LIST:
 			return update(state, {
 				invoicesList: {didInvalidate: {$set: true}}
 			})
