@@ -252,6 +252,7 @@ select {
 
 .navbar {
   position: fixed;
+  z-index: 1;
   width: $sidebarWidth;
   top: 0;
   left: 0;
@@ -275,8 +276,44 @@ select {
         padding: 10pt 0pt;
         font-size: 1.3em;
       }
+
+      .dropdown-menu {
+        border: none;
+        margin: 0;
+        padding: 0;
+        background-color: darken($sidebar-bg, 10%);
+        min-width: auto;
+        border-radius: 0 4px 4px 0;
+
+        &.show:before {
+          content: "";
+          background-color: darken($sidebar-bg, 10%);
+          width: 14px;
+          height: 14px;
+          display: block;
+          position: absolute;
+          top: 25px;
+          left: -7px;
+          transform: rotateZ(-45deg);
+        }
+
+        button {
+          padding: 0;
+
+          &:hover {
+            background-color: inherit;
+          }
+
+          a {
+            padding: 6px 30px;
+            text-align: center;
+            font-size: 1rem;
+          }
+        }
+      }
     }
   }
+
 }
 
 /** end navgation */

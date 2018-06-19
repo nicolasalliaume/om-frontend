@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Switch, Route, Link, withRouter } from 'react-router-dom';
-import { Container, Navbar, NavbarBrand, Nav, NavItem } from 'reactstrap';
+import { Container, Navbar, NavbarBrand, Nav, NavItem, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import MessagesBar from '../components/messages/MessagesBar';
 import Icon from '../components/misc/Icon';
 import ViewObjectiveModalForm from '../components/objectives/forms/ViewObjectiveModalForm';
@@ -19,12 +19,17 @@ import CompanyMonthOverview from './CompanyMonthOverview';
 import ModalContainer from './ModalContainer';
 
 import Store from '../store';
+import moment from 'moment';
 
 import { fetchProjectsListIfNeeded } from '../actions/projects';
 import { fetchUsersListIfNeeded } from '../actions/users';
 
 
 class Layout extends Component {
+	constructor() {
+		super();
+		this.state = { overviewOpen: false }
+	}
 	componentWillMount() {
 		/* load needed resources */
 		Store.dispatch(fetchProjectsListIfNeeded());
@@ -37,6 +42,8 @@ class Layout extends Component {
 	
 	render() {
 		const { pathname } = this.props.location;
+		const { overviewOpen } = this.state;
+		const now = moment();
 		return (
 			<div className={`layout ${pathname.replace(/\//g, '-').substring(1)}`}>
 				<Navbar className='flex-column justify-content-start'>
@@ -53,11 +60,23 @@ class Layout extends Component {
 							</Link>
 						</NavItem>
 						{ this.isAdminUser() && 
-							<NavItem>
-								<Link to="/overview">
+							<Dropdown nav direction="right" isOpen={overviewOpen} toggle={_ => this.setState({ overviewOpen: !overviewOpen }) }>
+								<DropdownToggle nav>
 									<Icon fa-rocket/>
-								</Link>
-							</NavItem>
+								</DropdownToggle>
+								<DropdownMenu>
+									<DropdownItem>
+										<Link to="/overview">
+											YEAR
+										</Link>
+									</DropdownItem>
+									<DropdownItem>
+										<Link to={`/overview/${now.format('YYYY')}/${now.format('MM')}`}>
+											MONTH
+										</Link>
+									</DropdownItem>
+								</DropdownMenu>
+							</Dropdown>
 						}
 						{ this.isAdminUser() && 
 							<NavItem>
