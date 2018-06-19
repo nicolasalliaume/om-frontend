@@ -13,7 +13,7 @@ import {
 export function companyOverview(state, action) {
 	if (state === undefined) {
 		return {
-			visibleYear: moment.utc().startOf('year').format('YYYY-MM-DD')
+			visibleYear: moment.utc().startOf('year').format('YYYY')
 		}
 	}
 

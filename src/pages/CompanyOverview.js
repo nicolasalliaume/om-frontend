@@ -59,7 +59,7 @@ class CompanyOverview extends Component {
 		)
 	}
 
-	getPeriodStart = () => moment(this.props.visibleYear).startOf('year')
+	getPeriodStart = () => moment(this.props.visibleYear, 'YYYY').startOf('year')
 	getPeriodEnd = () => this.getPeriodStart().clone().add(11, 'month').endOf('month')
 
 	changeVisibleDate = (date) => {
@@ -76,7 +76,7 @@ class CompanyOverview extends Component {
 		const { invoices } = this.props.invoicesList;
 		const start = this.getPeriodStart();
 		const end = this.getPeriodEnd();
-
+		
 		return invoices.filter(i => {
 			const invoiceDate = moment(i.invoicing_date);
 			return invoiceDate >= start && invoiceDate <= end;
