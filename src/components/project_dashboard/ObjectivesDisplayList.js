@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Col, Card, CardBlock, CardTitle } from 'reactstrap';
+import { Col, Card, CardBody, CardTitle } from 'reactstrap';
 import { Link, withRouter } from 'react-router-dom';
 import Tag from '../misc/Tag';
 import ObjectivesDisplayListFilterBar from './ObjectivesDisplayListFilterBar';
@@ -20,7 +20,7 @@ class ObjectivesDisplayList extends Component {
 		const { title, dataSource } = this.props;
 		return (
 			<Card className={`list objectives display`}>
-				<CardBlock className='card-body'>
+				<CardBody >
 					<CardTitle dangerouslySetInnerHTML={{__html: title}} />
 					<ObjectivesDisplayListFilterBar submit={this.submitFilters} />
 					{ !dataSource.empty() && 
@@ -31,7 +31,7 @@ class ObjectivesDisplayList extends Component {
 					{ dataSource.empty() && 
 						<p className='text-center'>No objectives to show</p>
 					}
-				</CardBlock>
+				</CardBody>
 			</Card>
 		)
 	}

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Card, CardBlock, CardTitle } from 'reactstrap';
+import { Row, Col, Card, CardBody, CardTitle } from 'reactstrap';
 import PaginatedTasksList from './../components/tasks/list/PaginatedTasksList';
 import AddNewTaskForm from './../components/tasks/forms/AddNewTaskForm';
 import TasksListFilterBar from './../components/tasks/list/TasksListFilterBar';
@@ -13,19 +13,19 @@ export default class Tasks extends Component {
 				<Row>
 					<Col lg={6} xs={12}>
 						<Card className='tasks list list--large'>
-							<CardBlock className='card-body'>
+							<CardBody >
 								<CardTitle><b>Tasks</b> pool</CardTitle>
 								<TasksListFilterBar />
 								<PaginatedTasksList />
-							</CardBlock>
+							</CardBody>
 						</Card>
 					</Col>
 					<Col lg={6} xs={12}>
 						<Card className='new-task-card'>
-							<CardBlock className='card-body'>
+							<CardBody >
 								<CardTitle>Add <b>new task</b></CardTitle>
 								<AddNewTaskForm />
-							</CardBlock>
+							</CardBody>
 						</Card>
 					</Col>
 				</Row>

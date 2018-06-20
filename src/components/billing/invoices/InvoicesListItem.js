@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Col, Card, CardBlock, Button } from 'reactstrap';
+import { Col, Card, CardBody, Button } from 'reactstrap';
 import moment from 'moment';
 import Icon from '../../misc/Icon';
 import EditInvoiceModalForm from './EditInvoiceModalForm';
@@ -47,7 +47,7 @@ class InvoicesListItem extends Component {
 		return (
 			<li className={`invoices-list-item ${className}`}>
 				<Card>
-					<CardBlock className='card-body row'>
+					<CardBody className='row'>
 						<Col xs={8}>
 							{ !!project && 
 								<Link to={`/project/${encodeProjectName(project.name)}`}>
@@ -91,7 +91,7 @@ class InvoicesListItem extends Component {
 								<Col xs={4} className='amount'><Icon fa-dollar />{amount}</Col>
 							</footer>
 						</Col>
-					</CardBlock>
+					</CardBody>
 				</Card>
 				<EditInvoiceModalForm edit show={this.state.editModal} 
 					toggle={this.toggleEditModal} invoice={this.props.invoice} />

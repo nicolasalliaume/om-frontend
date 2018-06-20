@@ -87,11 +87,13 @@ select {
   border-radius: 0;
   justify-content: center;
   border-top: 1px solid $lighter-color;
+  width: 100%;
+
   .page-link {
     cursor : pointer;
-    // border-radius: 0 !important;
     background-color: $page-link-bg-color;
     border: none;
+    color: $page-link-fg-color;
   }
   .page-item {
     border-bottom: none;
@@ -103,11 +105,12 @@ select {
       color: $white;
     }
   }
-  & + p {
-    margin: 0 auto 5pt;
-    font-size: 0.7em;
-    text-align: center;
-  }
+}
+
+.pagination-wrap + p {
+  margin: 0 auto;
+  font-size: 0.7em;
+  text-align: center;
 }
 
 .col-form-label {
@@ -538,10 +541,6 @@ select {
   li {
     padding: 14px 1.25rem 8px;
     margin: 0 -1.25rem;
-
-    &:first-child {
-      padding-top: 0;
-    }
 
     .list-number {
       border: 1px solid $text-color;

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Col, Card, CardBlock, CardTitle, Button } from 'reactstrap';
+import { Col, Card, CardBody, CardTitle, Button } from 'reactstrap';
 import EditAlarmModalForm from '../forms/EditAlarmModalForm';
 import update from 'immutability-helper';
 import { connect } from 'react-redux';
@@ -20,7 +20,7 @@ class AlarmCard extends Component {
 		return (
 			<Col lg={3} md={4} sm={6} xs={6}>
 				<Card className={`alarm-card ${stateClass}`}>
-					<CardBlock className='card-body'>
+					<CardBody >
 						<CardTitle>{alarm.name}</CardTitle>
 						<div className='quick-options'>
 							<Button onClick={this.toggleEnabled}>
@@ -37,7 +37,7 @@ class AlarmCard extends Component {
 							</Button>
 						</div>
 						<div className='id text-center'>ID: {alarm._id}</div>
-					</CardBlock>
+					</CardBody>
 				</Card>
 				
 				<EditAlarmModalForm edit show={this.state.modal} 

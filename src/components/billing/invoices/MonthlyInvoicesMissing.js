@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Col, Card, CardBlock, CardTitle } from 'reactstrap';
+import { Col, Card, CardBody, CardTitle } from 'reactstrap';
 import { connect } from 'react-redux';
 import { fetchProjectsBillingIfNeeded } from '../../../actions/billing';
 import moment from 'moment';
@@ -40,7 +40,7 @@ class MonthlyInvoicesMissing extends Component {
 		const singular_plural = 'project' + (count === 1 ? '' : 's');
 		return (
 			<Card className='missing-invoice-card spaced list'>
-				<CardBlock className='card-body'>
+				<CardBody >
 					<CardTitle>Projects <b>missing invoices</b></CardTitle>
 					{ count === 0 && 
 						<p>There are no monthly projects missing invoices for this month</p> }
@@ -61,7 +61,7 @@ class MonthlyInvoicesMissing extends Component {
 							</ul>
 						</div>
 					}
-				</CardBlock>
+				</CardBody>
 			</Card>
 		)
 	}

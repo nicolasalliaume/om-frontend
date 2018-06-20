@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, CardBlock, CardTitle } from 'reactstrap';
+import { Card, CardBody, CardTitle } from 'reactstrap';
 import { connect } from 'react-redux';
 import { fetchProjectsListIfNeeded } from './../../../actions/projects';
 import ProjectsAdminCardListItem from './ProjectsAdminCardListItem';
@@ -22,7 +22,7 @@ class ProjectsAdminCard extends Component {
 	render() {
 		return (
 			<Card className='projects list'>
-				<CardBlock className='card-body'>
+				<CardBody >
 					<CardTitle>Projects</CardTitle>
 					<ul>
 						{ this.getSortedProjects().map(p => {
@@ -31,7 +31,7 @@ class ProjectsAdminCard extends Component {
 							)
 						}) }
 					</ul>
-				</CardBlock>
+				</CardBody>
 			</Card>
 		)
 	}

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, CardBlock, CardTitle } from 'reactstrap';
+import { Card, CardBody, CardTitle } from 'reactstrap';
 import { connect } from 'react-redux';
 import { fetchUsersListIfNeeded } from './../../../actions/users';
 import UsersAdminCardListItem from './UsersAdminCardListItem';
@@ -22,7 +22,7 @@ class UsersAdminCard extends Component {
 	render() {
 		return (
 			<Card className='users list'>
-				<CardBlock className='card-body'>
+				<CardBody >
 					<CardTitle>Users</CardTitle>
 					<ul>
 						{ this.getSortedUsers().map(u => {
@@ -31,7 +31,7 @@ class UsersAdminCard extends Component {
 							)
 						}) }
 					</ul>
-				</CardBlock>
+				</CardBody>
 			</Card>
 		)
 	}

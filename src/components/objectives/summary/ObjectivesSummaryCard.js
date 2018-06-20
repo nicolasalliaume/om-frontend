@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, CardBlock, CardTitle, Progress } from 'reactstrap';
+import { Card, CardBody, CardTitle, Progress } from 'reactstrap';
 
 export default class ObjectivesSummaryCard extends Component {
 	render() {
@@ -7,12 +7,12 @@ export default class ObjectivesSummaryCard extends Component {
 		const percentProgress = parseInt(progress * 100, 10);
 		return (
 			<Card className={`summary-card ${type || ''}`}>
-				<CardBlock className='card-body'>
+				<CardBody >
 					<CardTitle dangerouslySetInnerHTML={{__html: title}} />
 					<p className='text-center description'>{description}</p>
 					<Progress animated className={color} color={color} value={percentProgress} />
 					<p className='text-center label' dangerouslySetInnerHTML={{__html: label}} />
-				</CardBlock>
+				</CardBody>
 			</Card>
 		)
 	}

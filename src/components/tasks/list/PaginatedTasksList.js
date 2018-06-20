@@ -40,7 +40,7 @@ class PaginatedTasksList extends Component {
 		return (
 			<div className='paginated-tasks-list'>
 				<TasksList tasks={tasks} indexStart={firstListIndex} />
-				<Pagination className='row'>
+				<Pagination className='row pagination-wrap'>
 					<PaginationItem>
 						<PaginationLink previous onClick={this.moveBack} />
 					</PaginationItem>

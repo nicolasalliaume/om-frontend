@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Col, Card, CardBlock, CardTitle } from 'reactstrap';
+import { Col, Card, CardBody, CardTitle } from 'reactstrap';
 import { connect } from 'react-redux';
 import { fetchProjectsBillingIfNeeded } from '../../../actions/billing';
 import Icon from '../../misc/Icon';
@@ -39,7 +39,7 @@ class BillingOpportunities extends Component {
 	render() {
 		return (
 			<Card className='opportunities-card list spaced'>
-				<CardBlock className='card-body'>
+				<CardBody >
 					<CardTitle>Billing <b>opportunities</b></CardTitle>
 					<ul>
 						{ this.getBillingOpportunities().map(([p, profit]) => {
@@ -60,7 +60,7 @@ class BillingOpportunities extends Component {
 						A billing opportunity means that the team has work on a project 
 						more hours than billed as today
 					</p>
-				</CardBlock>
+				</CardBody>
 			</Card>
 		)
 	}

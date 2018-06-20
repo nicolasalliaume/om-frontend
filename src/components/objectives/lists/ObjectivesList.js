@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Card, CardBlock, CardTitle, Button } from 'reactstrap';
+import { Row, Col, Card, CardBody, CardTitle, Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import ObjectivesListItem from './ObjectivesListItem';
 import EditObjectiveModalForm from './../forms/EditObjectiveModalForm';
@@ -27,7 +27,7 @@ export default class ObjectivesList extends Component {
 		const sortedObjectives = this.sortedObjectives();
 		return (
 			<Card className={`list list--large objectives ${level}`}>
-				<CardBlock className='card-body'>
+				<CardBody >
 					<CardTitle dangerouslySetInnerHTML={{__html: title}} />
 					{ sortedObjectives.empty() && this.renderNoObjectives() }
 					{ !sortedObjectives.empty() && 
@@ -37,7 +37,7 @@ export default class ObjectivesList extends Component {
 							)}
 						</ul> 
 					}
-				</CardBlock>
+				</CardBody>
 			</Card>
 		)
 	}

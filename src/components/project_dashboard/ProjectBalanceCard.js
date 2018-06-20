@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Card, CardBlock, CardTitle } from 'reactstrap';
+import { Row, Col, Card, CardBody, CardTitle } from 'reactstrap';
 import StatusBars from '../misc/StatusBars';
 
 export default class ProjectBalanceCard extends Component {
@@ -26,7 +26,7 @@ export default class ProjectBalanceCard extends Component {
 
 		return (
 			<Card className='project-balance text-center'>
-				<CardBlock className='card-body'>
+				<CardBody >
 					<CardTitle>Project <b>balance</b></CardTitle>
 					<Row>
 						<Col xs={6}>
@@ -53,7 +53,7 @@ export default class ProjectBalanceCard extends Component {
 							<span className='money outcome'>{project.hourly_rate}</span>
 						</Col>
 					</Row>
-				</CardBlock>
+				</CardBody>
 			</Card>
 		)
 	}

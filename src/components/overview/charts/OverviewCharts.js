@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Card, CardBlock, CardTitle } from 'reactstrap';
+import { Row, Col, Card, CardBody, CardTitle } from 'reactstrap';
 import IncomeVsObjectiveChart from './IncomeVsObjectiveChart';
 import IncomeVsExpensesChart from './IncomeVsExpensesChart';
 import BillingOverviewCard from  '../cards/BillingOverviewCard';
@@ -15,26 +15,26 @@ export default class OverviewCharts extends Component {
 				<Row className='year-overview-chart'>
 					<Col xs={12}>
 						<Card>
-							<CardBlock className='card-body'>
+							<CardBody >
 								<CardTitle><b>Year billing</b> overview</CardTitle>
 								<IncomeVsObjectiveChart invoices={billingInvoices}
 									objective={objective}
 									start={start}
 									end={end} />
-							</CardBlock>
+							</CardBody>
 						</Card>
 					</Col>
 				</Row>
 				<Row className='year-income-vs-expenses-chart'>
 					<Col xs={12} lg={6}>
 						<Card>
-							<CardBlock className='card-body'>
+							<CardBody >
 								<CardTitle>Year <b>Expenses vs. Billing</b></CardTitle>
 								<IncomeVsExpensesChart invoices={invoices}
 									objective={objective}
 									start={start}
 									end={end} />
-							</CardBlock>
+							</CardBody>
 						</Card>
 					</Col>
 					<Col xs={6} lg={3} className='overview-billing-cards'>

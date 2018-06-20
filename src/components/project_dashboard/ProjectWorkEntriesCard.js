@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, CardBlock, CardTitle } from 'reactstrap';
+import { Card, CardBody, CardTitle } from 'reactstrap';
 import WorkEntriesList from '../work_entries/view/WorkEntriesList';
 import ProjectWorkEntriesCardFilters from './ProjectWorkEntriesCardFilters';
 import ProjectWorkEntriesExportOptions from './ProjectWorkEntriesExportOptions';
@@ -12,7 +12,7 @@ export default class ProjectWorkEntriesCard extends Component {
 
 		return (
 			<Card className='project-work-entries text-center'>
-				<CardBlock className='card-body'>
+				<CardBody >
 					<CardTitle>Work <b>entries</b></CardTitle>
 					<ProjectWorkEntriesCardFilters submit={this.props.applyWorkEntryFilters} />
 					<WorkEntriesList entries={workEntries.entries} />
@@ -20,7 +20,7 @@ export default class ProjectWorkEntriesCard extends Component {
 					<ProjectWorkEntriesExportOptions 
 						detailedLink={this.getExportHtmlDetailedLink()}
 						clientLink={this.getExportHtmlClientLink()} />
-				</CardBlock>
+				</CardBody>
 			</Card>
 		)
 	}

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Col, Card, CardBlock, CardTitle, Button } from 'reactstrap';
+import { Col, Card, CardBody, CardTitle, Button } from 'reactstrap';
 import EditIntegrationModalForm from '../forms/EditIntegrationModalForm';
 import IntegrationInstructionsTeamworkModal from './../misc/IntegrationInstructionsTeamworkModal';
 import IntegrationInstructionsTrelloModal from './../misc/IntegrationInstructionsTrelloModal';
@@ -18,7 +18,7 @@ export default class IntegrationCard extends Component {
 		return (
 			<Col lg={3} md={4} sm={6} xs={6}>
 				<Card className={`integration-card ${integration.service}`}>
-					<CardBlock className='card-body'>
+					<CardBody >
 						<CardTitle>{integration.name}</CardTitle>
 						<div className='integration-service text-center'>
 							<span>{service}</span>
@@ -35,7 +35,7 @@ export default class IntegrationCard extends Component {
 							}
 						</div>
 						<div className='id text-center'>ID: {integration._id}</div>
-					</CardBlock>
+					</CardBody>
 				</Card>
 				
 				<EditIntegrationModalForm edit show={this.state.modal} 

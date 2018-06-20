@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Card, CardBlock, CardTitle } from 'reactstrap';
+import { Row, Col, Card, CardBody, CardTitle } from 'reactstrap';
 import AlarmsList from '../components/alarms/list/AlarmsList';
 import CreateAlarmFloatingButton from './../components/alarms/misc/CreateAlarmFloatingButton';
 
@@ -12,9 +12,9 @@ export default class Alarms extends Component {
 				<Row className='title-card'>
 					<Col xs={12}>
 						<Card className='list list--large'>
-							<CardBlock className='card-body'>
+							<CardBody >
 								<CardTitle><b>alarms</b></CardTitle>
-							</CardBlock>
+							</CardBody>
 						</Card>
 					</Col>
 				</Row>

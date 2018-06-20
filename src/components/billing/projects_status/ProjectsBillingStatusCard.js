@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, CardTitle, CardBlock } from 'reactstrap';
+import { Card, CardTitle, CardBody } from 'reactstrap';
 import ProjectsBillingStatusList from './ProjectsBillingStatusList';
 
 export default class ProjectsBillingStatusCard extends Component {
@@ -7,11 +7,11 @@ export default class ProjectsBillingStatusCard extends Component {
 		const { title, project } = this.props;
 		return (
 			<Card className='projects-status list list--large'>
-				<CardBlock className='card-body'>
+				<CardBody >
 					{ title && <CardTitle dangerouslySetInnerHTML={{__html: title}}></CardTitle> }
 					{ !title && <CardTitle>Projects <b>status</b></CardTitle> }
 					<ProjectsBillingStatusList filter={project} />
-				</CardBlock>
+				</CardBody>
 			</Card>
 		)
 	}

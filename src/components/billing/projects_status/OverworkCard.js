@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, CardBlock, CardTitle } from 'reactstrap';
+import { Card, CardBody, CardTitle } from 'reactstrap';
 import { connect } from 'react-redux';
 import { fetchProjectsBillingIfNeeded } from '../../../actions/billing';
 
@@ -27,11 +27,11 @@ class OverworkCard extends Component {
 		const singular_plural = 'project' + (count === 1 ? '' : 's');
 		return (
 			<Card className='overwork-card spaced'>
-				<CardBlock className='card-body text-center'>
+				<CardBody className='text-center'>
 					<CardTitle><b>Overwork</b></CardTitle>
 					{ count === 0 && <p>There are no overworked projects</p> }
 					{ count > 0 && <p>There {toBe} <b>{count}</b> overworked {singular_plural}</p> }
-				</CardBlock>
+				</CardBody>
 			</Card>
 		)
 	}

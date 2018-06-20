@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter }  from 'react-router';
-import { Row, Col, Card, CardBlock, Label } from 'reactstrap';
+import { Row, Col, Card, CardBody, Label } from 'reactstrap';
 import { connect } from 'react-redux';
 import YearSelector from '../components/misc/YearSelector';
 import MonthSelector from '../components/misc/MonthSelector';
