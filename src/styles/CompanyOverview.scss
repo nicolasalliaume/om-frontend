@@ -60,6 +60,11 @@
 	.year-income-vs-expenses-chart .overview-billing-cards .amount {
 		font-size: 2.3em;
 	}
+
+	.month-profit-card.negative {
+		background: $unpaid-color;
+		color: $white;
+	}
 }
 
 .invoices-list--overview {

@@ -32,6 +32,9 @@ class CompanyMonthOverview extends Component {
 		const invoices = this.getInvoices(year, month);
 
 		const { income, expenses } = this.calculateIncomeAndExpenses(invoices);
+		const profit = income - expenses;
+		const profitClazz = profit >= 0 ? '' : 'negative';
+
 		return (
 			<div className='overview'>
 				<Row>
@@ -64,8 +67,8 @@ class CompanyMonthOverview extends Component {
 								title={'<b>Expenses</b>'} />
 
 							<BillingOverviewCard 
-								className='month-profit-card'
-								amount={income-expenses} 
+								className={`month-profit-card ${profitClazz}`}
+								amount={profit} 
 								title={'<b>Profit</b>'} />
 						</div>
 					</Col>

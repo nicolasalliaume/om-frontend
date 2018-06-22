@@ -32,7 +32,7 @@ export default class CreateInvoiceFloatingButton extends Component {
 				<EditInvoiceModalForm show={this.state.billingModal}
 					toggle={this.toggleBillingInvoiceModal} invoice={getNewInvoiceTemplate('out')} />
 				<EditInvoiceModalForm show={this.state.expensesModal}
-					toggle={this.toggleExpensesInvoiceModal} invoice={getNewInvoiceTemplate('in')} />
+					toggle={this.toggleExpensesInvoiceModal} invoice={getNewInvoiceTemplate('in', true)} />
 			</FloatingButtonWithOptions>
 		)
 	}

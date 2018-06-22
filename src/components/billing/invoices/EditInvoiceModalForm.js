@@ -218,18 +218,20 @@ class EditInvoiceModalForm extends Component {
 								</Col>
 							</FormGroup>
 						}
-						<FormGroup row>
-							<Col sm={6}>
-								<FormGroup check>
-									<Label check>
-										<Input type="checkbox" name="paid" id="paid" 
-											onChange={this.onChangeCheckbox} 
-											checked={invoice.paid} />{' '}
-										Already paid?
-									</Label>
-								</FormGroup>
-							</Col>
-						</FormGroup>
+						{ invoice.direction === 'out' && 
+							<FormGroup row>
+								<Col sm={6}>
+									<FormGroup check>
+										<Label check>
+											<Input type="checkbox" name="paid" id="paid" 
+												onChange={this.onChangeCheckbox} 
+												checked={invoice.paid} />{' '}
+											Already paid?
+										</Label>
+									</FormGroup>
+								</Col>
+							</FormGroup>
+						}
 					</Form>
 				</ModalBody>
 				<ModalFooter>
