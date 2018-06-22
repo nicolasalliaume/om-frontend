@@ -15,11 +15,10 @@ export default class ProjectWorkEntriesCard extends Component {
 				<CardBody >
 					<CardTitle>Work <b>entries</b></CardTitle>
 					<ProjectWorkEntriesCardFilters submit={this.props.applyWorkEntryFilters} />
-					<WorkEntriesList entries={workEntries.entries} />
-					<hr />
 					<ProjectWorkEntriesExportOptions 
 						detailedLink={this.getExportHtmlDetailedLink()}
 						clientLink={this.getExportHtmlClientLink()} />
+					<WorkEntriesList entries={workEntries.entries} />
 				</CardBody>
 			</Card>
 		)

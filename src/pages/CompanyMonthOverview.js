@@ -18,28 +18,18 @@ class CompanyMonthOverview extends Component {
 
 	componentWillReceiveProps(props) {
 		props.fetchInvoicesListIfNeeded();
-
-		console.log(props.invoicesList);
-
-		// const invoices = props.invoicesList.invoices
-		// 	.filter(i => moment(i.invoicing_date).format('YYYY-MM') === filter)
-		// 	.sort((a, b) => moment(b.invoicing_date) - moment(a.invoicing_date));
-
-		// console.log(( invoices[0] || {} ).amount);
 	}
 
 	getInvoices(year, month) {
 		const filter = `${year}-${month}`;
 		return this.props.invoicesList.invoices
-			.filter(i => moment(i.invoicing_date).format('YYYY-MM') === filter)
+			.filter(i => moment(i.invoicing_date).format('YYYY-MM') === filter && i.paid)
 			.sort((a, b) => moment(b.invoicing_date) - moment(a.invoicing_date))
 	}
 
 	render() {
 		const { month, year } = this.props.match.params;
 		const invoices = this.getInvoices(year, month);
-
-		// console.log(( invoices[0] || {} ).amount);
 
 		const { income, expenses } = this.calculateIncomeAndExpenses(invoices);
 		return (

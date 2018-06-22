@@ -8,7 +8,7 @@ export default class ProjectWorkEntriesExportOptions extends Component {
 	render() {
 		return (
 			<Row className='project-work-entries-options'>
-				<Col xs={12} className='text-right'>
+				<Col xs={12} className='text-center'>
 					<a href={this.props.clientLink} target='_blank' rel='nofollow noopener' 
 						className='btn btn-secondary'>
 						Client report

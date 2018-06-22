@@ -66,6 +66,17 @@ input[type=checkbox], input[type=radio], select, .form-control {
 
 /** end filter inputs */
 
+/** work entries list */
+
+.project-work-entries-options {
+  padding: 10px 0;
+  border-top: 1px solid $body-bg;
+  border-bottom: 1px solid $body-bg;
+  margin: 0 -1.25rem;
+}
+
+/** end work entries list */
+
 /** floating button */
 
 .floating-btn {
