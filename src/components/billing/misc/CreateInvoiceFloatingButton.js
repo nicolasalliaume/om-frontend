@@ -3,6 +3,7 @@ import Icon from './../../misc/Icon';
 import EditInvoiceModalForm from '../invoices/EditInvoiceModalForm';
 import FloatingButtonWithOptions from './../../misc/FloatingButtonWithOptions';
 import { getNewInvoiceTemplate } from './../../../utils';
+import moment from 'moment';
 
 export default class CreateInvoiceFloatingButton extends Component {
 	constructor() {
@@ -32,7 +33,7 @@ export default class CreateInvoiceFloatingButton extends Component {
 				<EditInvoiceModalForm show={this.state.billingModal}
 					toggle={this.toggleBillingInvoiceModal} invoice={getNewInvoiceTemplate('out')} />
 				<EditInvoiceModalForm show={this.state.expensesModal}
-					toggle={this.toggleExpensesInvoiceModal} invoice={getNewInvoiceTemplate('in', true)} />
+					toggle={this.toggleExpensesInvoiceModal} invoice={getNewInvoiceTemplate('in', moment().startOf('day'))} />
 			</FloatingButtonWithOptions>
 		)
 	}

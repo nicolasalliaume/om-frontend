@@ -135,7 +135,7 @@ export function getNewIntegrationTemplate() {
 	}
 }
 
-export function getNewInvoiceTemplate(direction = 'out', paid = false) {
+export function getNewInvoiceTemplate(direction = 'out', paid_date = null) {
 	const currentUser = Store.getState().currentUser.user;
 	return {
 		description 	: '',
@@ -144,7 +144,7 @@ export function getNewInvoiceTemplate(direction = 'out', paid = false) {
 		billed_hours	: '',
 		project 		: '',
 		receiver		: '',
-		paid 			: paid,
+		paid_date 		: paid_date,
 		created_by 		: currentUser,
 		attachment 		: null,
 		direction

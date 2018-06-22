@@ -38,6 +38,7 @@ class EditInvoiceModalForm extends Component {
 			// format values to display
 			this.setState({ invoice : update(invoice, {
 				invoicing_date: {$set: moment(invoice.invoicing_date).format('YYYY-MM-DD')},
+				paid_date: {$set: moment(invoice.paid_date).format('YYYY-MM-DD')},
 				project: {$set: invoice.project ? invoice.project._id : ''},
 				receiver: {$set: invoice.receiver ? invoice.receiver : ''}
 			})});
@@ -83,12 +84,6 @@ class EditInvoiceModalForm extends Component {
 		const newState = update(this.state, 
 			{invoice: {[event.target.name]: {$set: event.target.value}}});
 		this.setState(newState)
-	}
-	
-	onChangeCheckbox = (event) => {
-		this.onChange({target: {
-			name: event.target.name, 
-			value: event.target.checked}});
 	}
 
 	onChangeFile = (event) => {
@@ -218,16 +213,14 @@ class EditInvoiceModalForm extends Component {
 								</Col>
 							</FormGroup>
 						}
-						{ invoice.direction === 'out' && 
-							<FormGroup row>
-								<Label for="paid_date" sm={2}>Date paid</Label>
-								<Col sm={10}>
-									<Input type="date" name="paid_date" 
-										id="paid_date" onChange={this.onChange}
-										value={invoice.paid_date || ''} />
-								</Col>
-							</FormGroup>
-						}
+						<FormGroup row>
+							<Label for="paid_date" sm={2}>Date paid</Label>
+							<Col sm={10}>
+								<Input type="date" name="paid_date" 
+									id="paid_date" onChange={this.onChange}
+									value={invoice.paid_date || ''} />
+							</Col>
+						</FormGroup>
 					</Form>
 				</ModalBody>
 				<ModalFooter>
