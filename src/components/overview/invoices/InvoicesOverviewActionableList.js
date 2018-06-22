@@ -3,7 +3,6 @@ import { withRouter } from 'react-router-dom';
 import { Col } from 'reactstrap';
 import Icon from '../../misc/Icon';
 import moment from 'moment';
-import { encodeProjectName } from './../../../utils';
 
 export default withRouter(class InvoicesOverviewActionableList extends Component {
 	render() {

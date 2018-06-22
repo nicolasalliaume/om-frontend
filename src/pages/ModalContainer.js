@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Route } from 'react-router';
-import ViewObjectiveModalForm from '../components/objectives/forms/ViewObjectiveModalForm';
 import EditInvoiceModalForm from '../components/billing/invoices/EditInvoiceModalForm';
 import OverlayedObjectiveModal from '../components/objectives/forms/ViewObjectiveModalForm';
 import { syncFetchInvoiceWithId } from '../actions/billing'

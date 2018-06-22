@@ -33,7 +33,7 @@ class ProjectDashboard extends Component {
 	componentWillReceiveProps(props) {
 		props.fetchProjectsBillingIfNeeded();
 
-		const { workEntries, billing } = props.projectDashboardView;
+		const { workEntries } = props.projectDashboardView;
 		if (workEntries.didInvalidate && !workEntries.isFetching) {
 			this.props.fetchWorkEntriesForProject(this.getProjectId(props));
 		}

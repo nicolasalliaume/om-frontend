@@ -7,7 +7,6 @@ import { Container, Navbar, NavbarBrand, Nav, NavItem, Dropdown,
 import LinkWithTooltip from '../components/misc/LinkWithTooltip';
 import MessagesBar from '../components/messages/MessagesBar';
 import Icon from '../components/misc/Icon';
-import ViewObjectiveModalForm from '../components/objectives/forms/ViewObjectiveModalForm';
 import IntroBanner from '../components/misc/IntroBanner';
 
 import Dashboard from './Dashboard';
@@ -127,13 +126,6 @@ function isCacheLoaded(cache) {
 	const { users, projects } = cache;
 	return !users.isFetching && !users.didInvaidate && !projects.isFetching && !projects.didInvaidate;
 }
-
-const OverlayedObjectiveModal = connect(state => ({ cache: state.cache }))(function(props) {
-	return (<ViewObjectiveModalForm 
-		show={true} 
-		objectiveId={props.objectiveId}
-		toggle={props.toggle} />)
-})
 
 const LayoutRouter = withRouter(connect(state => ({ cache: state.cache }))(function(props) {
 	// Wait to load the rest of the UI until the base resources are loaded

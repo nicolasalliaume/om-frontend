@@ -2,7 +2,6 @@ import React from 'react';
 import { FormGroup, Input, Label, Col } from 'reactstrap';
 import ProjectsCombo from '../../projects/utils/ProjectsCombo';
 import UsersCombo from '../../users/utils/UsersCombo';
-import moment from 'moment';
 
 export function UserFilter(props) {
 	const { label, placeholder, onChange, value } = props;

@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { withRouter }  from 'react-router';
-import { Row, Col, Card, CardBody, Label } from 'reactstrap';
+import { Row, Col } from 'reactstrap';
 import { connect } from 'react-redux';
 import YearSelector from '../components/misc/YearSelector';
 import MonthSelector from '../components/misc/MonthSelector';
 import InvoicesOverviewCard from '../components/overview/invoices/InvoicesOverviewCard';
-import IncomeVsExpensesPie from '../components/overview/charts/IncomeVsExpensesPie';
 import IncomeVsExpensesVsProfitPie from '../components/overview/charts/IncomeVsExpensesVsProfitPie';
 import SquareDiv from '../components/misc/SquareDiv';
 import BillingOverviewCard from '../components/overview/cards/BillingOverviewCard';
