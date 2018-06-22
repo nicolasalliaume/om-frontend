@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Switch, Route, Link, withRouter } from 'react-router-dom';
-import { Container, Navbar, NavbarBrand, Nav, NavItem, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import { Container, Navbar, NavbarBrand, Nav, NavItem, Dropdown, 
+	DropdownToggle, DropdownMenu, DropdownItem 
+} from 'reactstrap';
+import LinkWithTooltip from '../components/misc/LinkWithTooltip';
 import MessagesBar from '../components/messages/MessagesBar';
 import Icon from '../components/misc/Icon';
 import ViewObjectiveModalForm from '../components/objectives/forms/ViewObjectiveModalForm';
@@ -50,14 +53,14 @@ class Layout extends Component {
 					<NavbarBrand>OM</NavbarBrand>
 					<Nav navbar className='text-center'>
 						<NavItem>
-							<Link to="/">
+							<LinkWithTooltip to="/" id="Nav__Dashboard" tooltip="Dashboard">
 								<Icon fa-tachometer/>
-							</Link>
+							</LinkWithTooltip>
 						</NavItem>
 						<NavItem>
-							<Link to="/tasks">
+							<LinkWithTooltip to="/tasks" id="Nav__Tasks" tooltip='Tasks'>
 								<Icon fa-list-ol/>
-							</Link>
+							</LinkWithTooltip>
 						</NavItem>
 						{ this.isAdminUser() && 
 							<Dropdown nav direction="right" isOpen={overviewOpen} toggle={_ => this.setState({ overviewOpen: !overviewOpen }) }>
@@ -80,26 +83,26 @@ class Layout extends Component {
 						}
 						{ this.isAdminUser() && 
 							<NavItem>
-								<Link to="/billing">
+								<LinkWithTooltip to="/billing" id="Nav__Billing" tooltip='Billing'>
 									<Icon fa-dollar/>
-								</Link>
+								</LinkWithTooltip>
 							</NavItem>
 						}
 						<NavItem>
-							<Link to="/integrations">
+							<LinkWithTooltip to="/integrations" id="Nav__Integrations" tooltip='Integrations'>
 								<Icon fa-cogs/>
-							</Link>
+							</LinkWithTooltip>
 						</NavItem>
 						<NavItem>
-							<Link to="/alarms">
+							<LinkWithTooltip to="/alarms" id="Nav__Alarms" tooltip='Alarms'>
 								<Icon fa-bell/>
-							</Link>
+							</LinkWithTooltip>
 						</NavItem>
 						{ this.isAdminUser() && 
 							<NavItem>
-								<Link to="/admin">
+								<LinkWithTooltip to="/admin" id="Nav__Admin" tooltip='Admin'>
 									<Icon fa-cog/>
-								</Link>
+								</LinkWithTooltip>
 							</NavItem>
 						}
 					</Nav>
