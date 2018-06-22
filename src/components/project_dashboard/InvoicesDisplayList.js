@@ -18,7 +18,7 @@ export default withRouter(class InvoicesDisplayList extends Component {
 	}
 
 	renderInvoice(invoice) {
-		const { _id, description, paid, billed_hours, amount, invoicing_date } = invoice;
+		const { _id, description, paid, billed_hours, amount, invoicing_date, number } = invoice;
 		const date = moment.utc(invoicing_date).format('MM/DD');
 		const className = paid ? 'paid' : 'unpaid';
 		return (
@@ -28,8 +28,9 @@ export default withRouter(class InvoicesDisplayList extends Component {
 				</Col>
 				<Col xs={12}>
 					<footer className='row'>
-						<Col xs={4} className='date'><Icon fa-calendar-o />{date}</Col>
-						<Col xs={4} className='hours'><Icon fa-clock-o />{billed_hours} Hrs</Col>
+						<Col xs={3} className='date'><Icon fa-calendar-o />{date}</Col>
+						<Col xs={3} className='hours'><Icon fa-clock-o />{billed_hours} Hrs</Col>
+						<Col xs={2} className='number'>{ number && <Icon fa-hashtag /> }{ number }</Col>
 						<Col xs={4} className='amount'><Icon fa-dollar />{amount}</Col>
 					</footer>
 				</Col>

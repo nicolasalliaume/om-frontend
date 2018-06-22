@@ -220,15 +220,11 @@ class EditInvoiceModalForm extends Component {
 						}
 						{ invoice.direction === 'out' && 
 							<FormGroup row>
-								<Col sm={6}>
-									<FormGroup check>
-										<Label check>
-											<Input type="checkbox" name="paid" id="paid" 
-												onChange={this.onChangeCheckbox} 
-												checked={invoice.paid} />{' '}
-											Already paid?
-										</Label>
-									</FormGroup>
+								<Label for="paid_date" sm={2}>Date paid</Label>
+								<Col sm={10}>
+									<Input type="date" name="paid_date" 
+										id="paid_date" onChange={this.onChange}
+										value={invoice.paid_date || ''} />
 								</Col>
 							</FormGroup>
 						}
