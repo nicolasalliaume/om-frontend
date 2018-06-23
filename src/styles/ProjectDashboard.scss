@@ -20,39 +20,6 @@
 		}
 	}
 
-	.project-work-entries {
-		.card-body {
-			padding-bottom: 10pt;
-		}
-
-		li {
-			padding-top: 10pt;
-		}
-
-		.description {
-			margin: 5pt 0 10pt;
-		}
-		footer {
-			font-size: 0.85em;
-			.time {
-				font-weight: 800;
-			}
-			.ago {
-				font-style: italic;
-				color: #bbb;
-			}
-		}
-
-		.project-work-entries-options {
-			.btn, .btn:hover, .btn:active, .btn:focus {
-				background-color: transparent;
-				color: $dark-color;
-				box-shadow: none;
-			}
-			.btn { color: $text-color; }
-		}
-	}
-
 	.project-balance {
 		h6 {
 			color: #bbb;

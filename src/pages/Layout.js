@@ -12,6 +12,7 @@ import IntroBanner from '../components/misc/IntroBanner';
 import Dashboard from './Dashboard';
 import Tasks from './Tasks';
 import Integrations from './Integrations';
+import Profile from './Profile';
 import Alarms from './Alarms';
 import Billing from './Billing';
 import Admin from './Admin';
@@ -104,6 +105,11 @@ class Layout extends Component {
 								</LinkWithTooltip>
 							</NavItem>
 						}
+						<NavItem>
+							<LinkWithTooltip to="/profile" id="Nav__Profile" tooltip='Profile'>
+								<Icon fa-user/>
+							</LinkWithTooltip>
+						</NavItem>
 					</Nav>
 				</Navbar>
 				<Container fluid id='main'>
@@ -140,6 +146,7 @@ const LayoutRouter = withRouter(connect(state => ({ cache: state.cache }))(funct
 				<Route path='/alarms' component={Alarms} />
 				<Route path='/billing' component={Billing} />
 				<Route path='/admin' component={Admin} />
+				<Route path='/profile' component={Profile} />
 				<Route path='/' component={Dashboard} />
 			</Switch>
 		)

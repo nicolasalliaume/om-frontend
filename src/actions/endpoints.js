@@ -36,10 +36,12 @@ export const Endpoints = {
 	CREATE_USER						: () => `${BASE_URL}/users/add`,
 	UPDATE_USER						: (userId) => `${BASE_URL}/users/${userId}`,
 	DELETE_USER						: (userId) => `${BASE_URL}/users/${userId}`,
+	RENDER_WORK_ENTRIES_FOR_USER	: (userId, filters) => `${BASE_URL}/users/${userId}/work-entries/export/html?${encode(filters)}`,
 
 	/** project endpoints */
 	GET_PROJECTS_LIST				: () => `${BASE_URL}/projects`,
 	GET_WORK_ENTRIES_FOR_PROJECT	: (projectId, filters) => `${BASE_URL}/projects/${projectId}/work-entries?${encode(filters)}`,
+	GET_WORK_ENTRIES_FOR_USER		: (userId, filters) => `${BASE_URL}/users/${userId}/work-entries?${encode(filters)}`,
 	ADD_PROJECT						: () => `${BASE_URL}/projects/add`,
 	DELETE_PROJECT					: (projectId) => `${BASE_URL}/projects/${projectId}`,
 	UPDATE_PROJECT					: (projectId) => `${BASE_URL}/projects/${projectId}`,

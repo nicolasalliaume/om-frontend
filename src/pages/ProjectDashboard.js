@@ -10,8 +10,9 @@ import ProjectBalanceCard from '../components/project_dashboard/ProjectBalanceCa
 import ProjectWorkEntriesCard from '../components/project_dashboard/ProjectWorkEntriesCard';
 import { 
 	setProjectDashboardVisibleProject,
-	fetchWorkEntriesForProject,
-	setProjectDashboardWorkEntriesFilters
+	fetchWorkEntriesForProjectIfNeeded,
+	setProjectDashboardWorkEntriesFilters,
+	setProjectDashboardObjectivesFilter
 } from '../actions/projects';
 import { fetchProjectsBillingIfNeeded } from '../actions/billing';
 import { 
@@ -24,19 +25,30 @@ import './../styles/ProjectDashboard.css';
 
 class ProjectDashboard extends Component {
 	componentWillMount() {
-		const projectId = this.getProjectId(this.props);
-		this.props.setProjectDashboardVisibleProject(projectId);
-		this.props.fetchProjectsBillingIfNeeded();
-		this.props.fetchWorkEntriesForProject(projectId);
+		this.fetch(this.props);
 	}
 
 	componentWillReceiveProps(props) {
-		props.fetchProjectsBillingIfNeeded();
+		this.fetch(props);
+	}
 
-		const { workEntries } = props.projectDashboardView;
-		if (workEntries.didInvalidate && !workEntries.isFetching) {
-			this.props.fetchWorkEntriesForProject(this.getProjectId(props));
-		}
+	fetch(props) {
+		const projectId = this.getProjectId(props);
+		props.setProjectDashboardVisibleProject(projectId);
+		props.fetchProjectsBillingIfNeeded();
+		props.fetchWorkEntriesForProjectIfNeeded(projectId);
+		this.fetchObjectives(projectId, props);
+	}
+
+	// we're keeping the fetchActiveObjectivesForProject and
+	// fetchObjectivesArchiveForProject in actions/objectives
+	// independent of the component with this logic here
+	fetchObjectives(projectId, props) {
+		const { archived, active } = props.projectDashboardView.objectives;
+		if (active.didInvalidate && !active.isFetching)
+			props.fetchActiveObjectivesForProject(projectId, active.filters);
+		if (archived.didInvalidate && !archived.isFetching)
+			props.fetchObjectivesArchiveForProject(projectId, archived.filters);
 	}
 
 	getProjectId = (props) => {
@@ -72,22 +84,35 @@ class ProjectDashboard extends Component {
 						<ExpensesInvoicesDisplayCard invoices={expensesInvoices} />
 					</Col>
 					<Col lg={4} xs={12}>
-						<ProjectWorkEntriesCard project={projectId} workEntries={workEntries}
-							applyWorkEntryFilters={this.props.applyWorkEntryFilters} />
+						<ProjectWorkEntriesCard 
+						  project={project}
+						  workEntries={workEntries}
+						  onFiltersChange={this.handleWorkEntriesFilterChange.bind(this)} />
 					</Col>
 					<Col lg={4} xs={12}>
 						<ObjectivesDisplayList
-							fetch={filters => this.props.fetchActiveObjectivesForProject(projectId, filters)}
-							dataSource={active.list}
+							objectives={active.list}
+							onFiltersChange={this.handleObjectivesFilterChanged('active').bind(this)}
 							title={'<b>Active</b> objectives'} />
 						<ObjectivesDisplayList
-							fetch={filters => this.props.fetchObjectivesArchiveForProject(projectId, filters)}
-							dataSource={archived.list}
+							objectives={archived.list}
+							onFiltersChange={this.handleObjectivesFilterChanged('archived').bind(this)}
 							title={'Objectives <b>archive</b>'} />
 					</Col>
 				</Row>
 			</div>
 		)
+	}
+
+	handleWorkEntriesFilterChange(filters) {
+		this.props.setProjectDashboardWorkEntriesFilters(filters);
+	}
+
+	handleObjectivesFilterChanged(collection) {
+		return filters => {
+			console.log(collection, filters);
+			this.props.setProjectDashboardObjectivesFilter(collection, filters);
+		}
 	}
 }
 
@@ -102,8 +127,9 @@ const mapDispatchToProps = dispatch => { return {
 	fetchProjectsBillingIfNeeded : _ => dispatch(fetchProjectsBillingIfNeeded()),
 	fetchActiveObjectivesForProject : (projectId, filters) => dispatch(fetchActiveObjectivesForProject(projectId, filters)),
 	fetchObjectivesArchiveForProject : (projectId, filters) => dispatch(fetchObjectivesArchiveForProject(projectId, filters)),
-	fetchWorkEntriesForProject : (projectId) => dispatch(fetchWorkEntriesForProject(projectId)),
-	applyWorkEntryFilters : (filters) => dispatch(setProjectDashboardWorkEntriesFilters(filters))
+	fetchWorkEntriesForProjectIfNeeded : (projectId) => dispatch(fetchWorkEntriesForProjectIfNeeded(projectId)),
+	setProjectDashboardWorkEntriesFilters : (filters) => dispatch(setProjectDashboardWorkEntriesFilters(filters)),
+	setProjectDashboardObjectivesFilter: (collection, filters) => dispatch(setProjectDashboardObjectivesFilter(collection, filters)),
 }}
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectDashboard)

@@ -21,7 +21,10 @@ export default class WorkEntriesListItem extends Component {
 					</Button>
 				</Col> */}
 				<Col xs={12}>
-					<p className='description'>{entry.objective.related_task.title}</p>
+					<p className='description'>
+						{ entry.objective.related_task && entry.objective.related_task.title }
+						{ !entry.objective.related_task && entry.objective.no_task_title }
+					</p>
 				</Col>
 				<Col xs={12}>
 					<footer className='row'>

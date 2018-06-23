@@ -12,7 +12,8 @@ import {
 	INVALIDATE_PROJECT_DASHBOARD,
 	REQUEST_PROJECT_WORK_ENTRIES,
 	RECEIVE_PROJECT_WORK_ENTRIES,
-	SET_PROJECT_DASHBOARD_WORK_ENTRIES_FILTER
+	SET_PROJECT_DASHBOARD_WORK_ENTRIES_FILTER,
+	SET_PROJECT_DASHBOARD_OBJECTIVES_FILTER
 } from './types';
 import superagent from 'superagent';
 import { Endpoints, EndpointAuth, testForErrorReturned } from './endpoints';
@@ -144,7 +145,10 @@ function invalidateProjectDashboard() {
 }
 
 export function setProjectDashboardVisibleProject(projectId) {
-	return function(dispatch) {
+	return function(dispatch, getState) {
+		// set only once if already set
+		if (getState().projectDashboardView.visibleProject === projectId) return;
+		
 		dispatch(invalidateProjectDashboard());
 		dispatch({ type: PROJECT_DASHBOARD_SET_VISIBLE_PROJECT, payload: projectId });
 	}
@@ -158,12 +162,18 @@ function receiveWorkEntriesForProject(workEntries) {
 	return { type: RECEIVE_PROJECT_WORK_ENTRIES, payload: workEntries }
 }
 
-export function fetchWorkEntriesForProject(projectId) {
+function shouldFetchWorkEntriesForProject(state) {
+	return state.didInvalidate && !state.isFetching;
+}
+
+export function fetchWorkEntriesForProjectIfNeeded(projectId) {
 	return function(dispatch, getState) {
-		const filters = getState().projectDashboardView.workEntries.filters;
+		const workEntries = getState().projectDashboardView.workEntries;
+		if (!shouldFetchWorkEntriesForProject(workEntries)) return;
+
 		dispatch(requestWorkEntriesForProject(projectId))
 		superagent
-			.get(Endpoints.GET_WORK_ENTRIES_FOR_PROJECT(projectId, filters))
+			.get(Endpoints.GET_WORK_ENTRIES_FOR_PROJECT(projectId, workEntries.filters))
 			.set(...EndpointAuth())
 			.then(response => response.body)
 			.then(testForErrorReturned)
@@ -174,5 +184,9 @@ export function fetchWorkEntriesForProject(projectId) {
 }
 
 export function setProjectDashboardWorkEntriesFilters(filters) {
-	return { type: SET_PROJECT_DASHBOARD_WORK_ENTRIES_FILTER, payload: filters}
+	return { type: SET_PROJECT_DASHBOARD_WORK_ENTRIES_FILTER, payload: filters }
+}
+
+export function setProjectDashboardObjectivesFilter(collection, filters) {
+	return { type: SET_PROJECT_DASHBOARD_OBJECTIVES_FILTER, payload: { collection, filters } }
 }

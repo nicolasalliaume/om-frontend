@@ -10,7 +10,7 @@ export default function IncomeVsExpensesVsProfitPie(props) {
 			  data={{
 				datasets: [{
 					data: [income, expenses, profit],
-					backgroundColor: ['#FFD046', '#aaa', '#1dbd68'],
+					backgroundColor: ['#FFD046', '#aaa', profit > 0 ? '#1dbd68' : '#ff726a'],
 					borderColor: 'transparent',
 				}],
 				labels: ['Income', 'Expenses', 'Profit'],

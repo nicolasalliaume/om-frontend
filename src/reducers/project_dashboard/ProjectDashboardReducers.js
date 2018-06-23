@@ -5,7 +5,8 @@ import {
 	INVALIDATE_PROJECT_DASHBOARD,
 	REQUEST_PROJECT_WORK_ENTRIES,
 	RECEIVE_PROJECT_WORK_ENTRIES,
-	SET_PROJECT_DASHBOARD_WORK_ENTRIES_FILTER
+	SET_PROJECT_DASHBOARD_WORK_ENTRIES_FILTER,
+	SET_PROJECT_DASHBOARD_OBJECTIVES_FILTER
 } from './../../actions/types';
 
 import update from 'immutability-helper';
@@ -21,6 +22,7 @@ export function projectDashboardView(state, action) {
 	switch (action.type) {
 		case REQUEST_QUERY_OBJECTIVES:
 		case RECEIVE_QUERY_OBJECTIVES:
+		case SET_PROJECT_DASHBOARD_OBJECTIVES_FILTER:
 			return update(state, {objectives: {$set: objectives(state.objectives, action)}})
 
 		case INVALIDATE_PROJECT_DASHBOARD:
@@ -47,12 +49,14 @@ function objectives(state, action) {
 		archived: {
 			isFetching 		: false,
 			didInvalidate	: true,
-			list 			: []
+			list 			: [],
+			filters 		: {},
 		},
 		active: {
 			isFetching 		: false,
 			didInvalidate	: true,
-			list 			: []
+			list 			: [],
+			filters 		: {},
 		}
 	}
 
@@ -71,15 +75,26 @@ function objectives(state, action) {
 			return update(state, { [collection] : {isFetching: {$set: true}}})
 		}
 
+		case SET_PROJECT_DASHBOARD_OBJECTIVES_FILTER:
+			const { filters, collection } = action.payload;
+			return update(state, { [collection] : {
+				didInvalidate: {$set: true},
+				filters: {$set: filters},
+			}})
+
 		case INVALIDATE_PROJECT_DASHBOARD:
 			return update(state, { 
 				archived: {
 					didInvalidate: {$set: true},
-					list: {$set: []}
+					list: {$set: []},
+					isFetching: {$set: false},
+					filters: {$set: {}},
 				},
 				active: {
 					didInvalidate: {$set: true},
-					list: {$set: []}
+					list: {$set: []},
+					isFetching: {$set: false},
+					filters: {$set: {}},
 				}
 			})
 

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Card, CardBody, CardTitle } from 'reactstrap';
 import WorkEntriesList from '../work_entries/view/WorkEntriesList';
-import ProjectWorkEntriesCardFilters from './ProjectWorkEntriesCardFilters';
-import ProjectWorkEntriesExportOptions from './ProjectWorkEntriesExportOptions';
+import WorkEntriesListFilters from '../work_entries/view/WorkEntriesListFilters';
+import WorkEntriesListExportingButtons from '../work_entries/view/WorkEntriesListExportingButtons';
 import { Endpoints, EndpointAuthQuerystring } from '../../actions/endpoints';
 
 export default class ProjectWorkEntriesCard extends Component {
@@ -11,13 +11,16 @@ export default class ProjectWorkEntriesCard extends Component {
 		if (!project || !workEntries) return <div/>;
 
 		return (
-			<Card className='project-work-entries text-center'>
+			<Card className='work-entries project-work-entries text-center'>
 				<CardBody >
 					<CardTitle>Work <b>entries</b></CardTitle>
-					<ProjectWorkEntriesCardFilters submit={this.props.applyWorkEntryFilters} />
-					<ProjectWorkEntriesExportOptions 
-						detailedLink={this.getExportHtmlDetailedLink()}
-						clientLink={this.getExportHtmlClientLink()} />
+					<WorkEntriesListFilters dateFrom dateTo user
+					  onChange={this.props.onFiltersChange} />
+					<WorkEntriesListExportingButtons 
+						options={[
+							{ label: 'Export for client', url: this.getExportHtmlClientLink() },
+							{ label: 'Export detailed', url: this.getExportHtmlDetailedLink() },
+						]} />
 					<WorkEntriesList entries={workEntries.entries} />
 				</CardBody>
 			</Card>
@@ -26,13 +29,13 @@ export default class ProjectWorkEntriesCard extends Component {
 
 	getExportHtmlDetailedLink() {
 		const { project, workEntries } = this.props;
-		return Endpoints.RENDER_WORK_ENTRIES_FOR_PROJECT(project, workEntries.filters) 
+		return Endpoints.RENDER_WORK_ENTRIES_FOR_PROJECT(project._id, workEntries.filters) 
 					+ EndpointAuthQuerystring();
 	}
 
 	getExportHtmlClientLink() {
 		const { project, workEntries } = this.props;
-		return Endpoints.RENDER_PROJECT_STATUS_FOR_CLIENT(project, workEntries.filters) 
+		return Endpoints.RENDER_PROJECT_STATUS_FOR_CLIENT(project._id, workEntries.filters) 
 					+ EndpointAuthQuerystring();
 	}
 }

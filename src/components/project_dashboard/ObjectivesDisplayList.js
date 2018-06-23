@@ -5,30 +5,25 @@ import Tag from '../misc/Tag';
 import ObjectivesDisplayListFilterBar from './ObjectivesDisplayListFilterBar';
 
 class ObjectivesDisplayList extends Component {
-	componentDidMount() {
-		this.props.fetch();
-	}
 
 	submitFilters = (filters) => {
 		// assuming here we're only filtering by task properties
-		this.props.fetch({
-			related_task: filters
-		});
+		this.props.onFiltersChange({ related_task: filters });
 	}
 
 	render() {
-		const { title, dataSource } = this.props;
+		const { title, objectives } = this.props;
 		return (
 			<Card className={`list objectives display`}>
 				<CardBody >
 					<CardTitle dangerouslySetInnerHTML={{__html: title}} />
 					<ObjectivesDisplayListFilterBar submit={this.submitFilters} />
-					{ !dataSource.empty() && 
+					{ !objectives.empty() && 
 						<ul className={`objectives-list`}>
-							{ dataSource.map((o) => this.renderObjective(o)) }
+							{ objectives.map((o) => this.renderObjective(o)) }
 						</ul>
 					}
-					{ dataSource.empty() && 
+					{ objectives.empty() && 
 						<p className='text-center'>No objectives to show</p>
 					}
 				</CardBody>

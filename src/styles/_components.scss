@@ -68,12 +68,44 @@ input[type=checkbox], input[type=radio], select, .form-control {
 
 /** work entries list */
 
-.project-work-entries-options {
-  padding: 10px 0;
-  border-top: 1px solid $body-bg;
-  border-bottom: 1px solid $body-bg;
-  margin: 0 -1.25rem;
-}
+.work-entries {
+    .card-body {
+      padding-bottom: 10pt;
+    }
+
+    li {
+      padding-top: 10pt;
+    }
+
+    .description {
+      margin: 5pt 0 10pt;
+    }
+    footer {
+      font-size: 0.85em;
+      .time {
+        font-weight: 800;
+      }
+      .ago {
+        font-style: italic;
+        color: #bbb;
+      }
+    }
+
+    .work-entries-options {
+      padding: 10px 0;
+      border-top: 1px solid $body-bg;
+      border-bottom: 1px solid $body-bg;
+      margin: 0 -1.25rem;
+
+      .btn, .btn:hover, .btn:active, .btn:focus {
+        background-color: transparent;
+        color: $dark-color;
+        box-shadow: none;
+      }
+      .btn { color: $text-color; }
+    }
+  }
+
 
 /** end work entries list */
 
