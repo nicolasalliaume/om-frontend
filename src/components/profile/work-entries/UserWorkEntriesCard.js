@@ -17,6 +17,7 @@ export default class UserWorkEntriesCard extends Component {
 							{ label: 'Export my hours', url: this.getExportHtmlLink() },
 						]} />
 					<WorkEntriesListFilters dateFrom dateTo project 
+					  filters={workEntries.filters}
 					  onChange={onFiltersChange} />
 					<WorkEntriesList entries={workEntries.entries} />
 				</CardBody>

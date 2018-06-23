@@ -15,6 +15,7 @@ export default class ProjectWorkEntriesCard extends Component {
 				<CardBody >
 					<CardTitle>Work <b>entries</b></CardTitle>
 					<WorkEntriesListFilters dateFrom dateTo user
+					  filters={workEntries.filters}
 					  onChange={this.props.onFiltersChange} />
 					<WorkEntriesListExportingButtons 
 						options={[

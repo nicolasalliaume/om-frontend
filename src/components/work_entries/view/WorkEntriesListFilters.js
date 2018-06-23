@@ -33,7 +33,6 @@ export default class WorkEntriesListFilters extends Component {
 		this.submitTimer = setTimeout(this.submitFilters, seconds*1000);
 	}
 	submitFilters = () => {
-		console.log(this);
 		this.props.onChange(this.state);
 		clearInterval(this.submitTimer);
 	}

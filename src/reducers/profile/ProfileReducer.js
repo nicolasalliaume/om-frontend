@@ -3,7 +3,7 @@ import {
 	RECEIVE_USER_WORK_ENTRIES,
 	SET_PROFILE_WORK_ENTRIES_FILTERS
 } from './../../actions/types';
-
+import moment from 'moment';
 import update from 'immutability-helper';
 
 export function profileView(state, action) {
@@ -12,7 +12,10 @@ export function profileView(state, action) {
 			didInvalidate: true,
 			isFetching: false,
 			entries: [],
-			filters: {}
+			filters: {
+				dateFrom: moment().startOf('month').format('YYYY-MM-DD'),
+				dateTo: moment().endOf('month').format('YYYY-MM-DD'),
+			}
 		}
 	}
 
