@@ -4,14 +4,16 @@ import { Col } from 'reactstrap';
 
 export default class WorkEntriesListItem extends Component {
 	render() {
-		const { entry } = this.props;
+		const { entry, showProject, showUser } = this.props;
 		const { time, user, created_ts } = entry;
 		const date = moment.utc(created_ts);
 		return (
 			<li className='row entry text-left'>
-				<Col xs={9}>
-					<h4 className='user'><b>{user.full_name}</b></h4>
-				</Col>
+				{ showUser && 
+					<Col xs={9}>
+						<h4 className='user'><b>{user.full_name}</b></h4>
+					</Col>
+				}
 				{/* <Col xs={3} className='text-right list-item-options'>
 					<Button color='secondary'>
 						<Icon fa-pencil tooltip="Edit" id={`edit-${entry._id}`}/>
@@ -20,6 +22,11 @@ export default class WorkEntriesListItem extends Component {
 						<Icon fa-remove tooltip="Delete" id={`delete-${entry._id}`}/>
 					</Button>
 				</Col> */}
+				{ showProject && entry.objective.related_task && 
+					<Col xs={9}>
+						<h4 className='project'><b>{entry.objective.related_task.project.name}</b></h4>
+					</Col>
+				}
 				<Col xs={12}>
 					<p className='description'>
 						{ entry.objective.related_task && entry.objective.related_task.title }

@@ -12,14 +12,14 @@ export default class UserWorkEntriesCard extends Component {
 			<Card className='work-entries user-work-entries text-center'>
 				<CardBody >
 					<CardTitle>My work <b>entries</b></CardTitle>
+					<WorkEntriesListFilters dateFrom dateTo project 
+					  filters={workEntries.filters}
+					  onChange={onFiltersChange} />
 					<WorkEntriesListExportingButtons 
 						options={[
 							{ label: 'Export my hours', url: this.getExportHtmlLink() },
 						]} />
-					<WorkEntriesListFilters dateFrom dateTo project 
-					  filters={workEntries.filters}
-					  onChange={onFiltersChange} />
-					<WorkEntriesList entries={workEntries.entries} />
+					<WorkEntriesList showProject entries={workEntries.entries} />
 				</CardBody>
 			</Card>
 		)

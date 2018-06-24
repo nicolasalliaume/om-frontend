@@ -22,7 +22,7 @@ export default class ProjectWorkEntriesCard extends Component {
 							{ label: 'Export for client', url: this.getExportHtmlClientLink() },
 							{ label: 'Export detailed', url: this.getExportHtmlDetailedLink() },
 						]} />
-					<WorkEntriesList entries={workEntries.entries} />
+					<WorkEntriesList showUser entries={workEntries.entries} />
 				</CardBody>
 			</Card>
 		)
