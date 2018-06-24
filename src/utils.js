@@ -110,6 +110,11 @@ export function getProjectIdFromEncodedName(encodedName, projectsById) {
 	return matches.length > 0 ? matches[0]._id : null;
 }
 
+/** numeric utils */
+
+export function roundToOneDecimal(n) { 
+	return Math.round(n * 10) / 10;
+}
 
 /** object templates */
 
@@ -135,20 +140,21 @@ export function getNewIntegrationTemplate() {
 	}
 }
 
-export function getNewInvoiceTemplate(direction = 'out', paid_date = null) {
+export function getNewInvoiceTemplate(initials = {}) {
 	const currentUser = Store.getState().currentUser.user;
-	return {
+	return Object.assign({
 		description 	: '',
 		invoicing_date 	: moment().format('YYYY-MM-DD'),
 		amount 			: '',
 		billed_hours	: '',
 		project 		: '',
 		receiver		: '',
-		paid_date 		: paid_date,
+		paid_date 		: null,
 		created_by 		: currentUser,
 		attachment 		: null,
-		direction
-	}
+		work_entries 	: [],
+		direction		: 'out',
+	}, initials);
 }
 
 export function getNewUserTemplate() {

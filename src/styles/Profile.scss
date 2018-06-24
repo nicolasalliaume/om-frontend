@@ -1,0 +1,48 @@
+@import "animations";
+@import 'variables';
+
+.layout .profile {
+	animation: fadeIn 1s;
+	padding: $main-view-padding;
+
+	.balance-hours {
+		&.paid {
+			color: $paid-color;
+		}
+		&.billed {
+			color: $info-color;
+		}
+	}
+}
+
+.layout .card.send-invoice-card {
+	margin-top: 20px;
+}
+
+.layout .card.user-info-card {
+	background: transparent;
+	.card-body {
+		padding: 0;
+	}
+
+	.profile-image-preview {
+		border-radius: 50%;
+		overflow: hidden;
+		img {
+			max-width: 100%;
+		}
+	}
+
+	.user-info p {
+		margin-bottom: 2pt;
+		i {
+			margin-right: 5pt;
+		}
+	}
+
+	p.user-info__full-name {
+		font-size: 1.2em;
+		font-weight: bold;
+		margin-bottom: 5pt;
+	}
+}

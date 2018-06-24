@@ -25,7 +25,7 @@ export default class ProjectBalanceCard extends Component {
 		]
 
 		return (
-			<Card className='project-balance text-center'>
+			<Card className='balance-card project-balance text-center'>
 				<CardBody >
 					<CardTitle>Project <b>balance</b></CardTitle>
 					<Row>

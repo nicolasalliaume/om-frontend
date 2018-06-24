@@ -12,8 +12,7 @@ export default class CreateInvoiceCta extends Component {
 	toggle = () => this.setState({ modal : !this.state.modal });
 
 	render() {
-		const invoiceTemplate = Object.assign(getNewInvoiceTemplate(), 
-			this.props);
+		const invoiceTemplate = getNewInvoiceTemplate(this.props);
 		return (
 			<Button onClick={this.toggle}>
 				Create

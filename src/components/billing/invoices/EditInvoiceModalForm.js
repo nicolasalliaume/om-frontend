@@ -56,17 +56,8 @@ class EditInvoiceModalForm extends Component {
 		const { edit } = this.props;
 		const isNew = !edit;
 
-		let invoiceData = invoice;
-		if (invoiceData.project === '') {
-			invoiceData = update(invoiceData, {project:{$set: null}})
-		} else {
-			invoiceData = update(invoiceData, {receiver:{$set: null}})
-		}
-
-		invoiceData = update(invoiceData, {created_by: {$set: invoiceData.created_by._id}});
-
-		if (isNew) this.props.addInvoice(invoiceData);
-		else this.props.updateInvoice(invoiceData);
+		if (isNew) this.props.addInvoice(invoice);
+		else this.props.updateInvoice(invoice);
 
 		this.props.toggle();
 	}

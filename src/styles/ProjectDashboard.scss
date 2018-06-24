@@ -19,23 +19,4 @@
 			margin-top: 5pt;
 		}
 	}
-
-	.project-balance {
-		h6 {
-			color: #bbb;
-		}
-		span {
-			font-size: 2.2em;
-			&.balance-hours:after {
-				content: ' hrs';
-				font-size: 0.5em;
-			}
-		}
-		.row {
-			margin-top: 10pt;
-		}
-		.status-bars {
-			margin-bottom: 15px;
-		}
-	}
 }

@@ -1,7 +1,10 @@
 import { 
 	REQUEST_USER_WORK_ENTRIES,
 	RECEIVE_USER_WORK_ENTRIES,
-	SET_PROFILE_WORK_ENTRIES_FILTERS
+	SET_PROFILE_WORK_ENTRIES_FILTERS,
+	RECEIVE_ADD_INVOICE, // auto-invoicing for providers
+	RECEIVE_DELETE_INVOICE, // auto-invoicing for providers
+	RECEIVE_UPDATE_INVOICE, // auto-invoicing for providers
 } from './../../actions/types';
 import moment from 'moment';
 import update from 'immutability-helper';
@@ -40,6 +43,13 @@ export function profileView(state, action) {
 					didInvalidate: {$set: true},
 					filters: {$set: action.payload}
 				}
+			})
+
+		case RECEIVE_ADD_INVOICE:
+		case RECEIVE_UPDATE_INVOICE:
+		case RECEIVE_DELETE_INVOICE:
+			return update(state, {
+				workEntries: { didInvalidate: {$set: true} }
 			})
 
 		default: return state;

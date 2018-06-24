@@ -15,6 +15,7 @@ import {
 import superagent from 'superagent';
 import { Endpoints, EndpointAuth, testForErrorReturned } from './endpoints';
 import { addMessage, addError } from './messages';
+import update from 'immutability-helper';
 
 export function invalidateProjectsBilling() {
 	return { type: INVALIDATE_PROJECTS_BILLING }
@@ -32,10 +33,22 @@ function receiveAddInvoice(result) {
 	return { type: RECEIVE_ADD_INVOICE, payload: result }
 }
 
-export function addInvoice(invoice) {
+function cleanInvoiceData(invoice) {
+	let invoiceData = invoice;
+	if (invoiceData.project === '') {
+		invoiceData = update(invoiceData, {project:{$set: null}})
+	} else {
+		invoiceData = update(invoiceData, {receiver:{$set: null}})
+	}
+	invoiceData = update(invoiceData, {created_by: {$set: invoiceData.created_by._id}});
+	return invoiceData;
+}
+
+export function addInvoice(_invoice) {
 	return function(dispatch, getState) {
 		dispatch(requestAddInvoice());
-		
+
+		const invoice = cleanInvoiceData(_invoice);
 		getMultipartRequestForInvoice(Endpoints.ADD_INVOICE(), invoice)
 			.then(response => response.body)
 			.then(testForErrorReturned)
@@ -52,9 +65,16 @@ function getMultipartRequestForInvoice(url, invoice) {
 		.set(...EndpointAuth());
 
 	// send as mutipart/form-data to include attachment
-	Object.keys(invoice).filter(k => k !== 'attachment' 
+	Object.keys(invoice).filter(k => k !== 'attachment'
 		&& invoice[k] !== undefined && invoice[k] !== null).forEach(k => {
-		request.field(k, invoice[k])
+			// workaround bug w/superagent here for array values
+			if (Array.isArray(invoice[k])) {
+				for (var i = 0; i < invoice[k].length; i++) {
+					request.field(`${k}[]`, invoice[k][i]);
+				}
+			} else {
+				request.field(k, invoice[k]);
+			}
 	})
 	// if attachment present, add
 	if (invoice.attachment) {
@@ -72,10 +92,11 @@ function receiveUpdateInvoice(result) {
 	return { type: RECEIVE_UPDATE_INVOICE, payload: result }
 }
 
-export function updateInvoice(invoice) {
+export function updateInvoice(_invoice) {
 	return function(dispatch) {
 		dispatch(requestUpdateInvoice(invoice));
 
+		const invoice = cleanInvoiceData(_invoice);
 		getMultipartRequestForInvoice(Endpoints.UPDATE_INVOICE(invoice._id), invoice)
 			.then(response => response.body)
 			.then(testForErrorReturned)

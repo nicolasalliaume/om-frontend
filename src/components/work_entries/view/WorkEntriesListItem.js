@@ -7,8 +7,12 @@ export default class WorkEntriesListItem extends Component {
 		const { entry, showProject, showUser } = this.props;
 		const { time, user, created_ts } = entry;
 		const date = moment.utc(created_ts);
+
+		let clazz = entry.paid === true ? 'paid ' : (entry.paid === false ? 'unpaid ' : '');
+		clazz += entry.billed === true ? 'billed ' : (entry.billed === false ? 'not-billed ' : '');
+
 		return (
-			<li className='row entry text-left'>
+			<li className={`row entry text-left ${clazz}`}>
 				{ showUser && 
 					<Col xs={9}>
 						<h4 className='user'><b>{user.full_name}</b></h4>
