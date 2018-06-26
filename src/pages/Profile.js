@@ -37,8 +37,9 @@ class Profile extends Component {
 				<Row>
 					<Col lg={4} xs={12}>
 						<UserSummaryCard {...summaryValues} />
-						<SendInvoiceCard amount={summaryValues.to_bill}
-						  onSend={this.sendInvoiceForActiveWorkEntries.bind(this)} />
+						<SendInvoiceCard 
+						  invoice={this.invoiceTemplate()}
+						  amount={summaryValues.to_bill} />
 					</Col>
 					<Col lg={4} xs={12}>
 						<UserWorkEntriesCard 
@@ -52,6 +53,23 @@ class Profile extends Component {
 				</Row>
 			</div>
 		)
+	}
+
+	invoiceTemplate() {
+		const { user, profileView: { workEntries: { entries } } } = this.props;
+		const billingWe = entries.filter(we => !we.billed);
+		const billingHours = roundToOneDecimal(billingWe.reduce((sum, we) => we.time + sum, 0) / 3600);
+		const billingWeIds = billingWe.map(we => we._id);
+		const amount = user.is_freelancer ? billingHours * (user.hourly_rate || 0) : 0;
+
+		return getNewInvoiceTemplate({ 
+			direction: 'in', 
+			amount: amount,
+			receiver: user.full_name,
+			billed_hours: billingHours,
+			work_entries: billingWeIds,
+			description: `${billingHours} hours billed by ${user.full_name} for ${billingWe.length} work entries`,
+		})
 	}
 
 	handleWorkEntriesFilterChange(filters) {
@@ -79,21 +97,14 @@ class Profile extends Component {
 		return values;
 	}
 
-	sendInvoiceForActiveWorkEntries() {
-		const { addInvoice, user, profileView: { workEntries: { entries } } } = this.props;
-		const billingWe = entries.filter(we => !we.billed);
-		const billingHours = roundToOneDecimal(billingWe.reduce((sum, we) => we.time + sum, 0) / 3600);
-		const billingWeIds = billingWe.map(we => we._id);
+	// sendInvoiceForActiveWorkEntries() {
+	// 	const { addInvoice, user, profileView: { workEntries: { entries } } } = this.props;
+	// 	const billingWe = entries.filter(we => !we.billed);
+	// 	const billingHours = roundToOneDecimal(billingWe.reduce((sum, we) => we.time + sum, 0) / 3600);
+	// 	const billingWeIds = billingWe.map(we => we._id);
 
-		addInvoice(getNewInvoiceTemplate({ 
-			direction: 'in', 
-			amount: 0,
-			receiver: user.full_name,
-			billed_hours: billingHours,
-			work_entries: billingWeIds,
-			description: `${billingHours} hours billed by ${user.full_name} for ${billingWe.length} work entries`,
-		}));
-	}
+	// 	addInvoice();
+	// }
 }
 
 const mapStateToProps = state => ({

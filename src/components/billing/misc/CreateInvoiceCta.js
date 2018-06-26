@@ -14,11 +14,11 @@ export default class CreateInvoiceCta extends Component {
 	render() {
 		const invoiceTemplate = getNewInvoiceTemplate(this.props);
 		return (
-			<Button onClick={this.toggle}>
-				Create
+			<React.Fragment>
+				<Button onClick={this.toggle}>Create</Button>
 				<EditInvoiceModalForm show={this.state.modal}
 					toggle={this.toggle} invoice={invoiceTemplate} />
-			</Button>
+			</React.Fragment>
 		)
 	}
 }

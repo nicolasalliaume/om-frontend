@@ -17,10 +17,10 @@ export default function UserInfoCard(props) {
 					</Col>
 					<Col xs={12} md={7}>
 						<div className='user-info'>
-							<p class="user-info__full-name">{ user.full_name }</p>
-							<p class="user-info__email"><Icon fa-envelope />{ user.email }</p>
-							<p class="user-info__slack"><Icon fa-slack />{ user.slack_account }</p>
-							<p class="user-info__trello"><Icon fa-trello />{ user.trello_account }</p>
+							<p className="user-info__full-name">{ user.full_name }</p>
+							<p className="user-info__email"><Icon fa-envelope />{ user.email }</p>
+							<p className="user-info__slack"><Icon fa-slack />{ user.slack_account }</p>
+							<p className="user-info__trello"><Icon fa-trello />{ user.trello_account }</p>
 						</div>
 					</Col>
 				</Row>

@@ -29,16 +29,23 @@ class EditInvoiceModalForm extends Component {
 	}
 	
 	componentWillMount() {
-		const { invoice } = this.props;
+		this.setup(this.props);
+	}
 
+	componentWillReceiveProps(props) {
+		this.setup(props);
+	} 
+
+	setup(props) {
+		const { invoice } = props;
 		if (!this.props.edit) {
 			this.setState({ invoice, associatedToProject: invoice.direction === 'out' })
 		} 
 		else {
 			// format values to display
 			this.setState({ invoice : update(invoice, {
-				invoicing_date: {$set: moment(invoice.invoicing_date).format('YYYY-MM-DD')},
-				paid_date: {$set: moment(invoice.paid_date).format('YYYY-MM-DD')},
+				invoicing_date: {$set: moment(invoice.invoicing_date).utcOffset(0).format('YYYY-MM-DD')},
+				paid_date: {$set: !!invoice.paid_date ? moment(invoice.paid_date).utcOffset(0).format('YYYY-MM-DD') : ''},
 				project: {$set: invoice.project ? invoice.project._id : ''},
 				receiver: {$set: invoice.receiver ? invoice.receiver : ''}
 			})});
@@ -84,18 +91,19 @@ class EditInvoiceModalForm extends Component {
 	}
 	
 	render() {
-		const { invoice } = this.state;
-		const { edit, toggle } = this.props;
+		const { invoice, associatedToProject } = this.state;
+		const { edit, toggle, fields } = this.props;
 		const isNew = !edit;
 		const op = isNew ? 'New' : 'Edit';
 		const type = invoice.direction === 'in' ? 'expenses' : 'billing';
+		const filterFields = !!fields;
 
 		return (
 			<Modal isOpen={this.props.show} toggle={toggle} className={this.props.className}>
 				<ModalHeader toggle={toggle}>{op} <b>{type} invoice</b></ModalHeader>
 				<ModalBody>
 					<Form className='edit-invoice-form' onSubmit={e => e.preventDefault() && false}>
-						{ invoice.direction === 'in' &&
+						{ (!filterFields || fields.includes('project')) && invoice.direction === 'in' &&
 							<FormGroup row>
 								<Label sm={3}>Related to project?</Label>
 								<Col sm={2}>
@@ -103,7 +111,7 @@ class EditInvoiceModalForm extends Component {
 										<Label check>
 											<Input type="radio" name="associatedToProject" value='y'
 												onChange={this.toggleAssociatedToProject} 
-												checked={this.state.associatedToProject} />{' '}
+												checked={associatedToProject} />{' '}
 											Yes
 										</Label>
 									</FormGroup>
@@ -113,14 +121,14 @@ class EditInvoiceModalForm extends Component {
 										<Label check>
 											<Input type="radio" name="associatedToProject" value='n'
 												onChange={this.toggleAssociatedToProject} 
-												checked={!this.state.associatedToProject} />{' '}
+												checked={!associatedToProject} />{' '}
 											No
 										</Label>
 									</FormGroup>
 								</Col>
 							</FormGroup>
 						}
-						{ this.state.associatedToProject && 
+						{ (!filterFields || fields.includes('project')) && associatedToProject && 
 							<FormGroup row>
 								<Label sm={2}>Project</Label>
 								<Col sm={10}>
@@ -129,7 +137,7 @@ class EditInvoiceModalForm extends Component {
 								</Col>
 							</FormGroup>
 						}
-						{ !this.state.associatedToProject && 
+						{ (!filterFields || fields.includes('project')) && !associatedToProject && 
 							<FormGroup row>
 								<Label sm={2}>Receiver</Label>
 								<Col sm={10}>
@@ -139,51 +147,59 @@ class EditInvoiceModalForm extends Component {
 								</Col>
 							</FormGroup>
 						}
-						<FormGroup row>
-							<Label for="invoicing_date" sm={2}>Invoicing date</Label>
-							<Col sm={10} className='align-self-center'>
-								<Input type="date" name="invoicing_date" id="invoicing_date" 
-									onChange={this.onChange}
-									value={invoice.invoicing_date} />
-							</Col>
-						</FormGroup>
-						<FormGroup row>
-							<Label for="description" sm={2}>Description</Label>
-							<Col sm={10} className='align-self-center'>
-								<Input type="textarea" name="description" id="description" 
-									onChange={this.onChange}
-									placeholder="What are you billing?" 
-									value={invoice.description} />
-							</Col>
-						</FormGroup>
-						<FormGroup row>
-							<Label for="amount" sm={2}>Amount (USD)</Label>
-							<Col sm={4} className='align-self-center'>
-								<InputGroup>
-									<span className="input-group-addon">$</span>
-									<Input type="number" min={0} name="amount" id="amount" 
+						{ (!filterFields || fields.includes('invoicing_date')) && 
+							<FormGroup row>
+								<Label for="invoicing_date" sm={2}>Invoicing date</Label>
+								<Col sm={10} className='align-self-center'>
+									<Input type="date" name="invoicing_date" id="invoicing_date" 
 										onChange={this.onChange}
-										value={invoice.amount} />
-								</InputGroup>
-							</Col>
-							<Col sm={6} className='align-self-center'>
-								<span className='money-text capitalize'>
-									{ invoice.amount > 0 &&
-										numToWords(invoice.amount) + ' US dollars'
-									}
-								</span>
-							</Col>
-						</FormGroup>
-						<FormGroup row>
-							<Label for="billed_hours" sm={2}>Hours billed</Label>
-							<Col sm={3} className='align-self-center'>
-								<Input type="number" className='text-right' 
-									min={1} name="billed_hours" id="billed_hours" 
-									onChange={this.onChange}
-									value={invoice.billed_hours} />
-							</Col>
-						</FormGroup>
-						{ invoice.direction === 'out' && 
+										value={invoice.invoicing_date} />
+								</Col>
+							</FormGroup>
+						}
+						{ (!filterFields || fields.includes('description')) && 
+							<FormGroup row>
+								<Label for="description" sm={2}>Description</Label>
+								<Col sm={10} className='align-self-center'>
+									<Input type="textarea" name="description" id="description" 
+										onChange={this.onChange}
+										placeholder="What are you billing?" 
+										value={invoice.description} />
+								</Col>
+							</FormGroup>
+						}
+						{ (!filterFields || fields.includes('amount')) && 
+							<FormGroup row>
+								<Label for="amount" sm={2}>Amount (USD)</Label>
+								<Col sm={4} className='align-self-center'>
+									<InputGroup>
+										<span className="input-group-addon">$</span>
+										<Input type="number" min={0} name="amount" id="amount" 
+											onChange={this.onChange}
+											value={invoice.amount} />
+									</InputGroup>
+								</Col>
+								<Col sm={6} className='align-self-center'>
+									<span className='money-text capitalize'>
+										{ invoice.amount > 0 &&
+											numToWords(invoice.amount) + ' US dollars'
+										}
+									</span>
+								</Col>
+							</FormGroup>
+						}
+						{ (!filterFields || fields.includes('billed_hours')) && 
+							<FormGroup row>
+								<Label for="billed_hours" sm={2}>Hours billed</Label>
+								<Col sm={3} className='align-self-center'>
+									<Input type="number" className='text-right' 
+										min={1} name="billed_hours" id="billed_hours" 
+										onChange={this.onChange}
+										value={invoice.billed_hours} />
+								</Col>
+							</FormGroup>
+						}
+						{ (!filterFields || fields.includes('number')) && invoice.direction === 'out' && 
 							<FormGroup row>
 								<Label for="number" sm={2}>Invoice number</Label>
 								<Col sm={3} className='align-self-center'>
@@ -194,7 +210,7 @@ class EditInvoiceModalForm extends Component {
 								</Col>
 							</FormGroup>
 						}
-						{ invoice.direction === 'in' && 
+						{ (!filterFields || fields.includes('attachment')) && invoice.direction === 'in' && 
 							<FormGroup row>
 								<Label for="attachment" sm={2}>Attachment</Label>
 								<Col sm={10} className='align-self-center'>
@@ -204,14 +220,16 @@ class EditInvoiceModalForm extends Component {
 								</Col>
 							</FormGroup>
 						}
-						<FormGroup row>
-							<Label for="paid_date" sm={2}>Date paid</Label>
-							<Col sm={10}>
-								<Input type="date" name="paid_date" 
-									id="paid_date" onChange={this.onChange}
-									value={invoice.paid_date || ''} />
-							</Col>
-						</FormGroup>
+						{ (!filterFields || fields.includes('paid_date')) && 
+							<FormGroup row>
+								<Label for="paid_date" sm={2}>Date paid</Label>
+								<Col sm={10}>
+									<Input type="date" name="paid_date" 
+										id="paid_date" onChange={this.onChange}
+										value={invoice.paid_date || ''} />
+								</Col>
+							</FormGroup>
+						}
 					</Form>
 				</ModalBody>
 				<ModalFooter>

@@ -26,17 +26,18 @@ export default class CreateInvoiceFloatingButton extends Component {
 			'Expenses invoice': this.toggleExpensesInvoiceModal
 		}
 		return (
-			<FloatingButtonWithOptions color='accent' toggle={this.toggleButton} 
-				options={options} open={this.state.open}>
-				<Icon fa-plus />
-
+			<React.Fragment>
+				<FloatingButtonWithOptions color='accent' toggle={this.toggleButton} 
+					options={options} open={this.state.open}>
+					<Icon fa-plus />
+				</FloatingButtonWithOptions>
 				<EditInvoiceModalForm show={this.state.billingModal}
 					toggle={this.toggleBillingInvoiceModal} 
 					invoice={getNewInvoiceTemplate({ direction: 'out' })} />
 				<EditInvoiceModalForm show={this.state.expensesModal}
 					toggle={this.toggleExpensesInvoiceModal} 
 					invoice={getNewInvoiceTemplate({ direction: 'in', paid_date: moment().startOf('day') })} />
-			</FloatingButtonWithOptions>
+			</React.Fragment>
 		)
 	}
 }

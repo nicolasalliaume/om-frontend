@@ -129,6 +129,28 @@ class EditUserModalForm extends Component {
 									value={user.git_account} />
 							</Col>
 						</FormGroup>
+						<FormGroup row>
+							<Col sm={6}>
+								<FormGroup check>
+									<Label check>
+										<Input type="checkbox" name="is_freelancer" id="is_freelancer" 
+											onChange={e => this.onChange({ target: {name: 'is_freelancer', value: e.target.checked} })} 
+											checked={user.is_freelancer}/>{' '}
+										Is freelancer
+									</Label>
+								</FormGroup>
+							</Col>
+						</FormGroup>
+						{ user.is_freelancer && 
+							<FormGroup row>
+								<Label for="git_account" sm={2}>Hourly rate</Label>
+								<Col sm={4} className='align-self-center'>
+									<Input type="text" name="hourly_rate" id="hourly_rate" 
+										onChange={this.onChange}
+										value={user.hourly_rate} />
+								</Col>
+							</FormGroup>
+						}
 					</Form>
 				</ModalBody>
 				<ModalFooter>
