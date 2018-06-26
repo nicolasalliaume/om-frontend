@@ -582,4 +582,17 @@ select {
 
 /** end progress bars */
 
+/** fix input addon */
+
+.input-group .input-group-addon {
+  padding: 0 10px;
+  background: $light-color;
+  border-color: $light-color;
+  display: flex;
+  align-items: center;
+  border-radius: 3px 0 0 3px;
+}
+
+/** end input addon */
+
 @import "components";
