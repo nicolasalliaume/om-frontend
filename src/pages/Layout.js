@@ -22,7 +22,9 @@ import CompanyMonthOverview from './CompanyMonthOverview';
 import ModalContainer from './ModalContainer';
 
 import Store from '../store';
+
 import moment from 'moment';
+import mouseTrap from 'react-mousetrap';
 
 import { fetchProjectsListIfNeeded } from '../actions/projects';
 import { fetchUsersListIfNeeded } from '../actions/users';
@@ -32,81 +34,142 @@ class Layout extends Component {
 	constructor() {
 		super();
 		this.state = { overviewOpen: false }
+		this.shortcutFns = {};
 	}
 	componentWillMount() {
 		/* load needed resources */
 		Store.dispatch(fetchProjectsListIfNeeded());
 		Store.dispatch(fetchUsersListIfNeeded());
+
+		this.setupShortcuts();
+	}
+	componentWillUnmount() {
+		this.tearDownShortcuts();
 	}
 
 	isAdminUser() {
 		return ['nico','fer','rafa'].includes(Store.getState().currentUser.user.username);
 	}
+
+	setupShortcuts() {
+		// bind functions only for available urls
+		const links = this.getLinks();
+		this.shortcutFns = Object.keys(links).reduce((o, k) => Object.assign(o, { [k]: this.shortcutFn(links[k]) }), {}); 
+		this.shortcutsApply(this.props.bindShortcut);
+	}
+
+	tearDownShortcuts() {
+		this.shortcutsApply(this.props.unbindShortcut);
+	}
+	
+	/**
+	 * Given a path, returns a function that when called will redirect
+	 * to the given (closure) path
+	 * 
+	 * @param  {String} to 
+	 * @return {Function}    
+	 */
+	shortcutFn = to => () => this.props.history.push(to);
+
+	/**
+	 * Calls the given function with the shortcut binding parameters.
+	 * fn should be either bind or unbind.
+	 * 
+	 * @param  {Function} fn bindShortcut or unbindShortcut
+	 */
+	shortcutsApply(fn) {
+		this.shortcutFns.dashboard && fn(['d'], this.shortcutFns.dashboard);
+		this.shortcutFns.tasks && fn(['t'], this.shortcutFns.tasks);
+		this.shortcutFns.overview_year && fn(['y'], this.shortcutFns.overview_year);
+		this.shortcutFns.overview_month && fn(['m'], this.shortcutFns.overview_month);
+		this.shortcutFns.billing && fn(['b'], this.shortcutFns.billing);
+		this.shortcutFns.integrations && fn(['i'], this.shortcutFns.integrations);
+		this.shortcutFns.alarms && fn(['a'], this.shortcutFns.alarms);
+		this.shortcutFns.admin && fn(['q'], this.shortcutFns.admin);
+		this.shortcutFns.profile && fn(['p'], this.shortcutFns.profile);
+	}
+
+	/**
+	 * Returns an object with the available links for this user
+	 * @return {Object} 
+	 */
+	getLinks = () => Object.assign({
+		dashboard: '/',
+		tasks: '/tasks',
+		integrations: '/integrations',
+		alarms: '/alarms',
+		profile: '/profile',
+	}, !this.isAdminUser() ? {} : {
+		overview_year: '/overview',
+		overview_month: `/overview/${moment().format('YYYY')}/${moment().format('MM')}`,
+		billing: '/billing',
+		admin: '/admin',
+	})
 	
 	render() {
 		const { pathname } = this.props.location;
 		const { overviewOpen } = this.state;
-		const now = moment();
+		const links = this.getLinks();
 		return (
 			<div className={`layout ${pathname.replace(/\//g, '-').substring(1)}`}>
 				<Navbar className='flex-column justify-content-start'>
 					<NavbarBrand>OM</NavbarBrand>
 					<Nav navbar className='text-center'>
 						<NavItem>
-							<LinkWithTooltip to="/" id="Nav__Dashboard" tooltip="Dashboard">
+							<LinkWithTooltip to={links.dashboard} id="Nav__Dashboard" tooltip="Dashboard">
 								<Icon fa-tachometer/>
 							</LinkWithTooltip>
 						</NavItem>
 						<NavItem>
-							<LinkWithTooltip to="/tasks" id="Nav__Tasks" tooltip='Tasks'>
+							<LinkWithTooltip to={links.tasks} id="Nav__Tasks" tooltip='Tasks'>
 								<Icon fa-list-ol/>
 							</LinkWithTooltip>
 						</NavItem>
-						{ this.isAdminUser() && 
+						{ links.overview_year && links.overview_month && 
 							<Dropdown nav direction="right" isOpen={overviewOpen} toggle={_ => this.setState({ overviewOpen: !overviewOpen }) }>
 								<DropdownToggle nav>
 									<Icon fa-rocket/>
 								</DropdownToggle>
 								<DropdownMenu>
 									<DropdownItem>
-										<Link to="/overview">
+										<Link to={links.overview_year}>
 											YEAR
 										</Link>
 									</DropdownItem>
 									<DropdownItem>
-										<Link to={`/overview/${now.format('YYYY')}/${now.format('MM')}`}>
+										<Link to={links.overview_month}>
 											MONTH
 										</Link>
 									</DropdownItem>
 								</DropdownMenu>
 							</Dropdown>
 						}
-						{ this.isAdminUser() && 
+						{ links.billing && 
 							<NavItem>
-								<LinkWithTooltip to="/billing" id="Nav__Billing" tooltip='Billing'>
+								<LinkWithTooltip to={links.billing} id="Nav__Billing" tooltip='Billing'>
 									<Icon fa-dollar/>
 								</LinkWithTooltip>
 							</NavItem>
 						}
 						<NavItem>
-							<LinkWithTooltip to="/integrations" id="Nav__Integrations" tooltip='Integrations'>
+							<LinkWithTooltip to={links.integrations} id="Nav__Integrations" tooltip='Integrations'>
 								<Icon fa-cogs/>
 							</LinkWithTooltip>
 						</NavItem>
 						<NavItem>
-							<LinkWithTooltip to="/alarms" id="Nav__Alarms" tooltip='Alarms'>
+							<LinkWithTooltip to={links.alarms} id="Nav__Alarms" tooltip='Alarms'>
 								<Icon fa-bell/>
 							</LinkWithTooltip>
 						</NavItem>
-						{ this.isAdminUser() && 
+						{ links.admin && 
 							<NavItem>
-								<LinkWithTooltip to="/admin" id="Nav__Admin" tooltip='Admin'>
+								<LinkWithTooltip to={links.admin} id="Nav__Admin" tooltip='Admin'>
 									<Icon fa-cog/>
 								</LinkWithTooltip>
 							</NavItem>
 						}
 						<NavItem>
-							<LinkWithTooltip to="/profile" id="Nav__Profile" tooltip='Profile'>
+							<LinkWithTooltip to={links.profile} id="Nav__Profile" tooltip='Profile'>
 								<Icon fa-user/>
 							</LinkWithTooltip>
 						</NavItem>
@@ -154,4 +217,4 @@ const LayoutRouter = withRouter(connect(state => ({ cache: state.cache }))(funct
 	return (<span/>);
 }))
 
-export default withRouter(Layout);
+export default withRouter(mouseTrap(Layout));
