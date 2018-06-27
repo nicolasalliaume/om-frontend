@@ -12,7 +12,9 @@ export default {
 						+ 'If this objective is related to a task, the task will appear back on the tasks pool.'
 						+ '<br/><br/><i><b>How is this different from scratching?</b></i><br/><br/>'
 						+ 'Scratching means it had meaning once, but not anymore. Deleting means this objective was '
-						+ 'either a mistake, a test, or just pure garbage.',
+						+ 'either a mistake, a test, or just pure garbage.'
+						+ '<br/><br/><p class="important"><b>IMPORTANT</b>: Deleting an objective will delete the work entries associated to it '
+						+ '<i>permanently</i>.</p>',
 
 	DELETE_TASK		  : 'When you remove a task, it is removed from the tasks pool and '
 						+ 'no one else will be able to work on it.<br/><br/>'

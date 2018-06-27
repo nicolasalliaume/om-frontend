@@ -379,6 +379,12 @@ select {
       margin-bottom: 1.4rem;
     }
 
+    p.important {
+      padding: 10px;
+      background-color: $error-color;
+      color: $white;
+    }
+
   }
 
   .modal-footer {
