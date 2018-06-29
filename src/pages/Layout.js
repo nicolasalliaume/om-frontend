@@ -117,12 +117,12 @@ class Layout extends Component {
 						<NavbarBrand>OM</NavbarBrand>
 						<Nav navbar className='text-center'>
 							<NavItem>
-								<LinkWithTooltip to={links.dashboard} id="Nav__Dashboard" tooltip="Dashboard">
+								<LinkWithTooltip to={links.dashboard} id="Nav__Dashboard" tooltip="Dashboard (D)">
 									<Icon fa-tachometer/>
 								</LinkWithTooltip>
 							</NavItem>
 							<NavItem>
-								<LinkWithTooltip to={links.tasks} id="Nav__Tasks" tooltip='Tasks'>
+								<LinkWithTooltip to={links.tasks} id="Nav__Tasks" tooltip='Tasks (T)'>
 									<Icon fa-list-ol/>
 								</LinkWithTooltip>
 							</NavItem>
@@ -147,30 +147,30 @@ class Layout extends Component {
 							}
 							{ links.billing && 
 								<NavItem>
-									<LinkWithTooltip to={links.billing} id="Nav__Billing" tooltip='Billing'>
+									<LinkWithTooltip to={links.billing} id="Nav__Billing" tooltip='Billing (B)'>
 										<Icon fa-dollar/>
 									</LinkWithTooltip>
 								</NavItem>
 							}
 							<NavItem>
-								<LinkWithTooltip to={links.integrations} id="Nav__Integrations" tooltip='Integrations'>
+								<LinkWithTooltip to={links.integrations} id="Nav__Integrations" tooltip='Integrations (I)'>
 									<Icon fa-cogs/>
 								</LinkWithTooltip>
 							</NavItem>
 							<NavItem>
-								<LinkWithTooltip to={links.alarms} id="Nav__Alarms" tooltip='Alarms'>
+								<LinkWithTooltip to={links.alarms} id="Nav__Alarms" tooltip='Alarms (A)'>
 									<Icon fa-bell/>
 								</LinkWithTooltip>
 							</NavItem>
 							{ links.admin && 
 								<NavItem>
-									<LinkWithTooltip to={links.admin} id="Nav__Admin" tooltip='Admin'>
+									<LinkWithTooltip to={links.admin} id="Nav__Admin" tooltip='Admin (Q)'>
 										<Icon fa-cog/>
 									</LinkWithTooltip>
 								</NavItem>
 							}
 							<NavItem>
-								<LinkWithTooltip to={links.profile} id="Nav__Profile" tooltip='Profile'>
+								<LinkWithTooltip to={links.profile} id="Nav__Profile" tooltip='Profile (P)'>
 									<Icon fa-user/>
 								</LinkWithTooltip>
 							</NavItem>
