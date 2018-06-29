@@ -14,11 +14,13 @@ export default class CreateObjectiveFloatingButton extends Component {
 
 	render() {
 		return (
-			<FloatingButton color='accent' onClick={this.toggle}>
-				<Icon fa-plus />
+			<React.Fragment>
+				<FloatingButton color='accent' onClick={this.toggle}>
+					<Icon fa-plus />
+				</FloatingButton>
 				<EditObjectiveModalForm show={this.state.modal}
 					toggle={this.toggle} objective={getNewObjectiveTemplate('day')} />
-			</FloatingButton>
+			</React.Fragment>
 		)
 	}
 }
