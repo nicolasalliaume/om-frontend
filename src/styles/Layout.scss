@@ -253,70 +253,76 @@ select {
 
 /** navigation */
 
-.navbar {
+.navbar-wrapper {
   position: fixed;
   z-index: 1;
   width: $sidebarWidth;
   top: 0;
   left: 0;
-  height: 100%;
-  align-items: center;
+  bottom: 0;
   background-color: $sidebar-bg;
   padding: 0;
 
-  a.navbar-brand {
-    margin: 10px 0 0;
-    color: #fff !important;
-  }
-
-  .navbar-nav {
+  .navbar {
+    position: absolute;
     width: 100%;
-  
-    .nav-item {
-      a {
-        display: block;
-        color: #fff;
-        padding: 10pt 0pt;
-        font-size: 1.3em;
-      }
+    align-items: center;
+    padding: 0;
+    flex-wrap: nowrap;
 
-      .dropdown-menu {
-        border: none;
-        margin: 0;
-        padding: 0;
-        background-color: darken($sidebar-bg, 10%);
-        min-width: auto;
-        border-radius: 0 4px 4px 0;
+    a.navbar-brand {
+      margin: 10px 0 0;
+      color: #fff !important;
+    }
 
-        &.show:before {
-          content: "";
-          background-color: darken($sidebar-bg, 10%);
-          width: 14px;
-          height: 14px;
+    .navbar-nav {
+      width: 100%;
+    
+      .nav-item {
+        a {
           display: block;
-          position: absolute;
-          top: 25px;
-          left: -7px;
-          transform: rotateZ(-45deg);
+          color: #fff;
+          padding: 10pt 0pt;
+          font-size: 1.3em;
         }
 
-        button {
+        .dropdown-menu {
+          border: none;
+          margin: 0;
           padding: 0;
+          background-color: darken($sidebar-bg, 10%);
+          min-width: auto;
+          border-radius: 0 4px 4px 0;
 
-          &:hover {
-            background-color: inherit;
+          &.show:before {
+            content: "";
+            background-color: darken($sidebar-bg, 10%);
+            width: 14px;
+            height: 14px;
+            display: block;
+            position: absolute;
+            top: 25px;
+            left: -7px;
+            transform: rotateZ(-45deg);
           }
 
-          a {
-            padding: 6px 30px;
-            text-align: center;
-            font-size: 1rem;
+          button {
+            padding: 0;
+
+            &:hover {
+              background-color: inherit;
+            }
+
+            a {
+              padding: 6px 30px;
+              text-align: center;
+              font-size: 1rem;
+            }
           }
         }
       }
     }
   }
-
 }
 
 /** end navgation */

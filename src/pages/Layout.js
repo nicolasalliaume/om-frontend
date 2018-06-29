@@ -112,69 +112,71 @@ class Layout extends Component {
 		const links = this.getLinks();
 		return (
 			<div className={`layout ${pathname.replace(/\//g, '-').substring(1)}`}>
-				<Navbar className='flex-column justify-content-start'>
-					<NavbarBrand>OM</NavbarBrand>
-					<Nav navbar className='text-center'>
-						<NavItem>
-							<LinkWithTooltip to={links.dashboard} id="Nav__Dashboard" tooltip="Dashboard">
-								<Icon fa-tachometer/>
-							</LinkWithTooltip>
-						</NavItem>
-						<NavItem>
-							<LinkWithTooltip to={links.tasks} id="Nav__Tasks" tooltip='Tasks'>
-								<Icon fa-list-ol/>
-							</LinkWithTooltip>
-						</NavItem>
-						{ links.overview_year && links.overview_month && 
-							<Dropdown nav direction="right" isOpen={overviewOpen} toggle={_ => this.setState({ overviewOpen: !overviewOpen }) }>
-								<DropdownToggle nav>
-									<Icon fa-rocket/>
-								</DropdownToggle>
-								<DropdownMenu>
-									<DropdownItem>
-										<Link to={links.overview_year}>
-											YEAR
-										</Link>
-									</DropdownItem>
-									<DropdownItem>
-										<Link to={links.overview_month}>
-											MONTH
-										</Link>
-									</DropdownItem>
-								</DropdownMenu>
-							</Dropdown>
-						}
-						{ links.billing && 
+				<div className='navbar-wrapper'>
+					<Navbar className='flex-column justify-content-start'>
+						<NavbarBrand>OM</NavbarBrand>
+						<Nav navbar className='text-center'>
 							<NavItem>
-								<LinkWithTooltip to={links.billing} id="Nav__Billing" tooltip='Billing'>
-									<Icon fa-dollar/>
+								<LinkWithTooltip to={links.dashboard} id="Nav__Dashboard" tooltip="Dashboard">
+									<Icon fa-tachometer/>
 								</LinkWithTooltip>
 							</NavItem>
-						}
-						<NavItem>
-							<LinkWithTooltip to={links.integrations} id="Nav__Integrations" tooltip='Integrations'>
-								<Icon fa-cogs/>
-							</LinkWithTooltip>
-						</NavItem>
-						<NavItem>
-							<LinkWithTooltip to={links.alarms} id="Nav__Alarms" tooltip='Alarms'>
-								<Icon fa-bell/>
-							</LinkWithTooltip>
-						</NavItem>
-						{ links.admin && 
 							<NavItem>
-								<LinkWithTooltip to={links.admin} id="Nav__Admin" tooltip='Admin'>
-									<Icon fa-cog/>
+								<LinkWithTooltip to={links.tasks} id="Nav__Tasks" tooltip='Tasks'>
+									<Icon fa-list-ol/>
 								</LinkWithTooltip>
 							</NavItem>
-						}
-						<NavItem>
-							<LinkWithTooltip to={links.profile} id="Nav__Profile" tooltip='Profile'>
-								<Icon fa-user/>
-							</LinkWithTooltip>
-						</NavItem>
-					</Nav>
-				</Navbar>
+							{ links.overview_year && links.overview_month && 
+								<Dropdown nav direction="right" isOpen={overviewOpen} toggle={_ => this.setState({ overviewOpen: !overviewOpen }) }>
+									<DropdownToggle nav>
+										<Icon fa-rocket/>
+									</DropdownToggle>
+									<DropdownMenu>
+										<DropdownItem>
+											<Link to={links.overview_year}>
+												YEAR
+											</Link>
+										</DropdownItem>
+										<DropdownItem>
+											<Link to={links.overview_month}>
+												MONTH
+											</Link>
+										</DropdownItem>
+									</DropdownMenu>
+								</Dropdown>
+							}
+							{ links.billing && 
+								<NavItem>
+									<LinkWithTooltip to={links.billing} id="Nav__Billing" tooltip='Billing'>
+										<Icon fa-dollar/>
+									</LinkWithTooltip>
+								</NavItem>
+							}
+							<NavItem>
+								<LinkWithTooltip to={links.integrations} id="Nav__Integrations" tooltip='Integrations'>
+									<Icon fa-cogs/>
+								</LinkWithTooltip>
+							</NavItem>
+							<NavItem>
+								<LinkWithTooltip to={links.alarms} id="Nav__Alarms" tooltip='Alarms'>
+									<Icon fa-bell/>
+								</LinkWithTooltip>
+							</NavItem>
+							{ links.admin && 
+								<NavItem>
+									<LinkWithTooltip to={links.admin} id="Nav__Admin" tooltip='Admin'>
+										<Icon fa-cog/>
+									</LinkWithTooltip>
+								</NavItem>
+							}
+							<NavItem>
+								<LinkWithTooltip to={links.profile} id="Nav__Profile" tooltip='Profile'>
+									<Icon fa-user/>
+								</LinkWithTooltip>
+							</NavItem>
+						</Nav>
+					</Navbar>
+				</div>
 				<Container fluid id='main'>
 					<MessagesBar />
 					<LayoutRouter />
