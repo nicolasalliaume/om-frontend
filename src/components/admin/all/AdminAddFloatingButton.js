@@ -26,10 +26,12 @@ export default class AdminAddFloatingButton extends Component {
 			'Project': this.toggleProject
 		};
 		return (
-			<FloatingButtonWithOptions id='floating-btn'
-					color='accent' options={options} 
-					open={this.state.open} toggle={this.toggleButton}>
-				<Icon fa-plus />
+			<React.Fragment>
+				<FloatingButtonWithOptions id='floating-btn'
+						color='accent' options={options} 
+						open={this.state.open} toggle={this.toggleButton}>
+					<Icon fa-plus />
+				</FloatingButtonWithOptions>
 				
 				<EditUserModalForm user={getNewUserTemplate()} 
 					show={this.state.newUserModal} 
@@ -37,7 +39,7 @@ export default class AdminAddFloatingButton extends Component {
 				<EditProjectModalForm project={{}} 
 					show={this.state.newProjectModal} 
 					toggle={this.toggleProject} />
-			</FloatingButtonWithOptions>
+			</React.Fragment>
 		)
 	}
 }

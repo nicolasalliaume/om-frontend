@@ -14,11 +14,13 @@ export default class CreateIntegrationFloatingButton extends Component {
 
 	render() {
 		return (
-			<FloatingButton color='accent' onClick={this.toggle}>
-				<Icon fa-plus />
+			<React.Fragment>
+				<FloatingButton color='accent' onClick={this.toggle}>
+					<Icon fa-plus />
+				</FloatingButton>
 				<EditIntegrationModalForm show={this.state.modal}
 					toggle={this.toggle} integration={getNewIntegrationTemplate()} />
-			</FloatingButton>
+			</React.Fragment>
 		)
 	}
 }

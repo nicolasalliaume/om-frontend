@@ -14,11 +14,13 @@ export default class CreateAlarmFloatingButton extends Component {
 
 	render() {
 		return (
-			<FloatingButton color='accent' onClick={this.toggle}>
-				<Icon fa-plus />
+			<React.Fragment>
+				<FloatingButton color='accent' onClick={this.toggle}>
+					<Icon fa-plus />
+				</FloatingButton>
 				<EditAlarmModalForm show={this.state.modal}
 					toggle={this.toggle} alarm={getNewAlarmTemplate()} />
-			</FloatingButton>
+			</React.Fragment>
 		)
 	}
 }

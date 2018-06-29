@@ -21,9 +21,12 @@
 			@extend .id;
 		}
 
-		h4 {
-			max-width: 80%;
-			margin: 0 auto;
+		h5 {
+			overflow: hidden;
+		    height: 21px;
+		    white-space: nowrap;
+		    text-overflow: ellipsis;
+		    margin: 0 1.2em 1.3em 0;
 		}
 
 		.quick-options {

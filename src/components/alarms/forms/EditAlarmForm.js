@@ -68,7 +68,8 @@ export default class EditAlarmForm extends Component {
 					</Col>
 				</FormGroup>
 
-				{ alarm.measure && [ <hr key='hr'/>, this.renderFilters() ] }
+				{ alarm.measure && <hr/> }
+				{ alarm.measure && this.renderFilters() }
 				
 				<hr/>
 
