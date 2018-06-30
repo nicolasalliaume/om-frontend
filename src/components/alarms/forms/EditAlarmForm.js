@@ -115,8 +115,8 @@ export default class EditAlarmForm extends Component {
 			return [this.renderProjectFilter(), this.renderTaskStateFilter()];
 	}
 
-	renderUserFilter(label='By', showEverybody=true, showNoOne=false) {
-		const placeholder = showEverybody ? 'everybody' : (showNoOne ? 'no one' : 'Select one...');
+	renderUserFilter(label='By', showEverybody=true, showAnyone=false) {
+		const placeholder = showEverybody ? 'everybody' : (showAnyone ? 'anyone' : 'Select one...');
 		return (<UserFilter 
 			label={label}
 			placeholder={placeholder} 
