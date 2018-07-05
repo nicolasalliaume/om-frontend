@@ -13,7 +13,7 @@ export default class DescriptionModal extends Component {
 		return (
 			<Modal isOpen={show} toggle={toggle} className={classes}>
 				<ModalHeader toggle={toggle}>{title}</ModalHeader>
-				<ModalBody>
+				<ModalBody className="description-modal-body">
 					{ isHTML && <HtmlDescription description={description} /> }
 					{ !isHTML && description }
 				</ModalBody>
