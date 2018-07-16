@@ -133,6 +133,30 @@ class EditUserModalForm extends Component {
 							<Col sm={6}>
 								<FormGroup check>
 									<Label check>
+										<Input type="checkbox" name="is_admin" id="is_admin" 
+											onChange={e => this.onChange({ target: {name: 'is_admin', value: e.target.checked} })} 
+											checked={user.is_admin}/>{' '}
+										Is admin
+									</Label>
+								</FormGroup>
+							</Col>
+						</FormGroup>
+						<FormGroup row>
+							<Col sm={6}>
+								<FormGroup check>
+									<Label check>
+										<Input type="checkbox" name="notify_invoices" id="notify_invoices" 
+											onChange={e => this.onChange({ target: {name: 'notify_invoices', value: e.target.checked} })} 
+											checked={user.notify_invoices}/>{' '}
+										Notify invoice added by freelancer
+									</Label>
+								</FormGroup>
+							</Col>
+						</FormGroup>
+						<FormGroup row>
+							<Col sm={6}>
+								<FormGroup check>
+									<Label check>
 										<Input type="checkbox" name="is_freelancer" id="is_freelancer" 
 											onChange={e => this.onChange({ target: {name: 'is_freelancer', value: e.target.checked} })} 
 											checked={user.is_freelancer}/>{' '}

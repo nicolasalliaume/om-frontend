@@ -48,7 +48,7 @@ class Layout extends Component {
 	}
 
 	isAdminUser() {
-		return ['nico','fer','rafa'].includes(Store.getState().currentUser.user.username);
+		return Store.getState().currentUser.user.is_admin;
 	}
 
 	setupShortcuts() {
