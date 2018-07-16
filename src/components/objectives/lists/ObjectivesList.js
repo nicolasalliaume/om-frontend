@@ -5,6 +5,7 @@ import ObjectivesListItem from './ObjectivesListItem';
 import EditObjectiveModalForm from './../forms/EditObjectiveModalForm';
 import Icon from '../../misc/Icon';
 import { getNewObjectiveTemplate } from '../../../utils';
+import moment from 'moment';
 
 export default class ObjectivesList extends Component {
 	constructor() {
@@ -22,13 +23,14 @@ export default class ObjectivesList extends Component {
 		})
 	}
 	render() {
-		const { level, title } = this.props;
+		const { level, title, showDateControls } = this.props;
 		// sort objectives, scratched at the end
 		const sortedObjectives = this.sortedObjectives();
 		return (
 			<Card className={`list list--large objectives ${level}`}>
 				<CardBody >
 					<CardTitle dangerouslySetInnerHTML={{__html: title}} />
+					{ showDateControls && this.renderDateControls() }
 					{ sortedObjectives.empty() && this.renderNoObjectives() }
 					{ !sortedObjectives.empty() && 
 						<ul className={`objectives-list ${level}`}>
@@ -39,6 +41,22 @@ export default class ObjectivesList extends Component {
 					}
 				</CardBody>
 			</Card>
+		)
+	}
+
+	renderDateControls() {
+		const { visibleDate, onDateChanged } = this.props;
+		return (
+			<React.Fragment>
+				<button className='date-control day__prev' 
+				  onClick={ e => onDateChanged(visibleDate.clone().add(-1, 'day')) }>
+					<Icon fa-caret-left />
+				</button>
+				<button className='date-control day__next' 
+				  onClick={ e => onDateChanged(visibleDate.clone().add(1, 'day')) }>
+					<Icon fa-caret-right />
+				</button>
+			</React.Fragment>
 		)
 	}
 

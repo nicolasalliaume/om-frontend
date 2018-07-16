@@ -66,7 +66,8 @@ class ObjectivesListItem extends Component {
 		const { objective } = this.props;
 		const compareFormat = this.getIsMigratedDateFormat(objective.level);
 		return moment.utc(objective.objective_date).format(compareFormat) 
-				!== moment.utc().format(compareFormat);
+				!== moment.utc().format(compareFormat)
+				&& moment.utc(objective.objective_date) <= moment(); // prevent negative migration
 	}
 
 	getMigratedFormattedDate = () => {

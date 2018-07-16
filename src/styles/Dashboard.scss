@@ -30,6 +30,24 @@
 		}
 	}
 
+	.date-control {
+		position: absolute;
+		top: 0;
+		background: transparent;
+		border: none;
+		box-shadow: none;
+		padding: 20px;
+		color: $text-color;
+		outline: none !important;
+
+		&.day__prev {
+			left: 0;
+		}
+		&.day__next {
+			right: 0;
+		}
+	}
+
 	.objectives-summary .summary-card {
 		color: $lighter-text-color;
 
