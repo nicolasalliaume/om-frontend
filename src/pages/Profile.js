@@ -37,9 +37,11 @@ class Profile extends Component {
 				<Row>
 					<Col lg={4} xs={12}>
 						<UserSummaryCard {...summaryValues} />
-						<SendInvoiceCard 
-						  invoice={this.invoiceTemplate()}
-						  amount={summaryValues.to_bill} />
+						{ user.is_freelancer && (
+							<SendInvoiceCard 
+						  	  invoice={this.invoiceTemplate()}
+						  	  amount={summaryValues.to_bill} />
+						)}
 					</Col>
 					<Col lg={4} xs={12}>
 						<UserWorkEntriesCard 

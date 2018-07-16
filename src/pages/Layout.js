@@ -162,6 +162,11 @@ class Layout extends Component {
 									<Icon fa-bell/>
 								</LinkWithTooltip>
 							</NavItem>
+							<NavItem>
+								<LinkWithTooltip to={links.profile} id="Nav__Profile" tooltip='Profile (P)'>
+									<Icon fa-user/>
+								</LinkWithTooltip>
+							</NavItem>
 							{ links.admin && 
 								<NavItem>
 									<LinkWithTooltip to={links.admin} id="Nav__Admin" tooltip='Admin (Q)'>
@@ -169,11 +174,6 @@ class Layout extends Component {
 									</LinkWithTooltip>
 								</NavItem>
 							}
-							<NavItem>
-								<LinkWithTooltip to={links.profile} id="Nav__Profile" tooltip='Profile (P)'>
-									<Icon fa-user/>
-								</LinkWithTooltip>
-							</NavItem>
 						</Nav>
 					</Navbar>
 				</div>
