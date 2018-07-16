@@ -198,19 +198,39 @@ function isCacheLoaded(cache) {
 	return !users.isFetching && !users.didInvaidate && !projects.isFetching && !projects.didInvaidate;
 }
 
+function requireAdminAccess(Component) {
+	class AdminComponent extends Component {
+		componentWillMount() {
+			this.checkAccess();
+		}
+		checkAccess() {
+			const user = Store.getState().currentUser.user;
+			if (!user.is_admin) {
+				this.props.history.replace('/');
+			}
+		}
+		render() {
+			const user = Store.getState().currentUser.user;
+			return user.is_admin ? <Component {...this.props} /> : null;
+		}
+	}
+
+	return withRouter(AdminComponent);
+}
+
 const LayoutRouter = withRouter(connect(state => ({ cache: state.cache }))(function(props) {
 	// Wait to load the rest of the UI until the base resources are loaded
 	if (isCacheLoaded(props.cache)) {
 		return (
 			<Switch>
 				<Route path='/tasks' component={Tasks} />
-				<Route path='/overview/:year/:month' component={CompanyMonthOverview} />
-				<Route path='/overview' component={CompanyOverview} />
+				<Route path='/overview/:year/:month' component={requireAdminAccess(CompanyMonthOverview)} />
+				<Route path='/overview' component={requireAdminAccess(CompanyOverview)} />
 				<Route path='/project/:projectName' component={ProjectDashboard} />
 				<Route path='/integrations' component={Integrations} />
 				<Route path='/alarms' component={Alarms} />
-				<Route path='/billing' component={Billing} />
-				<Route path='/admin' component={Admin} />
+				<Route path='/billing' component={requireAdminAccess(Billing)} />
+				<Route path='/admin' component={requireAdminAccess(Admin)} />
 				<Route path='/profile' component={Profile} />
 				<Route path='/' component={Dashboard} />
 			</Switch>
