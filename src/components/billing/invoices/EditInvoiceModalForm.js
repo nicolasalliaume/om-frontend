@@ -18,6 +18,7 @@ import update from 'immutability-helper';
 import moment from 'moment';
 import { numToWords } from '../../../utils';
 import { addInvoice, updateInvoice } from '../../../actions/billing';
+import { Endpoints, EndpointAuthQuerystring } from '../../../actions/endpoints';
 
 class EditInvoiceModalForm extends Component {
 	constructor() {
@@ -88,6 +89,13 @@ class EditInvoiceModalForm extends Component {
 		this.setState({ invoice: update(this.state.invoice, {
 			attachment: {$set: event.target.files[0]}
 		}) })
+	}
+
+	openPDF = () => window.open(this.getInvoiceLink())
+
+	getInvoiceLink = () => {
+		const { invoice } = this.state;
+		return Endpoints.RENDER_INVOICE(invoice._id) + EndpointAuthQuerystring();
 	}
 	
 	render() {
@@ -233,6 +241,7 @@ class EditInvoiceModalForm extends Component {
 					</Form>
 				</ModalBody>
 				<ModalFooter>
+					{ !isNew && <Button color="secondary" className='mr-auto' onClick={this.openPDF}>PDF</Button> }
 					<Button color="primary" onClick={this.submit}>Done</Button>{' '}
 					<Button color="secondary" onClick={toggle}>Cancel</Button>
 				</ModalFooter>
