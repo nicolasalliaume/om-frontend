@@ -1,5 +1,7 @@
+import moment from 'moment';
 
-let BASE_URL;
+let BASE_URL,
+	TZ = moment().format('Z');
 
 if (process.env.NODE_ENV !== 'production') { 
 	BASE_URL = 'http://localhost:3000/api/1.0'
@@ -12,8 +14,8 @@ export const Endpoints = {
 	BASE_URL: process.env.NODE_ENV !== 'production' ? 'http://localhost:3000' : 'https://om-services.herokuapp.com',
 
 	/** objective endpoins */
-	GET_DATE_OBJECTIVES 			: (year, month, day) => `${BASE_URL}/objectives/${year}/${month}/${day}/all`,
-	GET_OBJECTIVES_SUMMARY 			: (year, month, day) => `${BASE_URL}/objectives/${year}/${month}/${day}/summary`,
+	GET_DATE_OBJECTIVES 			: (year, month, day) => `${BASE_URL}/objectives/${year}/${month}/${day}/all?tz=${TZ}`,
+	GET_OBJECTIVES_SUMMARY 			: (year, month, day) => `${BASE_URL}/objectives/${year}/${month}/${day}/summary?tz=${TZ}`,
 	CREATE_OBJECTIVE 				: () => `${BASE_URL}/objectives/add`,
 	UPDATE_OBJECTIVE 				: (objectiveId) => `${BASE_URL}/objectives/${objectiveId}`,
 	DELETE_OBJECTIVE				: (objectiveId) => `${BASE_URL}/objectives/${objectiveId}`,
