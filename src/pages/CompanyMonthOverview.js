@@ -103,4 +103,4 @@ const mapDispatchToProps = dispatch => ({
 	fetchInvoicesListIfNeeded : () => dispatch(fetchInvoicesListIfNeeded())
 })
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CompanyMonthOverview));
+export default connect(mapStateToProps, mapDispatchToProps)(CompanyMonthOverview);
