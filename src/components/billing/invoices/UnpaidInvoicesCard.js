@@ -11,11 +11,11 @@ class UnpaidInvoicesCard extends Component {
 		this.props.fetchProjectsBillingIfNeeded();
 	}
 	getUnpaidInvoices() {
-		if (!this.props.projects) return [];
-		return this.props.projects
+		if (!this.props.projectsById) return [];
+		return Object.values(this.props.projectsById)
 			.map(p => p.invoices)
 			.reduce((all, is) => all.concat(is), [])
-			.filter(i => !i.paid);
+			.filter(i => !i.paid );
 	}
 	render() {
 		const invoices = this.getUnpaidInvoices();
@@ -34,9 +34,9 @@ class UnpaidInvoicesCard extends Component {
 	}
 }
 
-const mapStateToProps = state => { return {
-	projects: state.billingView.projectsBilling.projects
-}}
+const mapStateToProps = state => ({
+	projectsById: state.billingView.projectsBilling.projectsById
+})
 
 const mapDispatchToProps = dispatch => { return {
 	fetchProjectsBillingIfNeeded : () => dispatch(fetchProjectsBillingIfNeeded())
