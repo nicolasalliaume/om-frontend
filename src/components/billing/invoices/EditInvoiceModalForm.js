@@ -46,6 +46,7 @@ class EditInvoiceModalForm extends Component {
 			// format values to display
 			this.setState({ invoice : update(invoice, {
 				invoicing_date: {$set: moment(invoice.invoicing_date).utcOffset(0).format('YYYY-MM-DD')},
+				invoice_date: {$set: moment(invoice.invoice_date).utcOffset(0).format('YYYY-MM-DD')},
 				paid_date: {$set: !!invoice.paid_date ? moment(invoice.paid_date).utcOffset(0).format('YYYY-MM-DD') : ''},
 				project: {$set: invoice.project ? invoice.project._id : ''},
 				receiver: {$set: invoice.receiver ? invoice.receiver : ''}
@@ -152,6 +153,16 @@ class EditInvoiceModalForm extends Component {
 									<Input type='text' name='receiver' id='receiver' 
 										value={invoice.receiver} 
 										onChange={this.onChange} />
+								</Col>
+							</FormGroup>
+						}
+						{ (!filterFields || fields.includes('invoice_date')) &&
+							<FormGroup row>
+								<Label for="invoice_date" sm={2}>Date on invoice</Label>
+								<Col sm={10} className='align-self-center'>
+									<Input type="date" name="invoice_date" id="invoice_date" 
+										onChange={this.onChange}
+										value={invoice.invoice_date} />
 								</Col>
 							</FormGroup>
 						}

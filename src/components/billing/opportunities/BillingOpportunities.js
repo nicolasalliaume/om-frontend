@@ -57,8 +57,8 @@ class BillingOpportunities extends Component {
 						}) }
 					</ul>
 					<p className='reference'>
-						A billing opportunity means that the team has work on a project 
-						more hours than billed as today
+						A billing opportunity means that the team has worked on a project 
+						more hours than billed as today.
 					</p>
 				</CardBody>
 			</Card>

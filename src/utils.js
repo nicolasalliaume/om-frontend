@@ -145,6 +145,7 @@ export function getNewInvoiceTemplate(initials = {}) {
 	return Object.assign({
 		description 	: '',
 		invoicing_date 	: moment().format('YYYY-MM-DD'),
+		invoice_date 	: moment().format('YYYY-MM-DD'),
 		amount 			: '',
 		billed_hours	: '',
 		project 		: '',
