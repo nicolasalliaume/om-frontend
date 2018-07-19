@@ -31,11 +31,11 @@ export default class ProjectBalanceCard extends Component {
 					<Row>
 						<Col xs={6}>
 							<h6>Income</h6>
-							<span className='money income'>{income}</span>
+							<span className='money income'>{income.toFixed(0)}</span>
 						</Col>
 						<Col xs={6}>
 							<h6>Outcome</h6>
-							<span className='money outcome'>{outcome}</span>
+							<span className='money outcome'>{outcome.toFixed(0)}</span>
 						</Col>
 					</Row>
 					<Row>
