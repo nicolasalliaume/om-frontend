@@ -11,13 +11,16 @@ class LatestInvoicesList extends Component {
 		this.props.fetchInvoicesListIfNeeded();
 	}
 	/**
-	 * Returns last X invoices sorted by created timestamp
+	 * Returns last X invoices sorted by unpaid/paid & created timestamp
 	 * @return {Array}
 	 */
 	getLatestInvoices() {
 		const { invoicesList, direction } = this.props;
-		const { invoices } = invoicesList;
-		return invoices.filter(i => i.direction === direction).slice(0, 5);
+		const invoices = invoicesList.invoices.filter(i => i.direction === direction);
+		const unpaid = invoices.filter(i => !i.paid);
+		const paid = invoices.filter(i => !!i.paid);
+		const sorted = [].concat(unpaid, paid);
+		return sorted.slice(0, 5);
 	}
 	render() {
 		const invoices = this.getLatestInvoices();
