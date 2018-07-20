@@ -34,8 +34,6 @@ export default class ProjectsBillingStatusListItem extends Component {
 		const overwork = this.getHoursOverworked();
 		const total = this.getMaxHours();
 
-		console.log(Math.ceil(executed), Math.ceil(billed), Math.ceil(total));
-
 		if (Math.ceil(executed) === Math.ceil(billed) 
 				&& Math.ceil(billed) === Math.ceil(total)) {
 			return [{
