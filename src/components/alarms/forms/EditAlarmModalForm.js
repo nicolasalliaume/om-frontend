@@ -23,14 +23,14 @@ class EditAlarmModalForm extends Component {
 	}
 	
 	submit = () => {
-		const { alarm } = this.state;
+		if (!this.form.validate()) return;
 
+		const { alarm } = this.state;
 		if (this.props.edit) {
 			this.props.updateAlarm(alarm._id, alarm);
 		} else {
 			this.props.createAlarm(alarm);
 		}
-
 		this.props.toggle();
 	}
 	
@@ -59,7 +59,9 @@ class EditAlarmModalForm extends Component {
 			<Modal isOpen={show} toggle={toggle} className='alarm-edit-modal'>
 				<ModalHeader toggle={toggle}><b>{alarm.name}</b></ModalHeader>
 				<ModalBody>
-					<EditAlarmForm onChange={this.onFormChange} alarm={alarm} />
+					<EditAlarmForm 
+					  ref={ f => { this.form = f }}
+					  onChange={this.onFormChange} alarm={alarm} />
 				</ModalBody>
 				<ModalFooter>
 					<Button color='danger' className='delete' onClick={this.confirmDelete}>Delete</Button>

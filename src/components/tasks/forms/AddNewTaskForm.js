@@ -12,15 +12,18 @@ import EditTaskForm from './EditTaskForm';
 class AddNewTaskForm extends Component {
 	constructor() {
 		super();
-		this.state = this.newTaskState()
+		this.state = this.newTaskState();
+		this.form = null;
 	}
 	
 	createTask = () => {
+		if (!this.form.validate()) return;
 		this.props.createTask(this.state.task);
 		this.reset()
 	}
 
 	createTaskAndObjective = () => {
+		if (!this.form.validate()) return;
 		this.props.createTaskAndObjective(this.state.task);
 		this.reset()
 	}
@@ -47,7 +50,7 @@ class AddNewTaskForm extends Component {
 		const { task } = this.state;
 		return (
 			<div>
-				<EditTaskForm task={task} onChange={this.taskChanged} />
+				<EditTaskForm ref={f => { this.form = f }} task={task} onChange={this.taskChanged} />
 				<Row className='flex-row-reverse'>
 					<Col xs={4}>
 						<Button color="primary form-control" onClick={this.createTaskAndObjective}>Create + objective</Button>

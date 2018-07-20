@@ -505,3 +505,14 @@ input[type=checkbox], input[type=radio], select, .form-control {
 }
 
 /** end intro banner */
+
+/** Invalid inputs */
+
+.was-validated .form-control:invalid, 
+.form-control.is-invalid, 
+.was-validated .custom-select:invalid, 
+.custom-select.is-invalid {
+  border: 2px solid $input-invalid-border-color !important;
+}
+
+/** end invalid inputs */

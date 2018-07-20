@@ -23,14 +23,14 @@ class EditIntegrationModalForm extends Component {
 	}
 	
 	submit = () => {
-		const { integration } = this.state;
+		if (!this.form.validate()) return;
 
+		const { integration } = this.state;
 		if (this.props.edit) {
 			this.props.updateIntegration(integration._id, integration);
 		} else {
 			this.props.createIntegration(integration);
 		}
-
 		this.props.toggle();
 	}
 	
@@ -61,7 +61,9 @@ class EditIntegrationModalForm extends Component {
 			<Modal isOpen={show} toggle={toggle} className='integration-edit-modal'>
 				<ModalHeader toggle={toggle}><b>{integration.name}</b></ModalHeader>
 				<ModalBody>
-					<EditIntegrationForm onChange={this.onFormChange} integration={integration} />
+					<EditIntegrationForm 
+					  ref={ f => { this.form = f } }
+					  onChange={this.onFormChange} integration={integration} />
 				</ModalBody>
 				<ModalFooter>
 					{ this.isDeletable() && 

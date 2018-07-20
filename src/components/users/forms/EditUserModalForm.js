@@ -14,17 +14,24 @@ import {
 } from 'reactstrap';
 import update from 'immutability-helper';
 import { updateUser, createUser } from '../../../actions/users';
+import { and } from '../../../utils';
 
 class EditUserModalForm extends Component {
 	constructor() {
 		super();
-		this.state = { user : null }
+		this.state = { user : null, validation: { 
+			username: true, password: true, first_name: true, last_name: true, email: true 
+		} }
 	}
+	
 	componentWillMount() {
 		const { user } = this.props;
 		this.setState({ user })
 	}
+	
 	submit = () => {
+		if (!this.validate()) return;
+
 		const { user } = this.state;
 		const { edit } = this.props;
 		const isNew = !edit;
@@ -34,13 +41,15 @@ class EditUserModalForm extends Component {
 
 		this.props.toggle();
 	}
+	
 	onChange = (event) => {
 		const newState = update(this.state, 
 			{user: {[event.target.name]: {$set: event.target.value}}});
 		this.setState(newState)
 	}
+	
 	render() {
-		const { user } = this.state;
+		const { user, validation } = this.state;
 		const { edit, toggle } = this.props;
 		const isNew = !edit;
 		const op = isNew ? 'New' : 'Edit';
@@ -60,6 +69,7 @@ class EditUserModalForm extends Component {
 							<Col sm={10} className='align-self-center'>
 								<Input type="text" name="username" id="username" 
 									onChange={this.onChange}
+									invalid={!validation.username}
 									value={user.username} />
 							</Col>
 						</FormGroup>
@@ -69,6 +79,7 @@ class EditUserModalForm extends Component {
 								<Col sm={10} className='align-self-center'>
 									<Input type="text" name="password" id="password" 
 										onChange={this.onChange}
+										invalid={!validation.password}
 										value={user.password} />
 								</Col>
 							</FormGroup>
@@ -78,6 +89,7 @@ class EditUserModalForm extends Component {
 							<Col sm={10} className='align-self-center'>
 								<Input type="text" name="first_name" id="first_name" 
 									onChange={this.onChange}
+									invalid={!validation.first_name}
 									value={user.first_name} />
 							</Col>
 						</FormGroup>
@@ -86,6 +98,7 @@ class EditUserModalForm extends Component {
 							<Col sm={10} className='align-self-center'>
 								<Input type="text" name="last_name" id="last_name" 
 									onChange={this.onChange}
+									invalid={!validation.last_name}
 									value={user.last_name} />
 							</Col>
 						</FormGroup>
@@ -183,6 +196,19 @@ class EditUserModalForm extends Component {
 				</ModalFooter>
 			</Modal>
 		)
+	}
+
+	validate = () => {
+		const { edit } = this.props;
+		const { user } = this.state;
+		const validation = {
+			username : user.username !== '',
+			password : edit || (user.password !== undefined && user.password !== ''),
+			first_name : user.first_name !== '',
+			last_name : user.last_name !== '',
+		}
+		this.setState({ validation });
+		return and(Object.values(validation));
 	}
 }
 

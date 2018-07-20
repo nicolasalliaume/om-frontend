@@ -10,25 +10,25 @@ import { connect } from 'react-redux';
 class WorkEntriesGridListNewItem extends Component {
 	constructor() {
 		super();
-		this.state = { time: '00:00' }
+		this.state = { time: '00:00', validation: { time: true } }
 	}
+	
 	updateTime = (event) => {
 		this.setState({ time: event.target.value })
 	}
+	
 	checkIntro = (event) => {
 		if (event.key === 'Enter') {
 			this.submit();
 		}
 	}
+	
 	submit = () => {
-		let [hours, minutes] = this.state.time.split(':');
-		if (!hours) return console.error('Missing time');
-
-		hours = parseInt(hours, 10);
-		if (minutes) hours += parseInt(minutes, 10) / 60;
-
-		this.props.submit(hours);
+		const time = this.getParsedTime();
+		if (!this.validate(time)) return;
+		this.props.submit(time);
 	}
+	
 	render() {
 		return (
 			<div className='grid new entry'>
@@ -44,13 +44,27 @@ class WorkEntriesGridListNewItem extends Component {
 					</Col>
 					<Col xs={3}>
 						<span className='time'>
-							<Input name='time' value={this.state.time} 
+							<Input name='time' value={this.state.time} invalid={!this.state.validation.time}
 								onChange={this.updateTime} onKeyPress={this.checkIntro} />
 						</span>
 					</Col>
 				</Row>
 			</div>
 		)
+	}
+
+	validate = (time) => {
+		const valid = !!time && time > 0;
+		this.setState({ validation: { time: valid } });
+		return valid;
+	}
+
+	getParsedTime = () => {
+		let [hours, minutes] = this.state.time.split(':');
+		if (!hours) return null;
+		hours = parseInt(hours, 10);
+		if (minutes) hours += parseInt(minutes, 10) / 60;
+		return hours;
 	}
 }
 

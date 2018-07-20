@@ -8,21 +8,25 @@ import {
 	Input 
 } from 'reactstrap';
 import UsersMultiSelect from './../../users/utils/UsersMultiSelect';
+import { and } from '../../../utils';
 
 export default class EditObjectiveForm extends Component {
 	constructor() {
 		super();
-		this.state = { objective : null }
+		this.state = { objective : null, validation: { no_task_title: true, owners: true, objective_date: true } }
 	}
+	
 	componentWillMount() {
 		this.setState({objective : this.props.objective});
 	}
+	
 	objectivePropChanged = (event) => {
 		const newState = update(this.state,
 			{objective: {[event.target.name]: {$set: event.target.value}}});
 		this.setState(newState);
 		this.props.onChange(newState);
 	}
+	
 	completedChanged = (event) => {
 		if (event.target.checked) {
 			this.setState(update(this.state, {objective: {progress: {$set: 1}}}))
@@ -30,8 +34,9 @@ export default class EditObjectiveForm extends Component {
 			this.setState(update(this.state, {objective: {progress: {$set: 0}}}))
 		}
 	}
+	
 	render() {
-		const { objective } = this.state;
+		const { objective, validation } = this.state;
 		return (
 			<Form className='edit-objective-form' onSubmit={e => e.preventDefault() && false}>
 				<FormGroup row>
@@ -41,7 +46,8 @@ export default class EditObjectiveForm extends Component {
 							<Input static className='static-objective-title'>{objective.title}</Input>
 						}
 						{ !objective.related_task &&
-							<Input type="text" name="no_task_title" id="title" 
+							<Input type="text" name="no_task_title" id="title"
+								invalid={!validation.no_task_title}
 								onChange={this.objectivePropChanged}
 								placeholder="Solve this thing" value={objective.no_task_title} />
 						}
@@ -59,14 +65,16 @@ export default class EditObjectiveForm extends Component {
 					</Col>
 					<Col sm={7}>
 						<Input type="date" name="objective_date" id="objective_date" placeholder=""
-							value={objective.objective_date} onChange={this.objectivePropChanged}/>
+							value={objective.objective_date} onChange={this.objectivePropChanged}
+							invalid={!validation.objective_date} />
 					</Col>
 				</FormGroup>
 				<FormGroup row>
 					<Label sm={2}>Owners</Label>
 					<Col sm={10}>
 						<UsersMultiSelect name='owners' value={objective.owners} 
-							onChange={this.objectivePropChanged} />
+							onChange={this.objectivePropChanged}
+							invalid={!validation.owners} />
 					</Col>
 				</FormGroup>
 				<FormGroup row>
@@ -82,5 +90,16 @@ export default class EditObjectiveForm extends Component {
 				</FormGroup>
 			</Form>
 		)
+	}
+
+	validate = () => {
+		const { objective } = this.state;
+		const validation = {
+			no_task_title : !!objective.related_task || objective.no_task_title !== '',
+			owners: objective.owners.length > 0,
+			objective_date: objective.objective_date !== '',
+		}
+		this.setState({ validation });
+		return and(Object.values(validation));
 	}
 }

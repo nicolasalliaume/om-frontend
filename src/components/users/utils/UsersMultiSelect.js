@@ -21,7 +21,7 @@ class UsersMultiSelect extends Component {
 		this.props.onChange(event);
 	}
 
-	classes = () => (this.props.className || '') + ' form-control no-placeholder';
+	classes = () => (this.props.className || '') + ' form-control no-placeholder ' + (this.props.invalid ? 'is-invalid' : '');
 	
 	/**
 	 * Returns an array of option objects, containing the
@@ -53,7 +53,6 @@ class UsersMultiSelect extends Component {
 		const disabled = options.length === 0;
 		const { className, value, ...props } = this.props;
 
-		
 		const _value = this.mapCurrentValue(value);
 
 		return (

@@ -18,6 +18,7 @@ import moment from 'moment';
 class EditObjectiveModalForm extends Component {
 	constructor() {
 		super();
+		this.form = null;
 		this.state = { 
 			objective : null
 		}
@@ -32,6 +33,8 @@ class EditObjectiveModalForm extends Component {
 		}
 	}
 	submitObjective = () => {
+		if (!this.form.validate()) return;
+
 		const { edit, createObjective, updateObjective } = this.props;
 		const { objective } = this.state;
 		const isNew = !edit;
@@ -53,7 +56,9 @@ class EditObjectiveModalForm extends Component {
 			<Modal isOpen={this.props.show} toggle={toggle} className={this.props.className}>
 				<ModalHeader toggle={toggle}>{op} <b>objective</b></ModalHeader>
 				<ModalBody>
-					<EditObjectiveForm onChange={this.onFormChange} objective={objective} />
+					<EditObjectiveForm
+					  ref={ f => { this.form = f } }
+					  onChange={this.onFormChange} objective={objective} />
 				</ModalBody>
 				<ModalFooter>
 					<Button color="primary" onClick={this.submitObjective}>Done</Button>{' '}

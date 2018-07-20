@@ -96,7 +96,9 @@ class ViewObjectiveModalForm extends Component {
 						</Row>
 					}
 					{ /* if completed, show option to re-open (un-complete) */ }
-					<Button color='primary' onClick={this.reopen.bind(this)} className='bordered'>Reopen</Button>
+					{ objective.progress === 1 && (
+						<Button color='primary' onClick={this.reopen.bind(this)} className='bordered'>Reopen</Button>) 
+					}
 				</ModalFooter>
 			</Modal>
 		)

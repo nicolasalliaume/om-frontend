@@ -15,8 +15,14 @@ import {
 	ObjectiveStateFilter,
 	TaskStateFilter,
 } from './EditAlarmFormFilters';
+import { and } from '../../../utils';
 
 export default class EditAlarmForm extends Component {
+	constructor() {
+		super();
+		this.state = { validation: { name: true, measure: true } }
+	}
+
 	propChanged = (event) => {
 		const alarm = update(this.props.alarm, 
 			{[event.target.name] : {$set: event.target.value}});
@@ -35,6 +41,7 @@ export default class EditAlarmForm extends Component {
 	}
 
 	render() {
+		const { validation } = this.state;
 		const { alarm } = this.props;
 		const measures = [
 			['hours_executed', 'hours executed'],
@@ -48,6 +55,7 @@ export default class EditAlarmForm extends Component {
 					<Label for="name" sm={2}>Name</Label>
 					<Col sm={10}>
 						<Input type="text" name="name" id="name" 
+							invalid={!validation.name}
 							onChange={this.propChanged}
 							value={alarm.name} />
 					</Col>
@@ -60,6 +68,7 @@ export default class EditAlarmForm extends Component {
 					<Label for="measure" sm={2}>When the</Label>
 					<Col sm={10}>
 						<Input type="select" name="measure" id="measure" 
+							invalid={!validation.measure}
 								onChange={this.measureChanged}
 								value={alarm.measure}>
 							<option value=''>Select one...</option>
@@ -143,5 +152,15 @@ export default class EditAlarmForm extends Component {
 	renderTaskStateFilter() {
 		return (<TaskStateFilter value={this.props.alarm.state_filter}
 			onChange={this.propChanged} />)
+	}
+
+	validate = () => {
+		const { alarm } = this.props;
+		const validation = {
+			name : !!alarm.name,
+			measure : !!alarm.measure,
+		}
+		this.setState({ validation });
+		return and(Object.values(validation));
 	}
 }

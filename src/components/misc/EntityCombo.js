@@ -16,13 +16,14 @@ export default class EntityCombo extends Component {
 		}});
 	}
 	render() {
-		const { items, value, placeholder } = this.props;
+		const { items, value, placeholder, invalid } = this.props;
 		const disabled = items.length === 0;
 		return (
 			<Input type="select" 
 				value={value || ''} 
 				disabled={disabled} 
-				onChange={this.selectItem}>
+				onChange={this.selectItem}
+				invalid={invalid}>
 				
 				<option key='null' value=''>{placeholder || 'Select...'}</option>
 				{ items.map((i, idx) => 

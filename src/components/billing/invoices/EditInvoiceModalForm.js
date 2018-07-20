@@ -19,13 +19,21 @@ import moment from 'moment';
 import { numToWords } from '../../../utils';
 import { addInvoice, updateInvoice } from '../../../actions/billing';
 import { Endpoints, EndpointAuthQuerystring } from '../../../actions/endpoints';
+import { and } from '../../../utils';
 
 class EditInvoiceModalForm extends Component {
 	constructor() {
 		super();
 		this.state = { 
 			invoice: null,
-			associatedToProject: false
+			associatedToProject: false,
+			validation: {
+				project: true,
+				receiver: true,
+				amount: true,
+				invoicing_date: true,
+				description: true,	
+			}
 		}
 	}
 	
@@ -61,6 +69,8 @@ class EditInvoiceModalForm extends Component {
 	}
 	
 	submit = () => {
+		if (!this.validate()) return;
+
 		const { invoice } = this.state;
 		const { edit } = this.props;
 		const isNew = !edit;
@@ -100,7 +110,7 @@ class EditInvoiceModalForm extends Component {
 	}
 	
 	render() {
-		const { invoice, associatedToProject } = this.state;
+		const { invoice, associatedToProject, validation } = this.state;
 		const { edit, toggle, fields } = this.props;
 		const isNew = !edit;
 		const op = isNew ? 'New' : 'Edit';
@@ -142,7 +152,7 @@ class EditInvoiceModalForm extends Component {
 								<Label sm={2}>Project</Label>
 								<Col sm={10}>
 									<ProjectsCombo name='project' value={invoice.project} 
-										onChange={this.onChange} />
+										onChange={this.onChange} invalid={!validation.project} />
 								</Col>
 							</FormGroup>
 						}
@@ -152,7 +162,8 @@ class EditInvoiceModalForm extends Component {
 								<Col sm={10}>
 									<Input type='text' name='receiver' id='receiver' 
 										value={invoice.receiver} 
-										onChange={this.onChange} />
+										onChange={this.onChange}
+										invalid={!validation.receiver} />
 								</Col>
 							</FormGroup>
 						}
@@ -172,7 +183,8 @@ class EditInvoiceModalForm extends Component {
 								<Col sm={10} className='align-self-center'>
 									<Input type="date" name="invoicing_date" id="invoicing_date" 
 										onChange={this.onChange}
-										value={invoice.invoicing_date} />
+										value={invoice.invoicing_date}
+										invalid={!validation.invoicing_date} />
 								</Col>
 							</FormGroup>
 						}
@@ -183,7 +195,8 @@ class EditInvoiceModalForm extends Component {
 									<Input type="textarea" name="description" id="description" 
 										onChange={this.onChange}
 										placeholder="What are you billing?" 
-										value={invoice.description} />
+										value={invoice.description}
+										invalid={!validation.description} />
 								</Col>
 							</FormGroup>
 						}
@@ -195,6 +208,7 @@ class EditInvoiceModalForm extends Component {
 										<span className="input-group-addon">$</span>
 										<Input type="number" min={0} name="amount" id="amount" 
 											onChange={this.onChange}
+											invalid={!validation.amount}
 											value={invoice.amount} />
 									</InputGroup>
 								</Col>
@@ -258,6 +272,25 @@ class EditInvoiceModalForm extends Component {
 				</ModalFooter>
 			</Modal>
 		)
+	}
+
+	validate = () => {
+		const { invoice, associatedToProject } = this.state;
+		const validation = {
+			amount: !!invoice.amount,
+			description: !!invoice.description,
+			invoicing_date: !!invoice.invoicing_date,
+			project: this.validateProject(),
+			receiver: associatedToProject || !!invoice.receiver,
+		}
+		this.setState({ validation });
+		return and(Object.values(validation));
+	}
+
+	validateProject = () => {
+		const { invoice, associatedToProject } = this.state;
+		return (invoice.direction === 'out' && !!invoice.project) 
+			|| (invoice.direction === 'in' && (!associatedToProject || !!invoice.project))
 	}
 }
 

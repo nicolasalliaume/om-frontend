@@ -20,6 +20,10 @@ Array.prototype.empty = function() {
 	return this.length === 0;
 }
 
+export function and(arr) {
+	return Object.values(arr).find(v => v === false) === undefined;
+}
+
 /* numbers to words */
 const arr = x => Array.from(x);
 const num = x => Number(x) || 0;

@@ -10,8 +10,14 @@ import {
 	Input,
 	Row
 } from 'reactstrap';
+import { and } from '../../../utils';
 
 export default class EditIntegrationForm extends Component {
+	constructor() {
+		super();
+		this.state = { validation: { name: true, project: true } }
+	}
+
 	propChanged = (event) => {
 		const integration = update(this.props.integration, 
 			{[event.target.name] : {$set: event.target.value}});
@@ -38,6 +44,7 @@ export default class EditIntegrationForm extends Component {
 
 	render() {
 		const { integration } = this.props;
+		const { validation } = this.state;
 		const { service, mappings, meta } = integration;
 		return (
 			<Form className='edit-integration-form' onSubmit={e => e.preventDefault() && false}>
@@ -46,6 +53,7 @@ export default class EditIntegrationForm extends Component {
 					<Col sm={10}>
 						<Input type="text" name="name" id="name" 
 							onChange={this.propChanged}
+							invalid={!validation.name}
 							value={integration.name} />
 					</Col>
 				</FormGroup>
@@ -56,7 +64,6 @@ export default class EditIntegrationForm extends Component {
 							<Input type="select" name="service" id="service" 
 									onChange={this.propChanged}
 									value={service}>
-								<option value=''>Select one...</option>
 								<option value='trello'>Trello</option>
 								<option value='teamwork'>Teamwork</option>
 							</Input>
@@ -68,6 +75,7 @@ export default class EditIntegrationForm extends Component {
 						<Label for="service" sm={2}>Project</Label>
 						<Col sm={10}>
 							<ProjectsCombo name='project' value={mappings.project} 
+								invalid={!validation.project}
 								onChange={this.projectChanged} />
 						</Col>
 					</FormGroup>
@@ -94,5 +102,15 @@ export default class EditIntegrationForm extends Component {
 				}
 			</Form>
 		)
+	}
+
+	validate = () => {
+		const { integration } = this.props;
+		const validation = {
+			name : !!integration.name,
+			project : integration.service !== 'trello' || !!integration.mappings.project,
+		}
+		this.setState({ validation });
+		return and(Object.values(validation));
 	}
 }

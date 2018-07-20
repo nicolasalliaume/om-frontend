@@ -14,17 +14,19 @@ import {
 } from 'reactstrap';
 import update from 'immutability-helper';
 import { updateProject, addProject } from '../../../actions/projects';
+import { and } from '../../../utils';
 
 class EditProjectModalForm extends Component {
-	constructor() {
-		super();
-		this.state = { project : null }
+	constructor(props) {
+		super(props);
+		this.state = { project : props.project, validation: { 
+			name: true, hours_sold: true, hourly_rate: true } 
+		}
 	}
-	componentWillMount() {
-		const { project } = this.props;
-		this.setState({ project })
-	}
+
 	submit = () => {
+		if (!this.validate()) return;
+
 		const { project } = this.state;
 		const { edit } = this.props;
 		const isNew = !edit;
@@ -34,17 +36,20 @@ class EditProjectModalForm extends Component {
 
 		this.props.toggle();
 	}
+	
 	onChange = event => {
 		const newState = update(this.state, 
 			{project: {[event.target.name]: {$set: event.target.value}}});
 		this.setState(newState)
 	}
+	
 	onChangeCheckbox = event => {
 		this.setState(update(this.state, 
 			{project: {[event.target.name]: {$set: event.target.checked}}}));
 	}
+	
 	render() {
-		const { project } = this.state;
+		const { project, validation } = this.state;
 		const { edit, toggle } = this.props;
 		const isNew = !edit;
 		const op = isNew ? 'New' : 'Edit';
@@ -58,6 +63,7 @@ class EditProjectModalForm extends Component {
 							<Label for='name' sm={2}>Name</Label>
 							<Col sm={10} className='align-self-center'>
 								<Input type="text" name="name" id="name" 
+									invalid={!validation.name}
 									onChange={this.onChange}
 									value={project.name} />
 							</Col>
@@ -76,6 +82,7 @@ class EditProjectModalForm extends Component {
 							<Label for='hours_sold' sm={2}>Hours sold</Label>
 							<Col sm={3} className='align-self-center'>
 								<Input type="number" name="hours_sold" id="hours_sold" 
+									invalid={!validation.hours_sold}
 									onChange={this.onChange}
 									value={project.hours_sold} />
 							</Col>
@@ -92,6 +99,7 @@ class EditProjectModalForm extends Component {
 							<Label for="hourly_rate" sm={2}>Hourly rate</Label>
 							<Col sm={10} className='align-self-center'>
 								<Input type="text" name="hourly_rate" id="hourly_rate" 
+									invalid={!validation.hourly_rate}
 									onChange={this.onChange}
 									value={project.hourly_rate} />
 							</Col>
@@ -167,6 +175,17 @@ class EditProjectModalForm extends Component {
 				</ModalFooter>
 			</Modal>
 		)
+	}
+
+	validate = () => {
+		const { project } = this.state;
+		const validation = {
+			name : !!project.name,
+			hours_sold : !!project.hours_sold,
+			hourly_rate : !!project.hourly_rate,
+		}
+		this.setState({ validation });
+		return and(Object.values(validation));
 	}
 }
 
