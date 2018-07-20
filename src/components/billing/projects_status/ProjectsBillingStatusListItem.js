@@ -37,29 +37,33 @@ export default class ProjectsBillingStatusListItem extends Component {
 		if (Math.ceil(executed) === Math.ceil(billed) 
 				&& Math.ceil(billed) === Math.ceil(total)) {
 			return [{
-				class : 'green',
-				start : 0,
-				width : 100,
-				label : Math.round(total)
+				class 	: 'green',
+				start 	: 0,
+				width 	: 100,
+				label 	: Math.round(total),
+				tooltip : 'Executed & Billed'
 			}]
 		}
 
 		return [
 			{
-				class : isOverworked ? 'red' : 'grey',
-				start : (isOverworked ? sold / executed : 0) * 100,
-				width : (isOverworked ? overwork / executed : 1) * 100,
-				label : Math.round(total)
+				class 	: isOverworked ? 'red' : 'grey',
+				start 	: (isOverworked ? sold / executed : 0) * 100,
+				width 	: (isOverworked ? overwork / executed : 1) * 100,
+				label 	: Math.round(total),
+				tooltip : isOverworked ? 'Hours executed' : 'Hours sold',
 			},{
-				class : 'green',
-				start : 0,
-				width : (billed / total) * 100,
-				label : billed
+				class 	: 'green',
+				start 	: 0,
+				width 	: (billed / total) * 100,
+				label 	: billed,
+				tooltip : 'Hours billed',
 			},{
-				class : 'blue',
-				start : 0,
-				width : (isOverworked ? sold / executed : executed / sold) * 100,
-				label : Math.round(isOverworked ? sold : executed)
+				class 	: 'blue',
+				start 	: 0,
+				width 	: (isOverworked ? sold / executed : executed / sold) * 100,
+				label 	: Math.round(isOverworked ? sold : executed),
+				tooltip : isOverworked ? 'Hours sold' : 'Hours executed',
 			}
 		]
 	}
