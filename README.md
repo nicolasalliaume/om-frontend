@@ -29,6 +29,18 @@ The following installation sequence explains how to set it up on Heroku, but fee
 Open up a browser window and go to your app url.
 If you followed the installation sequence for the [Services Module](https://github.com/nicolasalliaume/om-services) all the way through, you should have an admin user created with logins admin/admin. Add the following string at the end of your app's url: `/#/login/null/YWRtaW4=:YWRtaW4=`. That should do the trick.
 
+# Screenshots
+
+![Main Dashboard](https://s3-us-west-2.amazonaws.com/onlab-tmp-bucket/om-screenshots/1.png "Main Dashboard")
+![Tasks list](https://s3-us-west-2.amazonaws.com/onlab-tmp-bucket/om-screenshots/2.png "Tasks list")
+![Billing View](https://s3-us-west-2.amazonaws.com/onlab-tmp-bucket/om-screenshots/3.png "Billing view")
+![Project Status](https://s3-us-west-2.amazonaws.com/onlab-tmp-bucket/om-screenshots/4.png "Project Status")
+![Monthly Overview](https://s3-us-west-2.amazonaws.com/onlab-tmp-bucket/om-screenshots/5.png "Monthly Overview")
+![Yearly Overview](https://s3-us-west-2.amazonaws.com/onlab-tmp-bucket/om-screenshots/6.png "Yearly Overview")
+![Alarms Dashboard](https://s3-us-west-2.amazonaws.com/onlab-tmp-bucket/om-screenshots/7.png "Alarms Dashboard")
+![Create new alarm](https://s3-us-west-2.amazonaws.com/onlab-tmp-bucket/om-screenshots/8.png "Create new alarm")
+![Integrations Dashboard](https://s3-us-west-2.amazonaws.com/onlab-tmp-bucket/om-screenshots/9.png "Integrations Dashboard")
+
 # Support
 If you get stuck while installing this module or have any questions just hmu at nicolas@on-lab.com
 
