@@ -25,6 +25,10 @@ Sometimes we hire people for specific projects, under a freelancing contract. An
 
 This, and a few more things, is OM. OM is peace... of... mind 🙌. Namaste. 🙏.
 
+# Tech description
+
+This module is built on React + Redux + React Router.
+
 # Installation
 The following installation sequence explains how to set it up on Heroku, but feel free to use any server provider you want.
 
