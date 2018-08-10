@@ -2,14 +2,10 @@
   "name": "om-frontend",
   "version": "0.1.0",
   "private": true,
-  "engines": {
-    "node": "8.9.4"
-  },
   "dependencies": {
     "bootstrap": "^4.1.3",
     "chart.js": "^2.7.2",
     "deep-assign": "^2.0.0",
-    "dotenv": "^6.0.0",
     "font-awesome": "^4.7.0",
     "history": "^4.7.2",
     "immutability-helper": "^2.6.6",
