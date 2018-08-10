@@ -1,17 +1,11 @@
 import moment from 'moment';
 
-let BASE_URL,
-	TZ = moment().format('Z');
-
-if (process.env.NODE_ENV !== 'production') { 
-	BASE_URL = 'http://localhost:3000/api/1.0'
-} else {
-	BASE_URL = 'https://om-services.herokuapp.com/api/1.0';
-}
+const SERVICES_URL = process.env.OM_SERVICES_URL;
+const API_VERSION = process.env.OM_API_VERSION;
+const BASE_URL = `${SERVICES_URL}/api/${API_VERSION}`;
+const TZ = moment().format('Z');
 
 export const Endpoints = {
-
-	BASE_URL: process.env.NODE_ENV !== 'production' ? 'http://localhost:3000' : 'https://om-services.herokuapp.com',
 
 	/** objective endpoins */
 	GET_DATE_OBJECTIVES 			: (year, month, day) => `${BASE_URL}/objectives/${year}/${month}/${day}/all?tz=${TZ}`,
