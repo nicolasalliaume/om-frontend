@@ -8,6 +8,8 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'font-awesome/css/font-awesome.css';
 import './styles/Layout.css';
 
+require('dotenv').config();
+
 ReactDOM.render(<App />, document.getElementById('root'));
 
 registerServiceWorker();

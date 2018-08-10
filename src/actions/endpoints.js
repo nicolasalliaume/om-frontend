@@ -1,8 +1,6 @@
 import moment from 'moment';
 
-const SERVICES_URL = process.env.OM_SERVICES_URL;
-const API_VERSION = process.env.OM_API_VERSION;
-const BASE_URL = `${SERVICES_URL}/api/${API_VERSION}`;
+const BASE_URL = `${process.env.REACT_APP_OM_SERVICES_URL}/api/${process.env.REACT_APP_OM_API_VERSION}`;
 const TZ = moment().format('Z');
 
 export const Endpoints = {
