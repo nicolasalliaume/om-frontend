@@ -84,7 +84,7 @@ export default class EditIntegrationForm extends Component {
 					<FormGroup row>
 						<Label sm={2}>Address</Label>
 						<Col sm={10} className='align-self-center'>
-							<Input static>om@on-lab.com</Input>
+							<Input static>[Email you used at Zapier]</Input>
 						</Col>
 					</FormGroup>
 				}
