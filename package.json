@@ -2,6 +2,9 @@
   "name": "om-frontend",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "8.9.4"
+  }
   "dependencies": {
     "bootstrap": "^4.0.0",
     "chart.js": "^2.7.2",
