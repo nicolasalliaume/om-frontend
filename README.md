@@ -21,7 +21,7 @@ So we started adding some tasks into the system, but reality kicked in: most of 
 
 Then our "numbers guys" wanted to see how we were doing in a glance. You know, to add another layer of peace-of-mind. We had the hours worked, the invoices we were sending, and we knew whether or not they're paid. So we combined all that to create an overview of the company, with a yearly and a monthly view. Now our numbers guy has so much more peace of mind and feels in control.
 
-Sometimes we hire people for specific projects, under a freelancing contract. And when we do this is very important to keep a close watch at the ours they work because if they reach a certain point we start loosing money. So we needed another layer of peace of mind for this. And so the alarms were born. Now we can create an alarm that goes off if certain user records more than X amount of hours in a certain project.
+Sometimes we hire people for specific projects, under a freelancing contract. And when we do this is very important to keep a close watch at the ours they work because if they reach a certain point we start loosing money. So we needed another layer of peace of mind for this. And so the alarms were born. Now we can create an alarm that goes off if certain user records more than X amount of hours in a certain project. The freelancers can also go into OM and send us an invoice, which is already pre-filled with the hours they've executed. And when we accept it, it goes straight into the project's expenses. This way we know exactly how much profit we get for each project.
 
 This, and a few more things, is OM. OM is peace... of... mind 🙌. Namaste. 🙏.
 
