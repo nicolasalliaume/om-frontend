@@ -4,6 +4,13 @@ This module supports the web interface of the project, and calls the REST APIs f
 
 Note: No database is required for this module.
 
+# The full stack
+This is one part of a tree-part app.
+   * [Services Module](https://github.com/nicolasalliaume/om-services)
+   * [Integrations Module](https://github.com/nicolasalliaume/om-integrations)
+   
+Note: for this module to work you need to install the [Services Module](https://github.com/nicolasalliaume/om-services).
+
 # Installation
 The following installation sequence explains how to set it up on Heroku, but feel free to use any server provider you want.
 
