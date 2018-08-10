@@ -11,6 +11,20 @@ This is one part of a tree-part app.
    
 Note: for this module to work you need to install the [Services Module](https://github.com/nicolasalliaume/om-services).
 
+# Inspiration and history
+
+At [ON Lab](http://on-lab.com) we were struggling to get more peace-of-mind about our billing and our tasks. Some of our founders use the [bullet journal](http://bulletjournal.com) method on notebooks, and we thought we could scale that and adopt it company-wide. That's how the first version of OM was born: just as a tool to keep track of the tasks at hand in a bullet journal kinda style.
+
+At the same time, we were using a small app we wrote to track the hours worked for our different projects. So we decided to move the hour-tracking system into OM, and have it all in one place.
+
+So we started adding some tasks into the system, but reality kicked in: most of our clients would send us tasks through email and teamwork. And moving the tasks manually into OM (and potencially forgetting about one) is not what we call peace-of-mind. So we integrated Teamwork, Email and, why not, Slack, the comm tool we use internally. We don't intend to make OM a task management tool though. Many exist and are more than enough for that. But just having them all in one place, where everyone can see them, assign, and track time, just in ***one*** place no matter the client.
+
+Then our "numbers guys" wanted to see how we were doing in a glance. You know, to add another layer of peace-of-mind. We had the hours worked, the invoices we were sending, and we knew whether or not they're paid. So we combined all that to create an overview of the company, with a yearly and a monthly view. Now our numbers guy has so much more peace of mind and feels in control.
+
+Sometimes we hire people for specific projects, under a freelancing contract. And when we do this is very important to keep a close watch at the ours they work because if they reach a certain point we start loosing money. So we needed another layer of peace of mind for this. And so the alarms were born. Now we can create an alarm that goes off if certain user records more than X amount of hours in a certain project.
+
+This, and a few more things, is OM. OM is peace... of... mind 🙌. Namaste. 🙏.
+
 # Installation
 The following installation sequence explains how to set it up on Heroku, but feel free to use any server provider you want.
 
