@@ -12,6 +12,7 @@ import {
 	Col,
 	Input
 } from 'reactstrap';
+import TagsInput from './../../misc/TagsInput';
 import update from 'immutability-helper';
 import { updateProject, addProject } from '../../../actions/projects';
 import { and } from '../../../utils';
@@ -155,14 +156,10 @@ class EditProjectModalForm extends Component {
 									</Col>
 								</FormGroup>
 								<FormGroup row>
-									<Label for="type" sm={2}>Project type</Label>
+									<Label for="type" sm={2}>Tags</Label>
 									<Col sm={10}>
-										<Input id='type' name='type' type="select" value={project.type || ''} onChange={this.onChange}>
-											<option value=''>Select...</option>
-											<option value='web'>Web development</option>
-											<option value='mobile'>Mobile App</option>
-											<option value='shopify'>Shopify</option>
-										</Input>
+										<TagsInput name='tags' value={project.tags} id="tags" 
+											onChange={this.onChange} />
 									</Col>
 								</FormGroup>
 							</div>
