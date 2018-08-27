@@ -35,6 +35,10 @@ pre {
   white-space: pre-wrap;
 }
 
+.form-control-plaintext {
+  color: $text-color;
+}
+
 .capitalize {
   text-transform: capitalize;
 }

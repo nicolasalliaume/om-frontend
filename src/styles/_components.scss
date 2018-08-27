@@ -242,6 +242,10 @@ input[type=checkbox], input[type=radio], select, .form-control {
     position: relative;
     padding: 0;
 
+    &.Select--multi {
+      height: auto;
+    }
+
     &.no-placeholder .Select-placeholder {
         display: none;
     }

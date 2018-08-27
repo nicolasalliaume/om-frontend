@@ -20,8 +20,13 @@ import { and } from '../../../utils';
 class EditProjectModalForm extends Component {
 	constructor(props) {
 		super(props);
-		this.state = { project : props.project, validation: { 
-			name: true, hours_sold: true, hourly_rate: true } 
+		this.state = { 
+			project : props.project, 
+			validation: { 
+				name: true, 
+				hours_sold: true, 
+				hourly_rate: true,
+			} 
 		}
 	}
 
@@ -178,8 +183,8 @@ class EditProjectModalForm extends Component {
 		const { project } = this.state;
 		const validation = {
 			name : !!project.name,
-			hours_sold : !!project.hours_sold,
-			hourly_rate : !!project.hourly_rate,
+			hours_sold : parseInt(project.hourly_rate) >= 0,
+			hourly_rate : parseInt(project.hourly_rate) >= 0,
 		}
 		this.setState({ validation });
 		return and(Object.values(validation));

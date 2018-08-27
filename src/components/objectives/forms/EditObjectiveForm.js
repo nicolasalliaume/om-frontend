@@ -43,7 +43,7 @@ export default class EditObjectiveForm extends Component {
 					<Label for="title" sm={2}>Title</Label>
 					<Col sm={10} className='align-self-center'>
 						{ objective.related_task &&
-							<Input static className='static-objective-title'>{objective.title}</Input>
+							<Input plaintext className='static-objective-title'>{objective.title}</Input>
 						}
 						{ !objective.related_task &&
 							<Input type="text" name="no_task_title" id="title"
