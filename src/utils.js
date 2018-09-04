@@ -175,6 +175,22 @@ export function getNewUserTemplate() {
 	}
 }
 
+export function getNewProjectTemplate() {
+	return {
+		name: '',
+		company_name: '',
+		hours_sold: 0,
+		hours_sold_unit: 'total',
+		hourly_rate: 0,
+		featured: false,
+		description: '',
+		description_es: '',
+		featured_image: '',
+		external_link: '',
+		tags: [],
+	}
+}
+
 export function getNewAlarmTemplate() {
 	const currentUser = Store.getState().currentUser.user;
 	return {

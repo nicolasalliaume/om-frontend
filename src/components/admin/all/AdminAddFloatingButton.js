@@ -3,7 +3,7 @@ import Icon from './../../misc/Icon';
 import FloatingButtonWithOptions from './../../misc/FloatingButtonWithOptions';
 import EditUserModalForm from '../../users/forms/EditUserModalForm';
 import EditProjectModalForm from '../../projects/forms/EditProjectModalForm';
-import { getNewUserTemplate } from '../../../utils';
+import { getNewUserTemplate, getNewProjectTemplate } from '../../../utils';
 
 export default class AdminAddFloatingButton extends Component {
 	constructor() {
@@ -36,7 +36,7 @@ export default class AdminAddFloatingButton extends Component {
 				<EditUserModalForm user={getNewUserTemplate()} 
 					show={this.state.newUserModal} 
 					toggle={this.toggleUser} />
-				<EditProjectModalForm project={{}} 
+				<EditProjectModalForm project={getNewProjectTemplate()} 
 					show={this.state.newProjectModal} 
 					toggle={this.toggleProject} />
 			</React.Fragment>
