@@ -9,7 +9,7 @@ import Strings from '../../../strings/dialogs';
 import { confirmAlert } from './../../misc/ConfirmDialog';
 import { Endpoints, EndpointAuthQuerystring } from '../../../actions/endpoints';
 import { Link } from 'react-router-dom';
-import { encodeProjectName, getUrlForInvoiceAttachment } from '../../../utils';
+import { encodeProjectName } from '../../../utils';
 
 class InvoicesListItem extends Component {
 	constructor() {
@@ -77,7 +77,7 @@ class InvoicesListItem extends Component {
 						</Col>
 						{ invoice.attachment && 
 							<Col xs={12} className='attachment-col'>
-								<a href={getUrlForInvoiceAttachment(invoice.attachment)} target='_blank'
+								<a href={invoice.attachment} target='_blank'
 									rel='noopener nofollow' className='open-attachment'>
 									<Icon fa-paperclip />
 									See attachment

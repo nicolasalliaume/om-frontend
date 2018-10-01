@@ -215,12 +215,6 @@ export function getUrlForAttachmentFile(url) {
 	return base + url;
 }
 
-export function getUrlForInvoiceAttachment(url) {
-	const base = process.env.NODE_ENV === 'production' 
-					? 'https://om-services.herokuapp.com/attachments/' : 'http://localhost:3000/attachments/';
-	return base + url;
-}
-
 /** date formats */
 
 export function setShortDateFormat() {
