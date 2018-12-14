@@ -310,18 +310,11 @@ select {
             transform: rotateZ(-45deg);
           }
 
-          button {
-            padding: 0;
-
-            &:hover {
-              background-color: inherit;
-            }
-
-            a {
-              padding: 6px 30px;
-              text-align: center;
-              font-size: 1rem;
-            }
+          a {
+            padding: 6px 30px;
+            text-align: center;
+            font-size: 1rem;
+            background-color: inherit;
           }
         }
       }

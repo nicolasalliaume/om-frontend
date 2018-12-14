@@ -105,6 +105,8 @@ class Layout extends Component {
 		billing: '/billing',
 		admin: '/admin',
 	})
+
+	toggleDropdown = () => this.setState({ overviewOpen: !this.state.overviewOpen });
 	
 	render() {
 		const { pathname } = this.props.location;
@@ -127,21 +129,17 @@ class Layout extends Component {
 								</LinkWithTooltip>
 							</NavItem>
 							{ links.overview_year && links.overview_month && 
-								<Dropdown nav direction="right" isOpen={overviewOpen} toggle={_ => this.setState({ overviewOpen: !overviewOpen }) }>
+								<Dropdown nav direction="right" isOpen={overviewOpen} toggle={this.toggleDropdown}>
 									<DropdownToggle nav>
 										<Icon fa-rocket/>
 									</DropdownToggle>
 									<DropdownMenu>
-										<DropdownItem>
-											<Link to={links.overview_year}>
-												YEAR
-											</Link>
-										</DropdownItem>
-										<DropdownItem>
-											<Link to={links.overview_month}>
-												MONTH
-											</Link>
-										</DropdownItem>
+										<Link className='dropdown-item' to={links.overview_year} onClick={this.toggleDropdown}>
+											YEAR
+										</Link>
+										<Link className='dropdown-item' to={links.overview_month} onClick={this.toggleDropdown}>
+											MONTH
+										</Link>
 									</DropdownMenu>
 								</Dropdown>
 							}
