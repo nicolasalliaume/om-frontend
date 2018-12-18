@@ -73,6 +73,7 @@
 			@for $i from 0 through 4 {
 				&.style-#{$i} .card-body {
 					background-image: url('./../images/celebration_#{$i}.gif');
+					.card-title { color: $darker-color; } 
 
 					// tweaks for each celebration image
 					@if $i == 0 { 
