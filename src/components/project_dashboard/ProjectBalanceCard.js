@@ -7,18 +7,25 @@ export default class ProjectBalanceCard extends Component {
 		const { project } = this.props;
 		if ( !project ) return <div/>;
 
-		const income = project.billed_amount_total;
-		const outcome = project.expenses_amount_total;
-		const executed = Math.round( project.executed_hours_total );
-		const hoursBilled = this.getHoursBilled();
-		const billableHours = hoursBilled < project.executed_hours_total
-			? project.executed_hours_total - hoursBilled : 0;
+		const { 
+			billed_amount_total, 
+			expenses_amount_total, 
+			billed_hours_total, 
+			executed_hours_total, 
+			billed_hours_month,
+			executed_hours_month, 
+			hourly_rate
+		} = project;
+
+		const billable_hours = project.hours_sold_unit === 'monthly' 
+			? ( billed_hours_month < executed_hours_month ? executed_hours_month - billed_hours_month : 0 )
+			: ( billed_hours_total < executed_hours_total ? executed_hours_total - billed_hours_total : 0 );
 
 		const bars = [
 			{
 				class : 'green',
 				start : 0,
-				width : ( income / ( income + outcome ) ) * 100,
+				width : ( billed_amount_total / ( billed_amount_total + expenses_amount_total ) ) * 100,
 			},{
 				class : 'red',
 				start : 0,
@@ -33,11 +40,11 @@ export default class ProjectBalanceCard extends Component {
 					<Row>
 						<Col xs={6}>
 							<h6>Income</h6>
-							<span className='money income'>{income.toFixed( 0 )}</span>
+							<span className='money income'>{billed_amount_total.toFixed( 1 )}</span>
 						</Col>
 						<Col xs={6}>
 							<h6>Outcome</h6>
-							<span className='money outcome'>{outcome.toFixed( 0 )}</span>
+							<span className='money outcome'>{expenses_amount_total.toFixed( 1 )}</span>
 						</Col>
 					</Row>
 					<Row>
@@ -48,21 +55,33 @@ export default class ProjectBalanceCard extends Component {
 					<Row>
 						<Col xs={6}>
 							<h6>Executed</h6>
-							<span className='balance-hours executed'>{executed}</span>
+							<span className='balance-hours executed'>{executed_hours_total.toFixed( 1 )}</span>
 						</Col>
 						<Col xs={6}>
 							<h6>Billed</h6>
-							<span className='balance-hours income'>{hoursBilled}</span>
+							<span className='balance-hours income'>{billed_hours_total.toFixed( 1 )}</span>
 						</Col>
 					</Row>
+					{ project.hours_sold_unit === 'monthly' && (
+						<Row>
+							<Col xs={6}>
+								<h6>Executed Mo.</h6>
+								<span className='balance-hours executed'>{executed_hours_month.toFixed( 1 )}</span>
+							</Col>
+							<Col xs={6}>
+								<h6>Billed Mo.</h6>
+								<span className='balance-hours income'>{billed_hours_month.toFixed( 1 )}</span>
+							</Col>
+						</Row>
+					) }
 					<Row>
 						<Col xs={6}>
 							<h6>Billable</h6>
-							<span className='balance-hours billable'>{billableHours.toFixed( 0 )}</span>
+							<span className='balance-hours billable'>{billable_hours.toFixed( 1 )}</span>
 						</Col>
 						<Col xs={6}>
 							<h6>$/HR</h6>
-							<span className='money outcome'>{project.hourly_rate}</span>
+							<span className='money outcome'>{hourly_rate}</span>
 						</Col>
 					</Row>
 				</CardBody>
