@@ -10,9 +10,8 @@ export default class ProjectBalanceCard extends Component {
 		const income = project.billed_amount_total;
 		const outcome = project.expenses_amount_total;
 		const executed = Math.round( project.executed_hours_total );
-		const max = Math.max( income, outcome );
 		const hoursBilled = this.getHoursBilled();
-		const billableHours = hoursBilled < project.executed_hours_total 
+		const billableHours = hoursBilled < project.executed_hours_total
 			? project.executed_hours_total - hoursBilled : 0;
 
 		const bars = [
@@ -59,7 +58,7 @@ export default class ProjectBalanceCard extends Component {
 					<Row>
 						<Col xs={6}>
 							<h6>Billable</h6>
-							<span className='balance-hours billable'>{billableHours}</span>
+							<span className='balance-hours billable'>{billableHours.toFixed( 0 )}</span>
 						</Col>
 						<Col xs={6}>
 							<h6>$/HR</h6>
