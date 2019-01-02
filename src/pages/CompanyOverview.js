@@ -5,29 +5,31 @@ import { connect } from 'react-redux';
 import OverviewCharts from '../components/overview/charts/OverviewCharts';
 import BillingOverviewCards from '../components/overview/cards/BillingOverviewCards';
 import { fetchInvoicesListIfNeeded } from '../actions/billing';
+import { fetchYearObjectiveIfNeeded } from '../actions/planning';
 import { setCompanyOverviewVisibleDate } from '../actions/company_overview';
 import YearSelector from '../components/misc/YearSelector';
 
 import './../styles/CompanyOverview.css';
 
 
-const MONTHLY_INCOME_OBJECTIVE = 15000;
-
 class CompanyOverview extends Component {
 	
 	componentWillMount() {
 		this.props.fetchInvoicesListIfNeeded();
+		this.props.fetchYearObjectiveIfNeeded( this.props.visibleYear );
 	}
 	
-	componentWillReceiveProps(props) {
+	componentWillReceiveProps( props ) {
 		this.props.fetchInvoicesListIfNeeded();
+		this.props.fetchYearObjectiveIfNeeded( props.visibleYear );
 	}
 
 	render() {
 		const invoices = this.getInvoicesForVisiblePeriod();
 		const start = this.getPeriodStart();
 		const end = this.getPeriodEnd();
-		const { visibleYear } = this.props;
+		const { visibleYear, objectivesByYear } = this.props;
+		const yearObjective = objectivesByYear[ visibleYear ] || 0;
 
 		return (
 			<div className='overview'>
@@ -44,26 +46,26 @@ class CompanyOverview extends Component {
 							<YearSelector value={visibleYear} onChange={this.changeVisibleDate} />
 						</div>
 						<OverviewCharts invoices={invoices} 
-							objective={MONTHLY_INCOME_OBJECTIVE}
+							objective={ yearObjective }
 							start={start} 
 							end={end} />
 					</Col>
 					<Col lg={3} xs={12} className='order-sm-1 order-lg-2'>
 						<BillingOverviewCards invoices={invoices}
-							objective={MONTHLY_INCOME_OBJECTIVE}
+							objective={ yearObjective }
 							start={start}
 							end={end} />
 					</Col>
 				</Row>
 			</div>
-		)
+		);
 	}
 
-	getPeriodStart = () => moment(this.props.visibleYear, 'YYYY').startOf('year')
-	getPeriodEnd = () => this.getPeriodStart().clone().add(11, 'month').endOf('month')
+	getPeriodStart = () => moment( this.props.visibleYear, 'YYYY' ).startOf( 'year' )
+	getPeriodEnd = () => this.getPeriodStart().clone().add( 11, 'month' ).endOf( 'month' )
 
-	changeVisibleDate = (date) => {
-		this.props.setCompanyOverviewVisibleDate(date);
+	changeVisibleDate = ( date ) => {
+		this.props.setCompanyOverviewVisibleDate( date );
 	}
 
 	/**
@@ -77,21 +79,23 @@ class CompanyOverview extends Component {
 		const start = this.getPeriodStart();
 		const end = this.getPeriodEnd();
 		
-		return invoices.filter(i => {
-			const invoiceDate = moment(i.invoicing_date);
+		return invoices.filter( i => {
+			const invoiceDate = moment( i.invoicing_date );
 			return invoiceDate >= start && invoiceDate <= end;
-		})
+		} );
 	}
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = state => ( {
 	invoicesList: state.billingView.invoicesList,
-	visibleYear: state.companyOverview.visibleYear
-})
+	visibleYear: state.companyOverview.visibleYear,
+	objectivesByYear: state.planning.objectivesByYear,
+} );
 
-const mapDispatchToProps = dispatch => ({
-	fetchInvoicesListIfNeeded: () => dispatch(fetchInvoicesListIfNeeded()),
-	setCompanyOverviewVisibleDate: (date) => dispatch(setCompanyOverviewVisibleDate(date))
-})
+const mapDispatchToProps = dispatch => ( {
+	fetchInvoicesListIfNeeded: () => dispatch( fetchInvoicesListIfNeeded() ),
+	setCompanyOverviewVisibleDate: ( date ) => dispatch( setCompanyOverviewVisibleDate( date ) ),
+	fetchYearObjectiveIfNeeded: year => dispatch( fetchYearObjectiveIfNeeded( year ) ),
+} );
 
-export default connect(mapStateToProps, mapDispatchToProps)(CompanyOverview);
+export default connect( mapStateToProps, mapDispatchToProps )( CompanyOverview );

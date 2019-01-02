@@ -7,9 +7,10 @@ import BillingOverviewCard from  '../cards/BillingOverviewCard';
 export default class OverviewCharts extends Component {
 	render() {
 		const { invoices, start, end, objective } = this.props;
-		const billingInvoices = invoices.filter(i => i.direction === 'out');
-		const expensesInvoices = invoices.filter(i => i.direction === 'in');
-
+		const billingInvoices = invoices.filter( i => i.direction === 'out' );
+		const expensesInvoices = invoices.filter( i => i.direction === 'in' );
+		const monthObjective = objective / 12;
+		
 		return (
 			<div>
 				<Row className='year-overview-chart'>
@@ -18,7 +19,7 @@ export default class OverviewCharts extends Component {
 							<CardBody >
 								<CardTitle><b>Year billing</b> overview</CardTitle>
 								<IncomeVsObjectiveChart invoices={billingInvoices}
-									objective={objective}
+									objective={monthObjective}
 									start={start}
 									end={end} />
 							</CardBody>
@@ -31,7 +32,7 @@ export default class OverviewCharts extends Component {
 							<CardBody >
 								<CardTitle>Year <b>Expenses vs. Billing</b></CardTitle>
 								<IncomeVsExpensesChart invoices={invoices}
-									objective={objective}
+									objective={monthObjective}
 									start={start}
 									end={end} />
 							</CardBody>
@@ -40,23 +41,23 @@ export default class OverviewCharts extends Component {
 					<Col xs={6} lg={3} className='overview-billing-cards'>
 						<BillingOverviewCard 
 							className='year-expenses-card smaller-title'
-							amount={this.getYearExpenses(expensesInvoices)} 
+							amount={this.getYearExpenses( expensesInvoices )} 
 							title={'Year <b>expenses</b>'} />
 					</Col>
 					<Col xs={6} lg={3} className='overview-billing-cards'>
 						<BillingOverviewCard 
 							className='year-margin-card smaller-title'
-							amount={this.getYearMargin(invoices)} 
+							amount={this.getYearMargin( invoices )} 
 							title={'Year <b>profit</b>'} />
 					</Col>
 				</Row>
 			</div>
-		)
+		);
 	}
 
-	getYearExpenses = (invoices) => invoices.reduce((sum, i) => sum + i.amount, 0)
+	getYearExpenses = ( invoices ) => invoices.reduce( ( sum, i ) => sum + i.amount, 0 )
 
-	getYearMargin = (invoices) => (
-		Math.round(invoices.reduce((res, i) => res + (i.amount * (i.direction === 'out' ? 1 : -1)), 0))
+	getYearMargin = ( invoices ) => (
+		Math.round( invoices.reduce( ( res, i ) => res + ( i.amount * ( i.direction === 'out' ? 1 : -1 ) ), 0 ) )
 	)
 }

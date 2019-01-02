@@ -11,16 +11,17 @@ import { billingView } from './billing/BillingReducers';
 import { projectDashboardView } from './project_dashboard/ProjectDashboardReducers';
 import { companyOverview } from './company_overview/CompanyOverviewReducer';
 import { profileView } from './profile/ProfileReducer';
+import { planning } from './planning/PlanningReducer';
 import { SET_AFTER_LOGIN_REDIRECTION } from '../actions/types';
 
-function loginMiddleware(state = { redirectTo: null }, action) {
-	if (action.type === SET_AFTER_LOGIN_REDIRECTION) {
-		return { redirectTo : action.payload }
+function loginMiddleware( state = { redirectTo: null }, action ) {
+	if ( action.type === SET_AFTER_LOGIN_REDIRECTION ) {
+		return { redirectTo : action.payload };
 	}
 	return state;
 }
 
-const AppReducer = combineReducers({
+const AppReducer = combineReducers( {
 	loginMiddleware,
 	dashboardView,
 	tasksView,
@@ -34,6 +35,7 @@ const AppReducer = combineReducers({
 	projectDashboardView,
 	companyOverview,
 	profileView,
-})
+	planning,
+} );
 
 export default AppReducer;
