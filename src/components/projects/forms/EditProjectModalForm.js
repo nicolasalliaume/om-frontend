@@ -18,8 +18,8 @@ import { updateProject, addProject } from '../../../actions/projects';
 import { and } from '../../../utils';
 
 class EditProjectModalForm extends Component {
-	constructor(props) {
-		super(props);
+	constructor( props ) {
+		super( props );
 		this.state = { 
 			project : props.project, 
 			validation: { 
@@ -27,31 +27,31 @@ class EditProjectModalForm extends Component {
 				hours_sold: true, 
 				hourly_rate: true,
 			} 
-		}
+		};
 	}
 
 	submit = () => {
-		if (!this.validate()) return;
+		if ( !this.validate() ) return;
 
 		const { project } = this.state;
 		const { edit } = this.props;
 		const isNew = !edit;
 
-		if (isNew) this.props.addProject(project);
-		else this.props.updateProject(project._id, project);
+		if ( isNew ) this.props.addProject( project );
+		else this.props.updateProject( project._id, project );
 
 		this.props.toggle();
 	}
 	
 	onChange = event => {
-		const newState = update(this.state, 
-			{project: {[event.target.name]: {$set: event.target.value}}});
-		this.setState(newState)
+		const newState = update( this.state, 
+			{ project: { [event.target.name]: { $set: event.target.value } } } );
+		this.setState( newState );
 	}
 	
 	onChangeCheckbox = event => {
-		this.setState(update(this.state, 
-			{project: {[event.target.name]: {$set: event.target.checked}}}));
+		this.setState( update( this.state, 
+			{ project: { [event.target.name]: { $set: event.target.checked } } } ) );
 	}
 	
 	render() {
@@ -83,6 +83,16 @@ class EditProjectModalForm extends Component {
 							</Col>
 							<Col sm={2}></Col>
 							<Col sm={10}><span className='note'>This company name will be use for invoices</span></Col>
+						</FormGroup>
+						<FormGroup row>
+							<Label for='company_email' sm={2}>Company email</Label>
+							<Col sm={10} className='align-self-center'>
+								<Input type="text" name="company_email" id="company_email" 
+									onChange={this.onChange}
+									value={project.company_email} />
+							</Col>
+							<Col sm={2}></Col>
+							<Col sm={10}><span className='note'>This company email will be use for invoices</span></Col>
 						</FormGroup>
 						<FormGroup row>
 							<Label for='hours_sold' sm={2}>Hours sold</Label>
@@ -176,24 +186,24 @@ class EditProjectModalForm extends Component {
 					<Button color="secondary" onClick={toggle}>Cancel</Button>
 				</ModalFooter>
 			</Modal>
-		)
+		);
 	}
 
 	validate = () => {
 		const { project } = this.state;
 		const validation = {
 			name : !!project.name,
-			hours_sold : parseInt(project.hourly_rate) >= 0,
-			hourly_rate : parseInt(project.hourly_rate) >= 0,
-		}
-		this.setState({ validation });
-		return and(Object.values(validation));
+			hours_sold : parseInt( project.hourly_rate ) >= 0,
+			hourly_rate : parseInt( project.hourly_rate ) >= 0,
+		};
+		this.setState( { validation } );
+		return and( Object.values( validation ) );
 	}
 }
 
 const mapDispatchToProps = dispatch => { return {
-	updateProject : (pid, update) => dispatch(updateProject(pid, update)),
-	addProject : (user) => dispatch(addProject(user))
-}}
+	updateProject : ( pid, update ) => dispatch( updateProject( pid, update ) ),
+	addProject : ( user ) => dispatch( addProject( user ) )
+};};
 
-export default connect(null, mapDispatchToProps)(EditProjectModalForm);
+export default connect( null, mapDispatchToProps )( EditProjectModalForm );

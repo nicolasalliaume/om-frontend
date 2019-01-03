@@ -3,136 +3,136 @@ import Store from './store';
 
 /*jshint freeze: false */
 String.prototype.capitalizeFirst = function() { 
-	return this.charAt(0).toUpperCase() + this.slice(1);
-}
+	return this.charAt( 0 ).toUpperCase() + this.slice( 1 );
+};
 
 /*jshint freeze: false */
-String.prototype.trimToWords = function(maxCharLength) { 
-	if (this.length <= maxCharLength) return this;
-	var trimmedString = this.substr(0, maxCharLength);
-	trimmedString = trimmedString.substr(0, 
-		Math.min(trimmedString.length, trimmedString.lastIndexOf(" ")));
+String.prototype.trimToWords = function( maxCharLength ) { 
+	if ( this.length <= maxCharLength ) return this;
+	var trimmedString = this.substr( 0, maxCharLength );
+	trimmedString = trimmedString.substr( 0, 
+		Math.min( trimmedString.length, trimmedString.lastIndexOf( ' ' ) ) );
 	return trimmedString + '...';
-}
+};
 
 /*jshint freeze: false */
 Array.prototype.empty = function() { 
 	return this.length === 0;
-}
+};
 
-export function and(arr) {
-	return Object.values(arr).find(v => v === false) === undefined;
+export function and( arr ) {
+	return Object.values( arr ).find( v => v === false ) === undefined;
 }
 
 /* numbers to words */
-const arr = x => Array.from(x);
-const num = x => Number(x) || 0;
+const arr = x => Array.from( x );
+const num = x => Number( x ) || 0;
 const isEmpty = xs => xs.length === 0;
-const take = n => xs => xs.slice(0,n);
-const drop = n => xs => xs.slice(n);
-const reverse = xs => xs.slice(0).reverse();
-const comp = f => g => x => f (g (x));
+const take = n => xs => xs.slice( 0,n );
+const drop = n => xs => xs.slice( n );
+const reverse = xs => xs.slice( 0 ).reverse();
+const comp = f => g => x => f ( g ( x ) );
 const not = x => !x;
 const chunk = n => xs =>
-  isEmpty(xs) ? [] : [take(n)(xs), ...chunk (n) (drop (n) (xs))];
+	isEmpty( xs ) ? [] : [ take( n )( xs ), ...chunk ( n ) ( drop ( n ) ( xs ) ) ];
 
 // numToWords :: (Number a, String a) => a -> String
-export function numToWords(n) {
-  let a = [
-    '', 'one', 'two', 'three', 'four',
-    'five', 'six', 'seven', 'eight', 'nine',
-    'ten', 'eleven', 'twelve', 'thirteen', 'fourteen',
-    'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'
-  ];
-  let b = [
-    '', '', 'twenty', 'thirty', 'forty',
-    'fifty', 'sixty', 'seventy', 'eighty', 'ninety'
-  ];
-  let g = [
-    '', 'thousand', 'million', 'billion', 'trillion', 'quadrillion',
-    'quintillion', 'sextillion', 'septillion', 'octillion', 'nonillion'
-  ];
-  let makeGroup = ([ones,tens,huns]) => {
-    return [
-      num(huns) === 0 ? '' : a[huns] + ' hundred ',
-      num(ones) === 0 ? b[tens] : b[tens] && b[tens] + '-' || '',
-      a[tens+ones] || a[ones]
-    ].join('');
-  };
-  let thousand = (group,i) => group === '' ? group : `${group} ${g[i]}`;
+export function numToWords( n ) {
+	let a = [
+		'', 'one', 'two', 'three', 'four',
+		'five', 'six', 'seven', 'eight', 'nine',
+		'ten', 'eleven', 'twelve', 'thirteen', 'fourteen',
+		'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'
+	];
+	let b = [
+		'', '', 'twenty', 'thirty', 'forty',
+		'fifty', 'sixty', 'seventy', 'eighty', 'ninety'
+	];
+	let g = [
+		'', 'thousand', 'million', 'billion', 'trillion', 'quadrillion',
+		'quintillion', 'sextillion', 'septillion', 'octillion', 'nonillion'
+	];
+	let makeGroup = ( [ ones,tens,huns ] ) => {
+		return [
+			num( huns ) === 0 ? '' : a[huns] + ' hundred ',
+			num( ones ) === 0 ? b[tens] : b[tens] && b[tens] + '-' || '',
+			a[tens+ones] || a[ones]
+		].join( '' );
+	};
+	let thousand = ( group,i ) => group === '' ? group : `${group} ${g[i]}`;
   
-  if (typeof n === 'number')
-    return numToWords(String(n));
-  else if (n === '0')
-    return 'zero';
-  else
-    return comp (chunk(3)) (reverse) (arr(n))
-      .map(makeGroup)
-      .map(thousand)
-      .filter(comp(not)(isEmpty))
-      .reverse()
-      .join(' ');
-};
-
-//The maximum is inclusive and the minimum is inclusive 
-export function getRandomIntInclusive(min, max) {
-	min = Math.ceil(min);
-	max = Math.floor(max);
-	return Math.floor(Math.random() * (max - min + 1)) + min;
+	if ( typeof n === 'number' )
+		return numToWords( String( n ) );
+	else if ( n === '0' )
+		return 'zero';
+	else
+		return comp ( chunk( 3 ) ) ( reverse ) ( arr( n ) )
+			.map( makeGroup )
+			.map( thousand )
+			.filter( comp( not )( isEmpty ) )
+			.reverse()
+			.join( ' ' );
 }
 
-export function getPaginationBarFirstAndLastVisiblePages(visiblePage, totalPages) {
+//The maximum is inclusive and the minimum is inclusive 
+export function getRandomIntInclusive( min, max ) {
+	min = Math.ceil( min );
+	max = Math.floor( max );
+	return Math.floor( Math.random() * ( max - min + 1 ) ) + min;
+}
+
+export function getPaginationBarFirstAndLastVisiblePages( visiblePage, totalPages ) {
 	let first = 1, last = 1;
-	if (totalPages < 11) { last = totalPages }
+	if ( totalPages < 11 ) { last = totalPages; }
 	else {
 		first = visiblePage - 5;
 		last = visiblePage + 5;
-		if (first < 1) {
+		if ( first < 1 ) {
 			last += 1 - first;
 			first = 1;
 		}
-		else if (last > totalPages) {
+		else if ( last > totalPages ) {
 			first -= last - totalPages;
 			last = totalPages;
 		}
 	}
-	return [first, last];
+	return [ first, last ];
 }
 
-export function encodeProjectName(name) {
-	return name.toLowerCase().replace(/-/g, '=').replace(/\s/i, "-");
+export function encodeProjectName( name ) {
+	return name.toLowerCase().replace( /-/g, '=' ).replace( /\s/i, '-' );
 }
 
-export function decodeProjectName(name) {
-	return name.toLowerCase().replace(/-/g, ' ').replace(/=/g, '-');
+export function decodeProjectName( name ) {
+	return name.toLowerCase().replace( /-/g, ' ' ).replace( /=/g, '-' );
 }
 
-export function getProjectIdFromEncodedName(encodedName, projectsById) {
-	const name = decodeProjectName(encodedName);
-	const matches = Object.values(projectsById).filter(
-			p => p.name.toLowerCase() === name);
+export function getProjectIdFromEncodedName( encodedName, projectsById ) {
+	const name = decodeProjectName( encodedName );
+	const matches = Object.values( projectsById ).filter(
+		p => p.name.toLowerCase() === name );
 	return matches.length > 0 ? matches[0]._id : null;
 }
 
 /** numeric utils */
 
-export function roundToOneDecimal(n) { 
-	return Math.round(n * 10) / 10;
+export function roundToOneDecimal( n ) { 
+	return Math.round( n * 10 ) / 10;
 }
 
 /** object templates */
 
-export function getNewObjectiveTemplate(level) { 
+export function getNewObjectiveTemplate( level ) { 
 	// can assume there's a current user if you got here
 	const currentUser = Store.getState().currentUser.user;
 	return {
 		no_task_title 	: '',
-		owners 			: [currentUser],
-		objective_date 	: moment().format('YYYY-MM-DD'),
+		owners 			: [ currentUser ],
+		objective_date 	: moment().format( 'YYYY-MM-DD' ),
 		created_by 		: currentUser,
 		level 			: level,
 		progress 		: 0
-	}
+	};
 }
 
 export function getNewIntegrationTemplate() {
@@ -141,15 +141,15 @@ export function getNewIntegrationTemplate() {
 		service 	: 'trello',
 		mappings	: { project : '' },
 		meta 		: {}
-	}
+	};
 }
 
-export function getNewInvoiceTemplate(initials = {}) {
+export function getNewInvoiceTemplate( initials = {} ) {
 	const currentUser = Store.getState().currentUser.user;
-	return Object.assign({
+	return Object.assign( {
 		description 	: '',
-		invoicing_date 	: moment().format('YYYY-MM-DD'),
-		invoice_date 	: moment().format('YYYY-MM-DD'),
+		invoicing_date 	: moment().format( 'YYYY-MM-DD' ),
+		invoice_date 	: moment().format( 'YYYY-MM-DD' ),
 		amount 			: '',
 		billed_hours	: '',
 		project 		: '',
@@ -159,7 +159,7 @@ export function getNewInvoiceTemplate(initials = {}) {
 		attachment 		: null,
 		work_entries 	: [],
 		direction		: 'out',
-	}, initials);
+	}, initials );
 }
 
 export function getNewUserTemplate() {
@@ -172,13 +172,14 @@ export function getNewUserTemplate() {
 		trello_account	: '',
 		slack_account	: '',
 		git_account		: ''
-	}
+	};
 }
 
 export function getNewProjectTemplate() {
 	return {
 		name: '',
 		company_name: '',
+		company_email: '',
 		hours_sold: 0,
 		hours_sold_unit: 'total',
 		hourly_rate: 0,
@@ -188,7 +189,7 @@ export function getNewProjectTemplate() {
 		featured_image: '',
 		external_link: '',
 		tags: [],
-	}
+	};
 }
 
 export function getNewAlarmTemplate() {
@@ -204,21 +205,21 @@ export function getNewAlarmTemplate() {
 		state_filter: '',
 		condition_op: '>',
 		condition_value: 0,
-	}
+	};
 }
 
 /** attachments */
 
-export function getUrlForAttachmentFile(url) {
+export function getUrlForAttachmentFile( url ) {
 	const base = process.env.NODE_ENV === 'production' 
-					? 'https://om-integrations.herokuapp.com' : 'http://localhost:3001';
+		? 'https://om-integrations.herokuapp.com' : 'http://localhost:3001';
 	return base + url;
 }
 
 /** date formats */
 
 export function setShortDateFormat() {
-	moment.locale('en', {
+	moment.locale( 'en', {
 		relativeTime: {
 		  future: 'in %s',
 		  past: '%s',
@@ -235,11 +236,11 @@ export function setShortDateFormat() {
 		  y:  '1y',
 		  yy: '%dy'
 		}
-	})
+	} );
 }
 
 export function setLongDateFormat() {
-	moment.locale('en', {
+	moment.locale( 'en', {
 		relativeTime: {
 		  future: 'in %s',
 		  past: '%s',
@@ -256,5 +257,5 @@ export function setLongDateFormat() {
 		  y:  '1 year',
 		  yy: '%d years'
 		}
-	})
+	} );
 }
