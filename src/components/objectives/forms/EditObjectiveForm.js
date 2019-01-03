@@ -11,27 +11,40 @@ import UsersMultiSelect from './../../users/utils/UsersMultiSelect';
 import { and } from '../../../utils';
 
 export default class EditObjectiveForm extends Component {
-	constructor() {
-		super();
-		this.state = { objective : null, validation: { no_task_title: true, owners: true, objective_date: true } }
+	
+	constructor( props ) {
+		super( props );
+		this.state = { 
+			objective : props.objective, 
+			validation: { 
+				no_task_title: true, 
+				owners: true, 
+				objective_date: true,
+			} 
+		};
+	}
+
+	componentWillReceiveProps = props => {
+		// if objective changed externally, update here
+		if ( JSON.stringify( this.state.objective ) !== JSON.stringify( props.objective ) ) {
+			this.setState( state => update( state, { 
+				objective: { $set: props.objective } 
+			} ) );
+		}
 	}
 	
-	componentWillMount() {
-		this.setState({objective : this.props.objective});
+	objectivePropChanged = ( event ) => {
+		const newState = update( this.state,
+			{ objective: { [event.target.name]: { $set: event.target.value } } } );
+		this.setState( newState );
+		this.props.onChange( newState );
 	}
 	
-	objectivePropChanged = (event) => {
-		const newState = update(this.state,
-			{objective: {[event.target.name]: {$set: event.target.value}}});
-		this.setState(newState);
-		this.props.onChange(newState);
-	}
-	
-	completedChanged = (event) => {
-		if (event.target.checked) {
-			this.setState(update(this.state, {objective: {progress: {$set: 1}}}))
+	completedChanged = ( event ) => {
+		if ( event.target.checked ) {
+			this.setState( update( this.state, { objective: { progress: { $set: 1 } } } ) );
 		} else {
-			this.setState(update(this.state, {objective: {progress: {$set: 0}}}))
+			this.setState( update( this.state, { objective: { progress: { $set: 0 } } } ) );
 		}
 	}
 	
@@ -43,7 +56,7 @@ export default class EditObjectiveForm extends Component {
 					<Label for="title" sm={2}>Title</Label>
 					<Col sm={10} className='align-self-center'>
 						{ objective.related_task &&
-							<Input plaintext className='static-objective-title'>{objective.title}</Input>
+							<Input plaintext className='static-objective-title'>{objective.related_task.title}</Input>
 						}
 						{ !objective.related_task &&
 							<Input type="text" name="no_task_title" id="title"
@@ -57,7 +70,7 @@ export default class EditObjectiveForm extends Component {
 					<Label for="objective_date" sm={2}>Date</Label>
 					<Col sm={3}>
 						<Input type="select" name="level" id="level" value={objective.level}
-								onChange={this.objectivePropChanged}>
+							onChange={this.objectivePropChanged}>
 							<option value='day'>Day</option>
 							<option value='month'>Month</option>
 							<option value='year'>Year</option>
@@ -89,7 +102,7 @@ export default class EditObjectiveForm extends Component {
 					</Col>
 				</FormGroup>
 			</Form>
-		)
+		);
 	}
 
 	validate = () => {
@@ -98,8 +111,8 @@ export default class EditObjectiveForm extends Component {
 			no_task_title : !!objective.related_task || objective.no_task_title !== '',
 			owners: objective.owners.length > 0,
 			objective_date: objective.objective_date !== '',
-		}
-		this.setState({ validation });
-		return and(Object.values(validation));
+		};
+		this.setState( { validation } );
+		return and( Object.values( validation ) );
 	}
 }

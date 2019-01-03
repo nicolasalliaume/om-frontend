@@ -16,7 +16,8 @@ export const Endpoints = {
 	QUERY_OBJECTIVES				: ( query ) => `${BASE_URL}/objectives/query?${encode( query )}`,
 
 	/** task endopoins */
-	GET_TASKS_LIST_PAGE 			: ( page, filters ) => `${BASE_URL}/tasks/${page}?${toQueryString( filters )}`,
+	GET_TASKS_LIST_PAGE 			: ( page, filters ) => `${BASE_URL}/tasks/list/${page}?${toQueryString( filters )}`,
+	GET_TASK						: ( taskId ) => `${BASE_URL}/tasks/${taskId}`,
 	ADD_TASK						: () => `${BASE_URL}/tasks/add`,
 	UPDATE_TASK						: ( taskId ) => `${BASE_URL}/tasks/${taskId}`,
 	DELETE_TASK						: ( taskId ) => `${BASE_URL}/tasks/${taskId}`,

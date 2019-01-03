@@ -33,13 +33,13 @@ import { fetchUsersListIfNeeded } from '../actions/users';
 class Layout extends Component {
 	constructor() {
 		super();
-		this.state = { overviewOpen: false }
+		this.state = { overviewOpen: false };
 		this.shortcutFns = {};
 	}
 	componentWillMount() {
 		/* load needed resources */
-		Store.dispatch(fetchProjectsListIfNeeded());
-		Store.dispatch(fetchUsersListIfNeeded());
+		Store.dispatch( fetchProjectsListIfNeeded() );
+		Store.dispatch( fetchUsersListIfNeeded() );
 
 		this.setupShortcuts();
 	}
@@ -54,12 +54,12 @@ class Layout extends Component {
 	setupShortcuts() {
 		// bind functions only for available urls
 		const links = this.getLinks();
-		this.shortcutFns = Object.keys(links).reduce((o, k) => Object.assign(o, { [k]: this.shortcutFn(links[k]) }), {}); 
-		this.shortcutsApply(this.props.bindShortcut);
+		this.shortcutFns = Object.keys( links ).reduce( ( o, k ) => Object.assign( o, { [k]: this.shortcutFn( links[k] ) } ), {} ); 
+		this.shortcutsApply( this.props.bindShortcut );
 	}
 
 	tearDownShortcuts() {
-		this.shortcutsApply(this.props.unbindShortcut);
+		this.shortcutsApply( this.props.unbindShortcut );
 	}
 	
 	/**
@@ -69,7 +69,7 @@ class Layout extends Component {
 	 * @param  {String} to 
 	 * @return {Function}    
 	 */
-	shortcutFn = to => () => this.props.history.push(to);
+	shortcutFn = to => () => this.props.history.push( to );
 
 	/**
 	 * Calls the given function with the shortcut binding parameters.
@@ -77,23 +77,23 @@ class Layout extends Component {
 	 * 
 	 * @param  {Function} fn bindShortcut or unbindShortcut
 	 */
-	shortcutsApply(fn) {
-		this.shortcutFns.dashboard && fn(['d'], this.shortcutFns.dashboard);
-		this.shortcutFns.tasks && fn(['t'], this.shortcutFns.tasks);
-		this.shortcutFns.overview_year && fn(['y'], this.shortcutFns.overview_year);
-		this.shortcutFns.overview_month && fn(['m'], this.shortcutFns.overview_month);
-		this.shortcutFns.billing && fn(['b'], this.shortcutFns.billing);
-		this.shortcutFns.integrations && fn(['i'], this.shortcutFns.integrations);
-		this.shortcutFns.alarms && fn(['a'], this.shortcutFns.alarms);
-		this.shortcutFns.admin && fn(['q'], this.shortcutFns.admin);
-		this.shortcutFns.profile && fn(['p'], this.shortcutFns.profile);
+	shortcutsApply( fn ) {
+		this.shortcutFns.dashboard && fn( [ 'd' ], this.shortcutFns.dashboard );
+		this.shortcutFns.tasks && fn( [ 't' ], this.shortcutFns.tasks );
+		this.shortcutFns.overview_year && fn( [ 'y' ], this.shortcutFns.overview_year );
+		this.shortcutFns.overview_month && fn( [ 'm' ], this.shortcutFns.overview_month );
+		this.shortcutFns.billing && fn( [ 'b' ], this.shortcutFns.billing );
+		this.shortcutFns.integrations && fn( [ 'i' ], this.shortcutFns.integrations );
+		this.shortcutFns.alarms && fn( [ 'a' ], this.shortcutFns.alarms );
+		this.shortcutFns.admin && fn( [ 'q' ], this.shortcutFns.admin );
+		this.shortcutFns.profile && fn( [ 'p' ], this.shortcutFns.profile );
 	}
 
 	/**
 	 * Returns an object with the available links for this user
 	 * @return {Object} 
 	 */
-	getLinks = () => Object.assign({
+	getLinks = () => Object.assign( {
 		dashboard: '/',
 		tasks: '/tasks',
 		integrations: '/integrations',
@@ -101,19 +101,19 @@ class Layout extends Component {
 		profile: '/profile',
 	}, !this.isAdminUser() ? {} : {
 		overview_year: '/overview',
-		overview_month: `/overview/${moment().format('YYYY')}/${moment().format('MM')}`,
+		overview_month: `/overview/${moment().format( 'YYYY' )}/${moment().format( 'MM' )}`,
 		billing: '/billing',
 		admin: '/admin',
-	})
+	} )
 
-	toggleDropdown = () => this.setState({ overviewOpen: !this.state.overviewOpen });
+	toggleDropdown = () => this.setState( { overviewOpen: !this.state.overviewOpen } );
 	
 	render() {
 		const { pathname } = this.props.location;
 		const { overviewOpen } = this.state;
 		const links = this.getLinks();
 		return (
-			<div className={`layout ${pathname.replace(/\//g, '-').substring(1)}`}>
+			<div className={`layout ${pathname.replace( /\//g, '-' ).substring( 1 )}`}>
 				<div className='navbar-wrapper'>
 					<Navbar className='flex-column justify-content-start'>
 						<NavbarBrand>OM</NavbarBrand>
@@ -183,28 +183,28 @@ class Layout extends Component {
 				<ModalContainer />
 
 			</div>
-		)
+		);
 	}
 
 	renderIntroBanners() {
-		return <IntroBanner name="dark" />
+		return <IntroBanner name="dark" />;
 	}
 }
 
-function isCacheLoaded(cache) {
+function isCacheLoaded( cache ) {
 	const { users, projects } = cache;
 	return !users.isFetching && !users.didInvaidate && !projects.isFetching && !projects.didInvaidate;
 }
 
-function requireAdminAccess(Component) {
+function requireAdminAccess( Component ) {
 	class AdminComponent extends Component {
 		componentWillMount() {
 			this.checkAccess();
 		}
 		checkAccess() {
 			const user = Store.getState().currentUser.user;
-			if (!user.is_admin) {
-				this.props.history.replace('/');
+			if ( !user.is_admin ) {
+				this.props.history.replace( '/' );
 			}
 		}
 		render() {
@@ -213,28 +213,28 @@ function requireAdminAccess(Component) {
 		}
 	}
 
-	return withRouter(AdminComponent);
+	return withRouter( AdminComponent );
 }
 
-const LayoutRouter = withRouter(connect(state => ({ cache: state.cache }))(function(props) {
+const LayoutRouter = withRouter( connect( state => ( { cache: state.cache } ) )( function( props ) {
 	// Wait to load the rest of the UI until the base resources are loaded
-	if (isCacheLoaded(props.cache)) {
+	if ( isCacheLoaded( props.cache ) ) {
 		return (
 			<Switch>
 				<Route path='/tasks' component={Tasks} />
-				<Route path='/overview/:year/:month' component={requireAdminAccess(CompanyMonthOverview)} />
-				<Route path='/overview' component={requireAdminAccess(CompanyOverview)} />
+				<Route path='/overview/:year/:month' component={requireAdminAccess( CompanyMonthOverview )} />
+				<Route path='/overview' component={requireAdminAccess( CompanyOverview )} />
 				<Route path='/project/:projectName' component={ProjectDashboard} />
 				<Route path='/integrations' component={Integrations} />
 				<Route path='/alarms' component={Alarms} />
-				<Route path='/billing' component={requireAdminAccess(Billing)} />
-				<Route path='/admin' component={requireAdminAccess(Admin)} />
+				<Route path='/billing' component={requireAdminAccess( Billing )} />
+				<Route path='/admin' component={requireAdminAccess( Admin )} />
 				<Route path='/profile' component={Profile} />
 				<Route path='/' component={Dashboard} />
 			</Switch>
-		)
+		);
 	}
-	return (<span/>);
-}))
+	return ( <span/> );
+} ) );
 
-export default withRouter(mouseTrap(Layout));
+export default withRouter( mouseTrap( Layout ) );
