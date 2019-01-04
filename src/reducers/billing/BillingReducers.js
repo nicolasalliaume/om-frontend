@@ -12,59 +12,81 @@ import {
 	RECEIVE_INVOICES_LIST,
 	INVALIDATE_INVOICES_LIST,
 	RECEIVE_DELETE_INVOICE,
+	REQUEST_SEND_PAYPAL_INVOICE,
+	RECEIVE_SEND_PAYPAL_INVOICE,
+	ERROR_SEND_PAYPAL_INVOICE,
 } from './../../actions/types';
 
-export function billingView(state, action) {
-	if (state === undefined) return {
-		// projects with invoices and variables
-		projectsBilling : projectsBilling(),
-		// list of invoices, not organized
-		invoicesList : {
-			didInvalidate : true,
-			isFetching : false,
-			invoices : []
-		}
+
+const initialState = {
+	// projects with invoices and variables
+	projectsBilling : projectsBilling(),
+	// list of invoices, not organized
+	invoicesList : {
+		didInvalidate 	: true,
+		isFetching 		: false,
+		isSending 		: false,
+		invoices 		: [],
 	}
+};
 
-	switch (action.type) {
-		case REQUEST_PROJECTS_BILLING:
-		case RECEIVE_PROJECTS_BILLING:
-		case INVALIDATE_PROJECTS_BILLING:
-		case REQUEST_ADD_INVOICE:
-		case REQUEST_UPDATE_INVOICE:
-			return update(state, {
-				projectsBilling: {
-					$set: projectsBilling(state.projectsBilling, action)}
-			})
 
-		case RECEIVE_ADD_INVOICE:
-		case RECEIVE_UPDATE_INVOICE:
-		case RECEIVE_DELETE_INVOICE:
-			return update(state, {
-				invoicesList: {didInvalidate: {$set: true}},
-				projectsBilling: {
-					$set: projectsBilling(state.projectsBilling, action)}
-			})
+export function billingView( state = initialState, action ) {
+	switch ( action.type ) {
 
-		case INVALIDATE_INVOICES_LIST:
-			return update(state, {
-				invoicesList: {didInvalidate: {$set: true}}
-			})
+	case REQUEST_PROJECTS_BILLING:
+	case RECEIVE_PROJECTS_BILLING:
+	case INVALIDATE_PROJECTS_BILLING:
+	case REQUEST_ADD_INVOICE:
+	case REQUEST_UPDATE_INVOICE:
+		return update( state, {
+			projectsBilling: {
+				$set: projectsBilling( state.projectsBilling, action ) }
+		} );
 
-		case REQUEST_INVOICES_LIST:
-			return update(state, {
-				invoicesList: {isFetching: {$set: true}}
-			})
+	case RECEIVE_ADD_INVOICE:
+	case RECEIVE_UPDATE_INVOICE:
+	case RECEIVE_DELETE_INVOICE:
+		return update( state, {
+			invoicesList: { didInvalidate: { $set: true } },
+			projectsBilling: {
+				$set: projectsBilling( state.projectsBilling, action ) }
+		} );
 
-		case RECEIVE_INVOICES_LIST:
-			return update(state, {
-				invoicesList: {
-					isFetching: {$set: false},
-					didInvalidate: {$set: false},
-					invoices: {$set: action.payload}
-				}
-			})
+	case INVALIDATE_INVOICES_LIST:
+		return update( state, {
+			invoicesList: { didInvalidate: { $set: true } }
+		} );
+
+	case REQUEST_INVOICES_LIST:
+		return update( state, {
+			invoicesList: { isFetching: { $set: true } }
+		} );
+
+	case RECEIVE_INVOICES_LIST:
+		return update( state, {
+			invoicesList: {
+				isFetching: { $set: false },
+				didInvalidate: { $set: false },
+				invoices: { $set: action.payload }
+			}
+		} );
+
+	case REQUEST_SEND_PAYPAL_INVOICE:
+		return update( state, {
+			invoicesList: {
+				isSending: { $set: true },
+			}
+		} );
 		
-		default: return state;
+	case RECEIVE_SEND_PAYPAL_INVOICE:
+	case ERROR_SEND_PAYPAL_INVOICE:
+		return update( state, {
+			invoicesList: {
+				isSending: { $set: false },
+			}
+		} );
+		
+	default: return state;
 	}
 }

@@ -187,6 +187,6 @@ export function syncFetchTaskWithId( id, cb ) {
 			.then( testForErrorReturned )
 			.then( body => cb( body.task ) )
 			// error handling
-			.catch( error => dispatch( addError( error.message, 'Fetch invoice sync' ) ) );
+			.catch( error => dispatch( addError( error.message, 'Fetch task sync' ) ) );
 	};
 }

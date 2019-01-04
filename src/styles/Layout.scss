@@ -533,7 +533,7 @@ select {
   }
 
   .list-item-options {
-    .btn {
+    .btn:not(:first-child) {
       margin-left: 10pt;
     }
   }  

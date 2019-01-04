@@ -48,6 +48,7 @@ export const Endpoints = {
 	GET_PROJECTS_BILLING			: () => `${BASE_URL}/billing/projects`,
 	GET_BILLING_FOR_PROJECT			: ( projectId ) => `${BASE_URL}/billing/projects/${projectId}`,
 	GET_INVOICES_WITH_QUERY			: ( filters ) => `${BASE_URL}/billing/invoices/query?${encode( filters )}`,
+	SEND_PAYPAL_INVOICE				: ( invoiceId ) => `${BASE_URL}/billing/invoices/${ invoiceId }/send`,
 
 	/** planning endpoints */
 	GET_PLANNING_OBJECT				: ( name ) => `${BASE_URL}/planning/${ name }`,

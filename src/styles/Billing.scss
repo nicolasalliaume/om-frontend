@@ -84,6 +84,9 @@
 	.unpaid .card, li.display.unpaid { 
 		border-left: 3px solid $unpaid-color;
 	}
+	.sent .card, li.display.sent { 
+		border-left: 3px solid $sent-color;
+	}
 	.invoices-list-item {
 		.card-body {
 			padding: 1.24rem;

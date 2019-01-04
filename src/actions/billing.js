@@ -10,7 +10,10 @@ import {
 	REQUEST_DELETE_INVOICE,
 	RECEIVE_DELETE_INVOICE,
 	REQUEST_INVOICES_LIST,
-	RECEIVE_INVOICES_LIST
+	RECEIVE_INVOICES_LIST,
+	REQUEST_SEND_PAYPAL_INVOICE,
+	RECEIVE_SEND_PAYPAL_INVOICE,
+	ERROR_SEND_PAYPAL_INVOICE,
 } from './types';
 import superagent from 'superagent';
 import { Endpoints, EndpointAuth, testForErrorReturned } from './endpoints';
@@ -35,11 +38,6 @@ function receiveAddInvoice( result ) {
 
 function cleanInvoiceData( invoice ) {
 	let invoiceData = invoice;
-	// if ( invoiceData.project === '' ) {
-	// 	invoiceData = update( invoiceData, { project: { $set: null } } );
-	// } else {
-	// 	invoiceData = update( invoiceData, { receiver: { $set: null } } );
-	// }
 	invoiceData = update( invoiceData, { created_by: { $set: invoiceData.created_by._id } } );
 	return invoiceData;
 }
@@ -192,15 +190,44 @@ export function fetchInvoicesListIfNeeded() {
 	};
 }
 
-export function syncFetchInvoiceWithId( iid, cb ) {
+export function syncFetchInvoiceWithId( invoiceId, cb ) {
 	return function( dispatch ) {
 		superagent
-			.get( Endpoints.GET_INVOICES_WITH_QUERY( { _id: iid } ) )
+			.get( Endpoints.GET_INVOICES_WITH_QUERY( { _id: invoiceId } ) )
 			.set( ...EndpointAuth() )
 			.then( response => response.body )
 			.then( testForErrorReturned )
 			.then( body => cb( body.invoices[0] ) )
 			// error handling
 			.catch( error => dispatch( addError( error.message, 'Fetch invoice sync' ) ) );
+	};
+}
+
+function requestSendPaypalInvoice() {
+	return { type: REQUEST_SEND_PAYPAL_INVOICE };
+}
+
+function receiveSendPaypalInvoice() {
+	return { type: RECEIVE_SEND_PAYPAL_INVOICE };
+}
+
+function errorSendPaypalInvoice( error ) {
+	return { type: ERROR_SEND_PAYPAL_INVOICE, payload: error };
+}
+
+export function sendPaypalInvoice( invoiceId ) {
+	return function( dispatch ) {
+		dispatch( requestSendPaypalInvoice() );
+		superagent
+			.post( Endpoints.SEND_PAYPAL_INVOICE( invoiceId ) )
+			.set( ...EndpointAuth() )
+			.then( response => response.body )
+			.then( testForErrorReturned )
+			.then( () => dispatch( receiveSendPaypalInvoice() ) )
+			// error handling
+			.catch( error => {
+				dispatch( addError( error.message, 'Send invoice' ) ); 
+				dispatch( errorSendPaypalInvoice( error ) );
+			} );
 	};
 }
