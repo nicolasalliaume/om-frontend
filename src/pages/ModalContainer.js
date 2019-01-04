@@ -37,7 +37,7 @@ const InvoiceModalContainer = connect()( class extends Component {
 		this.state = { invoice: null };
 		
 		const _this = this;
-		this.props.dispatch( syncFetchTaskWithId( props.match.params.iid, invoice => {
+		this.props.dispatch( syncFetchInvoiceWithId( props.match.params.iid, invoice => {
 			if ( invoice ) _this.setState( { invoice } );
 		} ) );
 	}
