@@ -12,9 +12,12 @@ export default class FloatingButtonWithOptions extends Component {
 		if ( !this.props.open ) return; // shortcut
 
 		let target = event.target;
-		while ( target.tagName !== 'BUTTON' ) {
-			target = target.parentElement;
-			if ( target.tagName === 'DIV' ) break; // shortcut
+
+		if ( target.tagName !== 'HTML' ) {
+			while ( target.tagName !== 'BUTTON' ) {
+				target = target.parentElement;
+				if ( target.tagName === 'DIV' ) break; // shortcut
+			}
 		}
 
 		if ( target.id === 'floating-btn' ) return;
