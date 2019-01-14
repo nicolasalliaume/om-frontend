@@ -38,7 +38,17 @@ function receiveAddInvoice( result ) {
 
 function cleanInvoiceData( invoice ) {
 	let invoiceData = invoice;
-	invoiceData = update( invoiceData, { created_by: { $set: invoiceData.created_by._id } } );
+	
+	invoiceData = update( invoiceData, { 
+		created_by: { 
+			$set: invoiceData.created_by._id 
+		},
+	} );
+
+	if ( invoiceData.project === '' ) update( invoiceData, {
+		project: { $set: null }
+	} );
+
 	return invoiceData;
 }
 
