@@ -37,17 +37,14 @@ function receiveAddInvoice( result ) {
 }
 
 function cleanInvoiceData( invoice ) {
-	let invoiceData = invoice;
+	let invoiceData = { ...invoice };
 	
-	invoiceData = update( invoiceData, { 
-		created_by: { 
-			$set: invoiceData.created_by._id 
-		},
-	} );
+	invoiceData.created_by = invoiceData.created_by._id;
+	if ( !invoiceData.project ) {
+		delete invoiceData.project;
+	}
 
-	if ( invoiceData.project === '' ) update( invoiceData, {
-		project: { $set: undefined }
-	} );
+	console.log( 'invoiceData:', invoiceData );
 
 	return invoiceData;
 }
