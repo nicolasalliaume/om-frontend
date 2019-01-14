@@ -46,7 +46,7 @@ function cleanInvoiceData( invoice ) {
 	} );
 
 	if ( invoiceData.project === '' ) update( invoiceData, {
-		project: { $set: null }
+		project: { $set: undefined }
 	} );
 
 	return invoiceData;
