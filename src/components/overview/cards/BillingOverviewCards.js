@@ -44,9 +44,18 @@ export default class BillingOverviewCards extends Component {
 		Math.round( invoices.reduce( ( a,i ) => a + i.amount, 0 ) ) )
 
 	getAvgMonthlyBilling = ( invoices ) => {
-		const start = this.props.start;
+		const { start, end } = this.props;
 		const total = this.getTotalYearBilling( invoices );
-		const monthsOfData = moment().startOf( 'month' ).diff( start, 'months', true ) + 1;
+
+		// if end is in the current year, use current month instead of
+		// december to get the real monthly avg so far
+		let realEnd = end;
+		if ( realEnd.format( 'YYYY' ) === moment().format( 'YYYY' ) ) {
+			realEnd = moment();
+		}
+
+		const monthsOfData = parseInt( realEnd.diff( start, 'months', true ) + 1 );
+
 		return Math.round( total / monthsOfData );
 	}
 }
