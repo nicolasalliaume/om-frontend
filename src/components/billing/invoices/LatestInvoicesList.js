@@ -4,6 +4,14 @@ import { fetchInvoicesListIfNeeded } from '../../../actions/billing';
 import InvoicesList from './InvoicesList';
 
 class LatestInvoicesList extends Component {
+
+	constructor() {
+		super();
+		this.state = {
+			viewing: 5,
+		}
+	}
+
 	componentWillMount() {
 		this.props.fetchInvoicesListIfNeeded();
 	}
@@ -22,12 +30,27 @@ class LatestInvoicesList extends Component {
 		const unpaid = invoices.filter( i => !i.paid );
 		const paid = invoices.filter( i => !!i.paid );
 		const sorted = [].concat( unpaid, paid );
-		return sorted.slice( 0, 5 );
+		return sorted.slice( 0, this.state.viewing );
+	}
+
+	/**
+	 * Shows 5 more invoices
+	 */
+	handleLoadMore() {
+		this.setState( state => ({
+			viewing: state.viewing + 5,
+		}) )
 	}
 	
 	render() {
 		const invoices = this.getLatestInvoices();
-		return <InvoicesList invoices={invoices} sendEnabled={!this.props.invoicesList.isSending} />;
+		return (
+			<InvoicesList 
+				invoices={invoices} 
+				sendEnabled={!this.props.invoicesList.isSending} 
+				onLoadMore={this.handleLoadMore.bind(this)}
+			/>
+		);
 	}
 }
 

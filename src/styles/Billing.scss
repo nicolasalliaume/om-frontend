@@ -87,9 +87,22 @@
 	.sent .card, li.display.sent { 
 		border-left: 3px solid $sent-color;
 	}
+
 	.invoices-list-item {
 		.card-body {
 			padding: 1.24rem;
+		}
+	}
+
+	.list__footer {
+		.list__footer__load-more {
+			width: 100%;
+			padding: 10px;
+			border: none;
+			color: #fff;
+			background: $darker-color;
+			margin-top: 5px;
+			font-size: 0.8em;
 		}
 	}
 }

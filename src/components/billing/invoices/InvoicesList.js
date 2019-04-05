@@ -12,6 +12,16 @@ export default function InvoicesList( props ) {
 					  sendEnabled={sendEnabled} />
 				) ) }
 			</ul>
+			{ props.onLoadMore && (
+				<div className='list__footer'>
+					<button 
+						className='list__footer__load-more'
+						onClick={ props.onLoadMore }
+					>
+						Load more
+					</button>
+				</div>
+			) }
 		</div>
 	);
 }
