@@ -23,8 +23,8 @@ class CompanyMonthOverview extends Component {
 	getInvoices(year, month) {
 		const filter = `${year}-${month}`;
 		return this.props.invoicesList.invoices
-			.filter(i => moment(i.invoicing_date).format('YYYY-MM') === filter && i.paid)
-			.sort((a, b) => moment(b.invoicing_date) - moment(a.invoicing_date))
+			.filter(i => moment.utc(i.invoicing_date).format('YYYY-MM') === filter && i.paid)
+			.sort((a, b) => moment.utc(b.invoicing_date) - moment.utc(a.invoicing_date))
 	}
 
 	render() {
